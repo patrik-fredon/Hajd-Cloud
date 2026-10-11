@@ -26,13 +26,13 @@ The server stores the vault, three derived tokens, the encrypted brief and, for 
 
 Both secrets are 32 uniform random bytes, so their keys come from HKDF-SHA256 without a salt. Each link is complete on its own, and no endpoint has to answer before its token is checked.
 
-| Purpose | Input | HKDF info |
-| --- | --- | --- |
-| Vault key (AES-256-GCM) | `inboxSecret` | `skysend-inbox-key` |
-| Inbox auth token (32 B) | `inboxSecret` | `skysend-inbox-auth` |
-| Inbox owner token (32 B) | `inboxSecret` | `skysend-inbox-owner-token` |
-| Upload token (32 B) | `linkSecret` | `skysend-request-upload-token` followed by the public key |
-| Brief key (AES-256-GCM) | `linkSecret` | `skysend-request-brief` followed by the public key |
+| Purpose                  | Input         | HKDF info                                                 |
+| ------------------------ | ------------- | --------------------------------------------------------- |
+| Vault key (AES-256-GCM)  | `inboxSecret` | `skysend-inbox-key`                                       |
+| Inbox auth token (32 B)  | `inboxSecret` | `skysend-inbox-auth`                                      |
+| Inbox owner token (32 B) | `inboxSecret` | `skysend-inbox-owner-token`                               |
+| Upload token (32 B)      | `linkSecret`  | `skysend-request-upload-token` followed by the public key |
+| Brief key (AES-256-GCM)  | `linkSecret`  | `skysend-request-brief` followed by the public key        |
 
 The upload token and the brief key take the public key as well, so an upload link rewritten with another key is refused by the server. The info strings differ from those of [normal uploads](/developer-guide/crypto/key-derivation), so a token of a request never matches a token of a file.
 
@@ -52,11 +52,11 @@ It is always 146 bytes. Opening it with the inbox link gives back the private ke
 
 A sender seals the file secret with HPKE, RFC 9180, base mode, single shot, for one suite:
 
-| Part | Choice | ID |
-| --- | --- | --- |
-| KEM | DHKEM(P-256, HKDF-SHA256) | `0x0010` |
-| KDF | HKDF-SHA256 | `0x0001` |
-| AEAD | AES-256-GCM | `0x0002` |
+| Part | Choice                    | ID       |
+| ---- | ------------------------- | -------- |
+| KEM  | DHKEM(P-256, HKDF-SHA256) | `0x0010` |
+| KDF  | HKDF-SHA256               | `0x0001` |
+| AEAD | AES-256-GCM               | `0x0002` |
 
 ```
 info = "skysend-request-v1" || requestId (16 bytes of the UUID)
@@ -78,10 +78,10 @@ plaintext = UTF-8 JSON {"v":1,"title":string|null,"asks":["files"|"note",...],"t
 brief     = AES-256-GCM(briefKey, nonce 12 B, aad "skysend-request-brief-v1", plaintext)
 ```
 
-| Field | Meaning |
-| --- | --- |
-| `title` | Free text from the requester, at most 256 bytes |
-| `asks` | What senders may send: files, a note, or both |
+| Field      | Meaning                                                                                                                                              |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `title`    | Free text from the requester, at most 256 bytes                                                                                                      |
+| `asks`     | What senders may send: files, a note, or both                                                                                                        |
 | `template` | Only with a note: the fields a sender fills in, a note document without values from [the note format](/developer-guide/crypto/note-format#templates) |
 
 It comes from the link, so only someone with the upload link or the inbox can read it. The padding hides how long the title is, and whether a small template is part of it. Senders see the title and the template marked as written by the requester and not checked.

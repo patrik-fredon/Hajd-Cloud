@@ -1,6 +1,6 @@
 # Commands
 
-Detailed reference for all SkySend CLI client commands.
+Detailed reference for all Hajd.Cloud CLI client commands.
 
 ## upload
 
@@ -12,20 +12,20 @@ skysend upload <files...> [options]
 
 ### Arguments
 
-| Argument | Description |
-| --- | --- |
+| Argument     | Description                      |
+| ------------ | -------------------------------- |
 | `<files...>` | One or more file paths to upload |
 
 ### Options
 
-| Option | Description |
-| --- | --- |
-| `-s, --server <url>` | Server URL (overrides config) |
-| `-e, --expires <duration>` | Expiry time (e.g. `5m`, `1h`, `1d`, `7d`) |
-| `-d, --downloads <count>` | Maximum number of downloads |
+| Option                      | Description                                                                                     |
+| --------------------------- | ----------------------------------------------------------------------------------------------- |
+| `-s, --server <url>`        | Server URL (overrides config)                                                                   |
+| `-e, --expires <duration>`  | Expiry time (e.g. `5m`, `1h`, `1d`, `7d`)                                                       |
+| `-d, --downloads <count>`   | Maximum number of downloads                                                                     |
 | `-p, --password [password]` | Password protect the upload, at least 8 characters. Prompts interactively if no value is given. |
-| `--no-ws` | Use HTTP chunked upload instead of WebSocket. Currently the default anyway, see below |
-| `--json` | Output result as JSON |
+| `--no-ws`                   | Use HTTP chunked upload instead of WebSocket. Currently the default anyway, see below           |
+| `--json`                    | Output result as JSON                                                                           |
 
 ### Examples
 
@@ -52,7 +52,7 @@ skysend upload ./data.csv --json
 ### Upload Behavior
 
 - **Single file**: Uploaded as-is after encryption.
-- **Multiple files**: Automatically zipped with [fflate](https://github.com/101arrowz/fflate) before encryption. The recipient receives a `.zip` file.
+- **Multiple files**: Automatically zipped with fflate before encryption. The recipient receives a `.zip` file.
 - **Transport**: Always HTTP chunked upload for now, as WebSocket uploads are disabled in the CLI. `--no-ws` keeps it that way once they return, see [WebSocket Transport](./index.md#websocket-transport).
 - **Progress**: Displays a progress bar with speed and ETA.
 
@@ -75,7 +75,7 @@ The `ownerToken` is required to delete an upload. When using `--json`, save the 
 
 ## download
 
-Download and decrypt a file from a SkySend share URL.
+Download and decrypt a file from a Hajd.Cloud share URL.
 
 ```bash
 skysend download <url> [options]
@@ -83,17 +83,17 @@ skysend download <url> [options]
 
 ### Arguments
 
-| Argument | Description |
-| --- | --- |
-| `<url>` | SkySend share URL (e.g. `https://instance.com/file/abc123#secret`) |
+| Argument | Description                                                           |
+| -------- | --------------------------------------------------------------------- |
+| `<url>`  | Hajd.Cloud share URL (e.g. `https://instance.com/file/abc123#secret`) |
 
 ### Options
 
-| Option | Description |
-| --- | --- |
-| `-o, --output <path>` | Output path (file or directory). Defaults to the original filename in the current directory. The filename is cleaned of path separators, control characters and leading dots, and a file that already exists keeps its place while the download gets a number, such as `report (1).pdf`. Only an explicit file path replaces an existing file. |
-| `-p, --password [password]` | Password for protected uploads. Prompts interactively if no value is given. |
-| `--json` | Output result as JSON |
+| Option                      | Description                                                                                                                                                                                                                                                                                                                                    |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-o, --output <path>`       | Output path (file or directory). Defaults to the original filename in the current directory. The filename is cleaned of path separators, control characters and leading dots, and a file that already exists keeps its place while the download gets a number, such as `report (1).pdf`. Only an explicit file path replaces an existing file. |
+| `-p, --password [password]` | Password for protected uploads. Prompts interactively if no value is given.                                                                                                                                                                                                                                                                    |
+| `--json`                    | Output result as JSON                                                                                                                                                                                                                                                                                                                          |
 
 ### Examples
 
@@ -131,8 +131,8 @@ skysend note [text] [options]
 
 ### Arguments
 
-| Argument | Description |
-| --- | --- |
+| Argument | Description                                                                       |
+| -------- | --------------------------------------------------------------------------------- |
 | `[text]` | The note content. Leave it out, or pass `-`, to type it at a prompt or pipe it in |
 
 ::: warning Keep secrets out of the command line
@@ -141,14 +141,14 @@ A note given as an argument stays in your shell history, and on Linux other user
 
 ### Options
 
-| Option | Default | Description |
-| --- | --- | --- |
-| `-s, --server <url>` | | Server URL (overrides config) |
-| `-t, --type <type>` | `text` | Note type: `text`, `password`, `code`, `markdown`, `sshkey` |
-| `-e, --expires <duration>` | | Expiry time (e.g. `5m`, `1h`, `1d`, `7d`) |
-| `-v, --views <count>` | | Maximum view count (`0` = unlimited) |
-| `-p, --password [password]` | | Password protect, at least 8 characters. Prompts interactively if no value is given. |
-| `--json` | | Output result as JSON |
+| Option                      | Default | Description                                                                          |
+| --------------------------- | ------- | ------------------------------------------------------------------------------------ |
+| `-s, --server <url>`        |         | Server URL (overrides config)                                                        |
+| `-t, --type <type>`         | `text`  | Note type: `text`, `password`, `code`, `markdown`, `sshkey`                          |
+| `-e, --expires <duration>`  |         | Expiry time (e.g. `5m`, `1h`, `1d`, `7d`)                                            |
+| `-v, --views <count>`       |         | Maximum view count (`0` = unlimited)                                                 |
+| `-p, --password [password]` |         | Password protect, at least 8 characters. Prompts interactively if no value is given. |
+| `--json`                    |         | Output result as JSON                                                                |
 
 ### Examples
 
@@ -180,13 +180,13 @@ skysend note --password --expires 24h --views 5
 
 The CLI creates a note of one block. Notes that combine several blocks can be created in the web app.
 
-| Type | Description |
-| --- | --- |
-| `text` | Plain text (default) |
-| `password` | The whole text as one password, shown masked with a copy button |
-| `code` | Code with syntax highlighting and line numbers in the web UI |
-| `markdown` | Text rendered as GitHub Flavored Markdown in the web UI |
-| `sshkey` | SSH key material. A public key, a private key and a `Passphrase:` line in the text are shown as separate parts. |
+| Type       | Description                                                                                                     |
+| ---------- | --------------------------------------------------------------------------------------------------------------- |
+| `text`     | Plain text (default)                                                                                            |
+| `password` | The whole text as one password, shown masked with a copy button                                                 |
+| `code`     | Code with syntax highlighting and line numbers in the web UI                                                    |
+| `markdown` | Text rendered as GitHub Flavored Markdown in the web UI                                                         |
+| `sshkey`   | SSH key material. A public key, a private key and a `Passphrase:` line in the text are shown as separate parts. |
 
 ::: tip Older servers
 A server before v3 does not know notes made of blocks. The CLI client detects this and creates the note in the format that server knows, so the note opens in its web UI as before.
@@ -202,9 +202,9 @@ skysend note:view <url>
 
 ### Arguments
 
-| Argument | Description |
-| --- | --- |
-| `<url>` | SkySend note share URL (e.g. `https://instance.com/note/abc123#secret`) |
+| Argument | Description                                                                |
+| -------- | -------------------------------------------------------------------------- |
+| `<url>`  | Hajd.Cloud note share URL (e.g. `https://instance.com/note/abc123#secret`) |
 
 ### Examples
 
@@ -231,15 +231,15 @@ skysend delete <url> <ownerToken> [options]
 
 ### Arguments
 
-| Argument | Description |
-| --- | --- |
-| `<url>` | SkySend share URL (file or note) |
+| Argument       | Description                                               |
+| -------------- | --------------------------------------------------------- |
+| `<url>`        | Hajd.Cloud share URL (file or note)                       |
 | `<ownerToken>` | Owner token received during upload (from `--json` output) |
 
 ### Options
 
-| Option | Description |
-| --- | --- |
+| Option   | Description           |
+| -------- | --------------------- |
 | `--json` | Output result as JSON |
 
 ### Examples
@@ -259,6 +259,7 @@ To get the owner token, use `--json` when uploading:
 skysend upload ./file.txt --json
 # Output includes "ownerToken": "..."
 ```
+
 :::
 
 ## ls
@@ -271,11 +272,11 @@ skysend ls [options]
 
 ### Options
 
-| Option | Description |
-| --- | --- |
-| `-s, --server <url>` | Filter by server URL |
-| `-a, --all` | Show entries for all servers |
-| `--json` | Output as JSON |
+| Option               | Description                  |
+| -------------------- | ---------------------------- |
+| `-s, --server <url>` | Filter by server URL         |
+| `-a, --all`          | Show entries for all servers |
+| `--json`             | Output as JSON               |
 
 ### Examples
 
@@ -339,7 +340,7 @@ The configuration file is stored at:
 
 ## update
 
-Check for updates and self-update the CLI binary.
+Check for updates and self-update the CLI binary from an operator configured release endpoint. Set `HAJD_CLOUD_RELEASE_URL` to an HTTPS JSON endpoint containing `tag_name`, `html_url` and release assets. No upstream repository is used by default.
 
 ```bash
 skysend update [options]
@@ -347,8 +348,8 @@ skysend update [options]
 
 ### Options
 
-| Option | Description |
-| --- | --- |
+| Option    | Description                               |
+| --------- | ----------------------------------------- |
 | `--check` | Only check for updates without installing |
 
 ### Examples
@@ -393,8 +394,8 @@ Starts a browser-based OIDC login for the configured server. A temporary local s
 
 #### Options
 
-| Option | Description |
-| --- | --- |
+| Option               | Description                   |
+| -------------------- | ----------------------------- |
 | `-s, --server <url>` | Server URL (overrides config) |
 
 #### Example
@@ -414,8 +415,8 @@ Removes the stored session token for a server. The next upload or note command w
 
 #### Options
 
-| Option | Description |
-| --- | --- |
+| Option               | Description                   |
+| -------------------- | ----------------------------- |
 | `-s, --server <url>` | Server URL (overrides config) |
 
 #### Example
@@ -435,8 +436,8 @@ Shows the current session status for a server - the authenticated user's name, e
 
 #### Options
 
-| Option | Description |
-| --- | --- |
+| Option               | Description                   |
+| -------------------- | ----------------------------- |
 | `-s, --server <url>` | Server URL (overrides config) |
 
 #### Example
@@ -467,7 +468,7 @@ When you run `skysend upload` or `skysend note` on an OIDC-protected server:
 In the **interactive TUI mode**, a "Waiting for browser login..." screen is shown during this step.
 
 ::: tip Token Storage
-Session tokens are stored per-server in `~/.config/skysend/tokens.json` with `600` file permissions (owner read/write only). Tokens are JWT session tokens issued by the SkySend server - they are not your OIDC provider credentials.
+Session tokens are stored per-server in `~/.config/skysend/tokens.json` with `600` file permissions (owner read/write only). Tokens are JWT session tokens issued by the Hajd.Cloud server - they are not your OIDC provider credentials.
 :::
 
 ## interactive (default)
@@ -484,8 +485,8 @@ skysend i [options]           # short alias
 
 ### Options
 
-| Option | Description |
-| --- | --- |
+| Option               | Description                   |
+| -------------------- | ----------------------------- |
 | `-s, --server <url>` | Server URL (overrides config) |
 
 ### Features
@@ -496,7 +497,7 @@ skysend i [options]           # short alias
 - **Download file**: enter a share URL, auto-detects password protection, choose save location
 - **Create note**: type selection (text, password, code, markdown, SSH key), content input (inline or from file with `@path`), expiry, max views, password
 - **My uploads**: browse upload and note history, view share URLs, delete from server or remove from local history
-- **Check for updates**: check and install newer CLI versions from GitHub Releases
+- **Check for updates**: check and install newer CLI versions from the configured release endpoint
 - Loops back to the menu after each action until you choose Exit
 
 ### Upload History
@@ -513,7 +514,7 @@ skysend interactive --server https://send.example.com
 
 These options are available on all commands:
 
-| Option | Description |
-| --- | --- |
-| `-V, --version` | Show the current version |
-| `-h, --help` | Show help for the command |
+| Option          | Description               |
+| --------------- | ------------------------- |
+| `-V, --version` | Show the current version  |
+| `-h, --help`    | Show help for the command |

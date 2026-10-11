@@ -1,6 +1,6 @@
 # Upload Limits
 
-SkySend provides several configuration options to control upload behavior. All variables are documented in the [Environment Variables](/user-guide/configuration/environment-variables) reference.
+Hajd.Cloud provides several configuration options to control upload behavior. All variables are documented in the [Environment Variables](/user-guide/configuration/environment-variables) reference.
 
 ## Maximum File Size
 

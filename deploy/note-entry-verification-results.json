@@ -1,0 +1,112 @@
+{
+  "date": "2026-10-11",
+  "origin": "https://skysend.hajd.cloud",
+  "passed": true,
+  "image": "hajd-cloud/skysend:v3.0.0-entry.1",
+  "imageId": "sha256:e716668d468ba4e28ef261c39eb53f1f9beb3415b787c8de983becbdaf8d720f",
+  "validation": {
+    "lint": true,
+    "typecheck": true,
+    "unitTestsPassed": 1877,
+    "build": true,
+    "changelog": true
+  },
+  "localBrowser": {
+    "passed": true,
+    "origin": "http://localhost:3103",
+    "checks": [
+      {
+        "name": "mobile-first-simple-and-advanced-layout",
+        "passed": true
+      },
+      {
+        "name": "crimson-logo-and-system-schemes",
+        "passed": true
+      },
+      {
+        "name": "simple-note-create-read-burn-and-reset",
+        "passed": true
+      },
+      {
+        "name": "advanced-markdown-all-blocks-and-preserved-draft",
+        "passed": true
+      },
+      {
+        "name": "simple-note-password-lock-and-unlock",
+        "passed": true
+      },
+      {
+        "name": "file-tab-upload-and-byte-exact-download",
+        "passed": true
+      },
+      {
+        "name": "czech-and-slovak-advanced-label",
+        "passed": true
+      }
+    ],
+    "pageErrors": 0
+  },
+  "productionBrowser": {
+    "passed": true,
+    "origin": "https://skysend.hajd.cloud",
+    "checks": [
+      {
+        "name": "mobile-first-simple-and-advanced-layout",
+        "passed": true
+      },
+      {
+        "name": "crimson-logo-and-system-schemes",
+        "passed": true
+      },
+      {
+        "name": "simple-note-create-read-burn-and-reset",
+        "passed": true
+      },
+      {
+        "name": "advanced-markdown-all-blocks-and-preserved-draft",
+        "passed": true
+      },
+      {
+        "name": "simple-note-password-lock-and-unlock",
+        "passed": true
+      },
+      {
+        "name": "file-tab-upload-and-byte-exact-download",
+        "passed": true
+      },
+      {
+        "name": "czech-and-slovak-advanced-label",
+        "passed": true
+      }
+    ],
+    "pageErrors": 0
+  },
+  "viewportWidths": [320, 375, 768, 1280],
+  "assetsMatch": {
+    "logo.svg": true,
+    "favicon.svg": true,
+    "logo.png": true,
+    "pwa-192x192.png": true,
+    "pwa-512x512.png": true,
+    "apple-touch-icon.png": true,
+    "manifest.webmanifest": true
+  },
+  "logoSha256": "22c10ae613ab003ca83d93d516a85babffe2008b855435b731b2958408ef4cff",
+  "changedPublicConfigKeys": ["customLogo"],
+  "fileDownloadBytesMatch": true,
+  "noteFeaturesChecked": [
+    "simple text entry",
+    "advanced controls",
+    "titles",
+    "Markdown editing and preview",
+    "password blocks",
+    "code blocks",
+    "generated SSH keys",
+    "block reorder and removal",
+    "draft retention",
+    "share passwords and wrong password rejection",
+    "burn after reading",
+    "reset after sharing"
+  ],
+  "compatibility": "Existing encryption, request template controls, share limits and storage settings are retained."
+}

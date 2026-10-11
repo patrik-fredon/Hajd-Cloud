@@ -1,0 +1,91 @@
+/* Crimson: burgundy surfaces, terminal typography and restrained red circuit lines. */
+[data-theme="crimson"] {
+  color-scheme: light;
+  --color-page: #faf5f5;
+  --color-background: #fffafb;
+  --color-foreground: #281318;
+  --color-card: #fffafb;
+  --color-card-foreground: #281318;
+  --color-well: #f4e8eb;
+  --color-field: #fffafb;
+  --color-popover: #fffafb;
+  --color-popover-foreground: #281318;
+  --color-secondary: #f0dfe4;
+  --color-secondary-foreground: #281318;
+  --color-muted: #f4e8eb;
+  --color-muted-foreground: #75545e;
+  --color-accent: #f0dfe4;
+  --color-accent-foreground: #281318;
+  --color-border: #e2c4cd;
+  --color-input: #bd8797;
+  --lift-shadow: 0 1px 0 rgba(153, 27, 53, 0.05), 0 20px 50px -30px rgba(89, 17, 36, 0.25);
+  --chip-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.125rem;
+}
+
+[data-theme="crimson"].dark {
+  color-scheme: dark;
+  --color-page: #0d080a;
+  --color-background: #140c10;
+  --color-foreground: #f8e9ed;
+  --color-card: #1b1015;
+  --color-card-foreground: #f8e9ed;
+  --color-well: #110a0e;
+  --color-field: #140c10;
+  --color-popover: #201219;
+  --color-popover-foreground: #f8e9ed;
+  --color-secondary: #301923;
+  --color-secondary-foreground: #f8e9ed;
+  --color-muted: #26151d;
+  --color-muted-foreground: #bd98a5;
+  --color-accent: #301923;
+  --color-accent-foreground: #f8e9ed;
+  --color-border: #4a2734;
+  --color-input: #704050;
+  --color-action: #991b35;
+  --color-action-foreground: #ffffff;
+  --lift-shadow: inset 0 1px 0 rgba(224, 107, 128, 0.08), 0 20px 50px -24px rgba(0, 0, 0, 0.75);
+  --chip-shadow: inset 0 1px 0 rgba(224, 107, 128, 0.08);
+}
+
+[data-theme="crimson"] body {
+  background-image:
+    radial-gradient(
+      ellipse at 50% 0%,
+      color-mix(in srgb, var(--color-primary) 10%, transparent),
+      transparent 65%
+    ),
+    linear-gradient(color-mix(in srgb, var(--color-primary) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--color-primary) 4%, transparent) 1px,
+      transparent 1px
+    );
+  background-size:
+    100% 700px,
+    40px 40px,
+    40px 40px;
+}
+
+[data-theme="crimson"] [data-slot="glass"] {
+  background-color: var(--color-card);
+}
+
+[data-theme="crimson"] [data-slot="hero-title"] {
+  font-family: var(--font-mono);
+  letter-spacing: -0.05em;
+}
+
+[data-theme="crimson"] [data-slot="card"][data-emphasis="main"] {
+  border-color: var(--color-primary-line);
+  box-shadow:
+    var(--lift-shadow),
+    0 0 48px -30px var(--color-primary-glow);
+}
+
+[data-theme="crimson"] [data-slot="button"][data-variant="default"] {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 4px 16px -8px var(--color-action);
+}

@@ -7,12 +7,7 @@ import {
   expectedPlaintextSize,
   type FileMetadata,
 } from "@skysend/crypto";
-import {
-  fetchInfo,
-  downloadFile,
-  verifyPassword,
-  withUnlockedMeta,
-} from "../lib/api.js";
+import { fetchInfo, downloadFile, verifyPassword, withUnlockedMeta } from "../lib/api.js";
 import { prepareDownload } from "../lib/auth.js";
 import { parseShareUrl } from "../lib/url.js";
 import {
@@ -40,7 +35,7 @@ export function registerDownloadCommand(program: Command): void {
   program
     .command("download")
     .description("Download and decrypt a file")
-    .argument("<url>", "SkySend share URL")
+    .argument("<url>", "Hajd.Cloud share URL")
     .option("-o, --output <path>", "Output path (file or directory)")
     .option("-p, --password [password]", "Password (prompts if no value given)")
     .option("--json", "Output as JSON")
@@ -97,18 +92,18 @@ export function registerDownloadCommand(program: Command): void {
           const ciphertext = new Uint8Array(
             Buffer.from(info.encryptedMeta, "base64"),
           ) as Uint8Array<ArrayBuffer>;
-          const iv = new Uint8Array(
-            Buffer.from(info.nonce, "base64"),
-          ) as Uint8Array<ArrayBuffer>;
+          const iv = new Uint8Array(Buffer.from(info.nonce, "base64")) as Uint8Array<ArrayBuffer>;
           metadata = await decryptMetadata(ciphertext, iv, creds.keys.metaKey);
         }
         // The metadata carries the authenticated size the download is checked against.
-        if (!metadata) throw new Error("The upload has no metadata, so the download cannot be verified");
+        if (!metadata)
+          throw new Error("The upload has no metadata, so the download cannot be verified");
 
         // Determine output path. The sender picks the name, so it may neither leave the
         // chosen directory nor replace a file there. Only an explicit -o file path overwrites.
         let outputPath: string;
-        const defaultName = metadata.type === "single" ? sanitizeFilename(metadata.name) : "archive.zip";
+        const defaultName =
+          metadata.type === "single" ? sanitizeFilename(metadata.name) : "archive.zip";
 
         if (options.output) {
           const stat = fs.existsSync(options.output) ? fs.statSync(options.output) : null;
@@ -169,23 +164,31 @@ export function registerDownloadCommand(program: Command): void {
         fs.renameSync(partPath, outputPath);
         partial = undefined;
 
-        if (!options.json) { clearLine(); writeLine("Download complete."); }
+        if (!options.json) {
+          clearLine();
+          writeLine("Download complete.");
+        }
 
         const elapsedSec = (Date.now() - progressState.startTime) / 1000;
-        const avgSpeedSuffix = elapsedSec > 0 && totalWritten > 0
-          ? ` | Avg speed: ${formatSpeed(totalWritten / elapsedSec)}`
-          : "";
+        const avgSpeedSuffix =
+          elapsedSec > 0 && totalWritten > 0
+            ? ` | Avg speed: ${formatSpeed(totalWritten / elapsedSec)}`
+            : "";
 
         if (options.json) {
-          console.log(JSON.stringify({
-            id: parsed.id,
-            file: outputPath,
-            size: totalWritten,
-            name: defaultName,
-            fileCount: info.fileCount,
-          }));
+          console.log(
+            JSON.stringify({
+              id: parsed.id,
+              file: outputPath,
+              size: totalWritten,
+              name: defaultName,
+              fileCount: info.fileCount,
+            }),
+          );
         } else {
-          writeLine(`Saved: ${forTerminal(outputPath)} (${formatBytes(totalWritten)})${avgSpeedSuffix}`);
+          writeLine(
+            `Saved: ${forTerminal(outputPath)} (${formatBytes(totalWritten)})${avgSpeedSuffix}`,
+          );
           if (metadata.type === "archive") {
             writeLine(`Archive contains ${metadata.files.length} files`);
           }

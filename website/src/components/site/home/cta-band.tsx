@@ -17,7 +17,7 @@ export function CtaBand({ locale }: { locale: Locale }) {
         <Glow color="#17a37a" opacity={0.3} blur={100} drift={1} className="top-10 left-1/2 -ml-[300px] h-[300px] w-[600px]" />
         <Stars count={16} height={480} seed={23} />
         <div className="relative flex flex-col items-center gap-5 px-5 py-14 text-center sm:px-[72px] sm:py-[88px]">
-          <Image src="/logo.svg" alt="" width={64} height={64} className="size-[52px] drop-shadow-[0_10px_30px_rgb(70_200_157/0.5)] sm:size-16" />
+          <Image src="/hajd-cloud-logo-crimson.webp" alt="" width={64} height={64} className="size-[52px] drop-shadow-[0_10px_30px_rgb(70_200_157/0.5)] sm:size-16" />
           <h2 className="text-[32px] leading-[1.06] font-semibold tracking-[-0.04em] sm:text-[52px] sm:leading-[1.05]">
             {t.rich("cta.title", { br: () => <br className="hidden sm:block" /> })}
           </h2>

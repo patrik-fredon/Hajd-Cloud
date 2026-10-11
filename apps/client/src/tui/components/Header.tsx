@@ -12,7 +12,7 @@ interface HeaderProps {
 export function Header({ appState }: HeaderProps): React.ReactElement {
   const accent = useAccent();
   const { config, quota, serverName, server } = appState;
-  const title = forTerminal(config.customTitle || "SkySend");
+  const title = forTerminal(config.customTitle || "Hajd.Cloud");
   const services = config.enabledServices.join(", ");
 
   return (

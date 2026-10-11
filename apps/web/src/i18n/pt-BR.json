@@ -389,12 +389,13 @@
       "debug.devtoolsWarningText",
       "debug.started",
       "debug.note",
-      "debug.failed"
+      "debug.failed",
+      "language.auto"
     ],
     "_contributorNote": "Tradução para Português do Brasil (pt-BR) criada seguindo as convenções do projeto. Revisão por falante nativo recomendada."
   },
   "common": {
-    "appName": "SkySend",
+    "appName": "Hajd.Cloud",
     "tabSubtitle": "Compartilhamento Criptografado de Arquivos e Notas",
     "tagline": "Compartilhamento de arquivos e notas com criptografia de ponta a ponta",
     "loading": "Carregando...",
@@ -457,7 +458,8 @@
     "moveUp": "Mover para cima",
     "moveDown": "Mover para baixo",
     "removeBlock": "Remover bloco",
-    "blockTitle": "Título (opcional)"
+    "blockTitle": "Título (opcional)",
+    "advanced": "Avançado"
   },
   "upload": {
     "title": "Enviar Arquivos",
@@ -575,7 +577,7 @@
     "blockCount_one": "Nota com {{count}} bloco",
     "blockCount_other": "Nota com {{count}} blocos",
     "copyAll": "Copiar tudo",
-    "unsupported": "Esta parte da nota precisa de uma versão mais recente do SkySend.",
+    "unsupported": "Esta parte da nota precisa de uma versão mais recente do Hajd.Cloud.",
     "unreadable": "Não foi possível ler esta nota normalmente, então ela é exibida exatamente como chegou.",
     "showCode": "Mostrar código",
     "hideCode": "Ocultar código"
@@ -692,7 +694,8 @@
     "failed": "Falhou"
   },
   "language": {
-    "search": "Buscar idioma..."
+    "search": "Buscar idioma...",
+    "auto": "Automático"
   },
   "errors": {
     "insecureContext": "HTTPS obrigatório",
@@ -778,7 +781,7 @@
   "how": {
     "eyebrow": "Zero knowledge por design",
     "title": "Seus segredos continuam <a>seus</a>",
-    "lead": "O SkySend criptografa tudo no seu navegador antes de sair do seu dispositivo. A chave viaja no link e nunca chega ao servidor. Esta página mostra como.",
+    "lead": "O Hajd.Cloud criptografa tudo no seu navegador antes de sair do seu dispositivo. A chave viaja no link e nunca chega ao servidor. Esta página mostra como.",
     "flowSender": "Você",
     "flowSenderText": "Criptografa no navegador",
     "flowServer": "Servidor",
@@ -788,7 +791,7 @@
     "flowKeyShort": "Chave no link",
     "flowKey": "A chave fica depois do # no link. Os navegadores nunca enviam essa parte, então o servidor só vê dados criptografados.",
     "demoTitle": "Experimente você mesmo",
-    "demoText": "Digite algo. O texto é criptografado aqui mesmo, com o mesmo código que o SkySend usa para notas. Nada é enviado a lugar nenhum.",
+    "demoText": "Digite algo. O texto é criptografado aqui mesmo, com o mesmo código que o Hajd.Cloud usa para notas. Nada é enviado a lugar nenhum.",
     "demoInput": "Seu texto",
     "demoSample": "O código da porta é 4711. A gente se vê às oito.",
     "demoLocal": "Roda só nesta aba",
@@ -798,12 +801,12 @@
     "demoToken": "Token que o servidor verificaria",
     "demoBytes_one": "{{count}} byte de texto cifrado",
     "demoBytes_other": "{{count}} bytes de texto cifrado",
-    "demoUnavailable": "Este navegador não permite Web Crypto nesta página, então a demonstração não pode rodar. Abra o SkySend por HTTPS para testar.",
+    "demoUnavailable": "Este navegador não permite Web Crypto nesta página, então a demonstração não pode rodar. Abra o Hajd.Cloud por HTTPS para testar.",
     "badgeLinkOnly": "Fica no link",
     "badgeSent": "Enviado ao servidor",
     "stepsTitle": "Quatro passos, uma promessa",
     "step1Title": "Uma chave é criada no seu navegador",
-    "step1Text": "Um segredo aleatório de 256 bits é criado no seu dispositivo. Todas as chaves de que o SkySend precisa são derivadas dele.",
+    "step1Text": "Um segredo aleatório de 256 bits é criado no seu dispositivo. Todas as chaves de que o Hajd.Cloud precisa são derivadas dele.",
     "step2Title": "Tudo é criptografado primeiro",
     "step2Text": "Arquivos, nomes de arquivo e notas são criptografados antes de o primeiro byte sair do seu dispositivo.",
     "step3Title": "A chave viaja no link",
@@ -832,7 +835,7 @@
     "featureStreamTitle": "Arquivos grandes, em streaming",
     "featureStreamText": "Os arquivos são criptografados em blocos de 64 KB conforme seguem em streaming para o servidor.",
     "featurePrivacyTitle": "Sem contas, sem análises",
-    "featurePrivacyText": "O SkySend não tem contas de usuário nem rastreamento. Seu histórico de envios fica só no seu navegador.",
+    "featurePrivacyText": "O Hajd.Cloud não tem contas de usuário nem rastreamento. Seu histórico de envios fica só no seu navegador.",
     "featureOpenTitle": "Código aberto e auto-hospedado",
     "featureOpenText": "Qualquer pessoa pode ler o código, conferir estas afirmações e rodar a própria instância.",
     "specsTitle": "Por baixo do capô",
@@ -1169,7 +1172,7 @@
     "imported_other": "{{count}} modelos importados.",
     "importFailed": "Não foi possível importar os modelos.",
     "importError": {
-      "invalid": "Isto não contém modelos do SkySend.",
+      "invalid": "Isto não contém modelos do Hajd.Cloud.",
       "tooLarge": "Esta exportação é grande demais.",
       "password": "Senha incorreta."
     },

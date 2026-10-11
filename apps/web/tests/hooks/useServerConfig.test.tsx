@@ -23,7 +23,7 @@ const payload = {
   noteDefaultExpire: 86400,
   noteViewOptions: [0, 1, 2, 3, 5, 10, 20, 50, 100],
   noteDefaultViews: 0,
-  customTitle: "SkySend",
+  customTitle: "Hajd.Cloud",
   customColor: null,
   customLogo: null,
   customPrivacy: null,
@@ -38,11 +38,19 @@ const payload = {
 function respondWith(body: unknown, status = 200) {
   vi.stubGlobal(
     "fetch",
-    vi.fn(async () => new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } })),
+    vi.fn(
+      async () =>
+        new Response(JSON.stringify(body), {
+          status,
+          headers: { "Content-Type": "application/json" },
+        }),
+    ),
   );
 }
 
-const wrapper = ({ children }: { children: ReactNode }) => <ServerConfigProvider>{children}</ServerConfigProvider>;
+const wrapper = ({ children }: { children: ReactNode }) => (
+  <ServerConfigProvider>{children}</ServerConfigProvider>
+);
 const render = () => renderHook(() => useServerConfig(), { wrapper });
 const styles = () => Array.from(document.head.querySelectorAll("style"));
 
@@ -62,7 +70,7 @@ describe("useServerConfig", () => {
     expect(result.current.loading).toBe(true);
 
     await waitFor(() => expect(result.current.loading).toBe(false));
-    expect(result.current.config?.customTitle).toBe("SkySend");
+    expect(result.current.config?.customTitle).toBe("Hajd.Cloud");
     expect(result.current.error).toBeNull();
   });
 
@@ -88,7 +96,9 @@ describe("useServerConfig", () => {
     const { result } = render();
 
     await waitFor(() => expect(result.current.loading).toBe(false));
-    expect(document.querySelector("link[rel='icon']")?.getAttribute("href")).toBe("/branding/logo.svg");
+    expect(document.querySelector("link[rel='icon']")?.getAttribute("href")).toBe(
+      "/branding/logo.svg",
+    );
   });
 
   it("skips the favicon when the page has no icon link", async () => {
@@ -107,7 +117,7 @@ describe("useServerConfig", () => {
     const { result } = render();
 
     await waitFor(() => expect(result.current.loading).toBe(false));
-    expect(result.current.config?.defaultTheme).toBe("graphite");
+    expect(result.current.config?.defaultTheme).toBe("crimson");
     expect(result.current.config?.defaultColorScheme).toBe("system");
   });
 
@@ -121,7 +131,10 @@ describe("useServerConfig", () => {
   });
 
   it("falls back to a generic message when the failure is not an Error", async () => {
-    vi.stubGlobal("fetch", vi.fn(() => Promise.reject("offline")));
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(() => Promise.reject("offline")),
+    );
     const { result } = render();
 
     await waitFor(() => expect(result.current.loading).toBe(false));

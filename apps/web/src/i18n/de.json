@@ -1,6 +1,6 @@
 {
   "common": {
-    "appName": "SkySend",
+    "appName": "Hajd.Cloud",
     "tabSubtitle": "Verschlüsselte Datei- & Notizfreigabe",
     "tagline": "Ende-zu-Ende verschlüsselte Datei- und Notizfreigabe",
     "loading": "Laden...",
@@ -63,7 +63,8 @@
     "moveUp": "Nach oben",
     "moveDown": "Nach unten",
     "removeBlock": "Block entfernen",
-    "blockTitle": "Titel (optional)"
+    "blockTitle": "Titel (optional)",
+    "advanced": "Erweitert"
   },
   "upload": {
     "title": "Dateien hochladen",
@@ -181,7 +182,7 @@
     "blockCount_one": "Notiz mit {{count}} Block",
     "blockCount_other": "Notiz mit {{count}} Blöcken",
     "copyAll": "Alles kopieren",
-    "unsupported": "Dieser Teil der Notiz braucht eine neuere Version von SkySend.",
+    "unsupported": "Dieser Teil der Notiz braucht eine neuere Version von Hajd.Cloud.",
     "unreadable": "Diese Notiz ließ sich nicht wie gewohnt lesen und wird genau so angezeigt, wie sie angekommen ist.",
     "showCode": "Code anzeigen",
     "hideCode": "Code ausblenden"
@@ -298,7 +299,8 @@
     "failed": "Fehlgeschlagen"
   },
   "language": {
-    "search": "Sprache suchen..."
+    "search": "Sprache suchen...",
+    "auto": "Automatisch"
   },
   "errors": {
     "insecureContext": "HTTPS erforderlich",
@@ -384,7 +386,7 @@
   "how": {
     "eyebrow": "Zero Knowledge von Grund auf",
     "title": "Ihre Geheimnisse bleiben bei <a>Ihnen</a>",
-    "lead": "SkySend verschlüsselt alles in Ihrem Browser, bevor es Ihr Gerät verlässt. Der Schlüssel reist im Link und erreicht nie den Server. Diese Seite zeigt, wie das funktioniert.",
+    "lead": "Hajd.Cloud verschlüsselt alles in Ihrem Browser, bevor es Ihr Gerät verlässt. Der Schlüssel reist im Link und erreicht nie den Server. Diese Seite zeigt, wie das funktioniert.",
     "flowSender": "Sie",
     "flowSenderText": "Verschlüsseln im Browser",
     "flowServer": "Server",
@@ -394,7 +396,7 @@
     "flowKeyShort": "Schlüssel im Link",
     "flowKey": "Der Schlüssel steht nach dem # im Link. Browser senden diesen Teil nie, deshalb sieht der Server nur verschlüsselte Daten.",
     "demoTitle": "Probieren Sie es aus",
-    "demoText": "Tippen Sie etwas ein. Es wird direkt hier mit demselben Code verschlüsselt, den SkySend für Notizen nutzt. Nichts wird irgendwohin gesendet.",
+    "demoText": "Tippen Sie etwas ein. Es wird direkt hier mit demselben Code verschlüsselt, den Hajd.Cloud für Notizen nutzt. Nichts wird irgendwohin gesendet.",
     "demoInput": "Ihr Text",
     "demoSample": "Der Türcode ist 4711. Bis um acht.",
     "demoLocal": "Läuft nur in diesem Tab",
@@ -404,12 +406,12 @@
     "demoToken": "Token, das der Server prüfen würde",
     "demoBytes_one": "{{count}} Byte Chiffretext",
     "demoBytes_other": "{{count}} Bytes Chiffretext",
-    "demoUnavailable": "Dieser Browser erlaubt auf dieser Seite kein Web Crypto, deshalb kann die Demo nicht laufen. Öffnen Sie SkySend über HTTPS, um sie auszuprobieren.",
+    "demoUnavailable": "Dieser Browser erlaubt auf dieser Seite kein Web Crypto, deshalb kann die Demo nicht laufen. Öffnen Sie Hajd.Cloud über HTTPS, um sie auszuprobieren.",
     "badgeLinkOnly": "Bleibt im Link",
     "badgeSent": "Geht an den Server",
     "stepsTitle": "Vier Schritte, ein Versprechen",
     "step1Title": "Ein Schlüssel entsteht in Ihrem Browser",
-    "step1Text": "Auf Ihrem Gerät wird ein zufälliges 256-Bit-Geheimnis erzeugt. Alle Schlüssel, die SkySend braucht, werden daraus abgeleitet.",
+    "step1Text": "Auf Ihrem Gerät wird ein zufälliges 256-Bit-Geheimnis erzeugt. Alle Schlüssel, die Hajd.Cloud braucht, werden daraus abgeleitet.",
     "step2Title": "Zuerst wird alles verschlüsselt",
     "step2Text": "Dateien, Dateinamen und Notizen werden verschlüsselt, bevor das erste Byte Ihr Gerät verlässt.",
     "step3Title": "Der Schlüssel reist im Link",
@@ -438,7 +440,7 @@
     "featureStreamTitle": "Große Dateien, gestreamt",
     "featureStreamText": "Dateien werden in 64-KB-Blöcken verschlüsselt, während sie zum Server strömen.",
     "featurePrivacyTitle": "Keine Konten, keine Analyse",
-    "featurePrivacyText": "SkySend hat keine Benutzerkonten und kein Tracking. Ihr Upload-Verlauf liegt nur in Ihrem Browser.",
+    "featurePrivacyText": "Hajd.Cloud hat keine Benutzerkonten und kein Tracking. Ihr Upload-Verlauf liegt nur in Ihrem Browser.",
     "featureOpenTitle": "Open Source und selbst gehostet",
     "featureOpenText": "Jeder kann den Code lesen, diese Aussagen prüfen und eine eigene Instanz betreiben.",
     "specsTitle": "Unter der Haube",
@@ -775,7 +777,7 @@
     "imported_other": "{{count}} Vorlagen importiert.",
     "importFailed": "Die Vorlagen konnten nicht importiert werden.",
     "importError": {
-      "invalid": "Das enthält keine SkySend-Vorlagen.",
+      "invalid": "Das enthält keine Hajd.Cloud-Vorlagen.",
       "tooLarge": "Dieser Export ist zu groß.",
       "password": "Falsches Passwort."
     },

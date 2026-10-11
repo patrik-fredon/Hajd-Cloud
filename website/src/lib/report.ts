@@ -1,7 +1,7 @@
 import { z } from "zod";
 import type { MessageKey } from "@/i18n/translate";
 
-export const REPORT_API_BASE = "https://report.skysend.app";
+export const REPORT_API_BASE = process.env.NEXT_PUBLIC_REPORT_API_URL ?? "";
 export const REPORT_INSTANCES_URL = `${REPORT_API_BASE}/instances`;
 
 export const TURNSTILE_SITE_KEY =

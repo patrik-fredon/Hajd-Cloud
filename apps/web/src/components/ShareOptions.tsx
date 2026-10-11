@@ -1,4 +1,4 @@
-import { useId } from "react";
+import { useId, type ReactNode } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { Clock, Download, Eye, Lock } from "lucide-react";
 import { OptionPill, SwitchPill } from "@/components/OptionPill";
@@ -23,6 +23,7 @@ interface ShareOptionsProps {
   onPasswordChange: (value: string) => void;
   forcePassword?: boolean;
   disabled?: boolean;
+  extraOptions?: ReactNode;
 }
 
 /** How a limit reads, for the defaults and the summary of a share. */
@@ -76,6 +77,7 @@ export function ShareOptions({
   onPasswordChange,
   forcePassword = false,
   disabled = false,
+  extraOptions,
 }: ShareOptionsProps) {
   const { t } = useTranslation();
   const id = useId();
@@ -133,6 +135,7 @@ export function ShareOptions({
           onCheckedChange={onPasswordEnabledChange}
           disabled={disabled || forcePassword}
         />
+        {extraOptions}
       </div>
 
       {passwordEnabled && (
@@ -140,7 +143,9 @@ export function ShareOptions({
           <PasswordProtectionInput
             value={password}
             onChange={onPasswordChange}
-            placeholder={t(forcePassword ? "upload.passwordPlaceholderRequired" : "upload.passwordPlaceholder")}
+            placeholder={t(
+              forcePassword ? "upload.passwordPlaceholderRequired" : "upload.passwordPlaceholder",
+            )}
             disabled={disabled}
           />
           {password !== "" && !meetsPasswordMinimum(password) ? (
@@ -150,7 +155,9 @@ export function ShareOptions({
           ) : (
             <p className="text-xs text-muted-foreground">{t("share.passwordHint")}</p>
           )}
-          {forcePassword && <p className="text-xs text-muted-foreground">{t("share.passwordForced")}</p>}
+          {forcePassword && (
+            <p className="text-xs text-muted-foreground">{t("share.passwordForced")}</p>
+          )}
         </div>
       )}
     </section>

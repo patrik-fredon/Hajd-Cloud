@@ -10,13 +10,14 @@ const TEMPLATE = `<html data-theme="__DEFAULT_THEME__" data-default-color-scheme
     <meta property="og:image" content="__OG_IMAGE__" />
     <meta name="twitter:card" content="__TWITTER_CARD__" />
     <meta name="twitter:image" content="__OG_IMAGE__" />
+    <link rel="icon" href="__FAVICON__" />
     <title>__CUSTOM_TITLE__ | Encrypted File & Note Transfer</title>
   </head>
 </html>`;
 
 const BASE_CONFIG = {
   BASE_URL: "https://send.example.com",
-  CUSTOM_TITLE: "SkySend",
+  CUSTOM_TITLE: "Hajd.Cloud",
   CUSTOM_LOGO: undefined,
   CUSTOM_OG_IMAGE: undefined,
   CUSTOM_OG_IMAGE_STYLE: "logo",
@@ -88,10 +89,23 @@ describe("renderIndexHtml", () => {
     expect(html).not.toMatch(/__[A-Z_]+__/);
     expect(html).toContain('data-theme="aurora"');
     expect(html).toContain('data-default-color-scheme="system"');
-    expect(html).toContain('<meta property="og:site_name" content="SkySend" />');
-    expect(html).toContain('<meta property="og:image" content="https://send.example.com/logo.png" />');
+    expect(html).toContain('<meta property="og:site_name" content="Hajd.Cloud" />');
+    expect(html).toContain(
+      '<meta property="og:image" content="https://send.example.com/logo.png" />',
+    );
     expect(html).toContain('<meta name="twitter:card" content="summary" />');
-    expect(html).toContain('<meta name="twitter:image" content="https://send.example.com/logo.png" />');
+    expect(html).toContain(
+      '<meta name="twitter:image" content="https://send.example.com/logo.png" />',
+    );
+    expect(html).toContain('<link rel="icon" href="/hajd-cloud-logo-crimson.webp" />');
+  });
+
+  it("uses the custom logo for the browser tab and escapes its URL", () => {
+    const html = renderIndexHtml(
+      TEMPLATE,
+      makeConfig({ CUSTOM_LOGO: "/branding/logo.webp?version=1&size=32" }),
+    );
+    expect(html).toContain('<link rel="icon" href="/branding/logo.webp?version=1&amp;size=32" />');
   });
 
   it("should use the large card for the banner style", () => {

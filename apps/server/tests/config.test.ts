@@ -37,7 +37,7 @@ describe("config", () => {
       expect(config.FILE_DOWNLOAD_OPTIONS).toEqual([1, 2, 3, 4, 5, 10, 20, 50, 100]);
       expect(config.FILE_DEFAULT_DOWNLOAD).toBe(1);
       expect(config.CLEANUP_INTERVAL).toBe(60);
-      expect(config.CUSTOM_TITLE).toBe("SkySend");
+      expect(config.CUSTOM_TITLE).toBe("Hajd.Cloud");
       expect(config.RATE_LIMIT_WINDOW).toBe(60000);
       expect(config.RATE_LIMIT_MAX).toBe(60);
       expect(config.FILE_UPLOAD_QUOTA_BYTES).toBe(0);
@@ -367,9 +367,9 @@ describe("config", () => {
   });
 
   describe("DEFAULT_THEME and DEFAULT_COLOR_SCHEME", () => {
-    it("should default to the graphite theme and the system color scheme", async () => {
+    it("should default to the crimson theme and the system color scheme", async () => {
       const config = await loadFreshConfig();
-      expect(config.DEFAULT_THEME).toBe("graphite");
+      expect(config.DEFAULT_THEME).toBe("crimson");
       expect(config.DEFAULT_COLOR_SCHEME).toBe("system");
     });
 
@@ -448,7 +448,9 @@ describe("config", () => {
       expect(config.OIDC_ENABLED).toBe(true);
       expect(config.OIDC_SESSION_SECRET).toBeTruthy();
       expect(config.OIDC_SESSION_SECRET!.length).toBeGreaterThan(32);
-      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("OIDC_SESSION_SECRET is not set"));
+      expect(warnSpy).toHaveBeenCalledWith(
+        expect.stringContaining("OIDC_SESSION_SECRET is not set"),
+      );
       warnSpy.mockRestore();
     });
 
@@ -457,7 +459,9 @@ describe("config", () => {
       process.env.OIDC_CLIENT_ID = "client-id";
       process.env.OIDC_CLIENT_SECRET = "client-secret";
       process.env.OIDC_SESSION_SECRET = "short";
-      await expect(loadFreshConfig()).rejects.toThrow("OIDC_SESSION_SECRET must be at least 32 characters");
+      await expect(loadFreshConfig()).rejects.toThrow(
+        "OIDC_SESSION_SECRET must be at least 32 characters",
+      );
     });
 
     it("should warn (not throw) when OIDC_ISSUER uses HTTP", async () => {
@@ -486,7 +490,9 @@ describe("config", () => {
       const config = await loadFreshConfig();
 
       expect(config.OIDC_ENABLED).toBe(true);
-      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("no upload routes are protected"));
+      expect(warnSpy).toHaveBeenCalledWith(
+        expect.stringContaining("no upload routes are protected"),
+      );
       warnSpy.mockRestore();
     });
 
@@ -604,7 +610,9 @@ describe("config", () => {
 
     it("should reject a default expiry that is not an option", async () => {
       process.env.FILE_REQUEST_DEFAULT_EXPIRE_SEC = "3600";
-      await expect(loadFreshConfig()).rejects.toThrow("must be one of FILE_REQUEST_EXPIRE_OPTIONS_SEC");
+      await expect(loadFreshConfig()).rejects.toThrow(
+        "must be one of FILE_REQUEST_EXPIRE_OPTIONS_SEC",
+      );
     });
 
     it("should reject an upload size that FILE_MAX_SIZE would refuse anyway", async () => {
@@ -631,7 +639,9 @@ describe("config", () => {
       vi.resetModules();
       delete process.env.FILE_REQUEST_DEFAULT_UPLOADS;
       process.env.FILE_REQUEST_DEFAULT_DOWNLOADS = "4";
-      await expect(loadFreshConfig()).rejects.toThrow("must be one of FILE_REQUEST_DOWNLOAD_OPTIONS");
+      await expect(loadFreshConfig()).rejects.toThrow(
+        "must be one of FILE_REQUEST_DOWNLOAD_OPTIONS",
+      );
     });
 
     it("should parse custom options and a forced password", async () => {

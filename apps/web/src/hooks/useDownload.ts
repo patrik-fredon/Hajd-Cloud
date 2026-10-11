@@ -39,7 +39,12 @@ interface DownloadState {
   metadata: FileMetadata | null;
   debugInfo: DownloadDebugInfo | null;
   /** Stashed args so Safari warning can resume the download */
-  pendingDownloadArgs: { id: string; secretB64: string; password?: string; argon2id?: Argon2idHashFn } | null;
+  pendingDownloadArgs: {
+    id: string;
+    secretB64: string;
+    password?: string;
+    argon2id?: Argon2idHashFn;
+  } | null;
 }
 
 interface PreparedDownload {
@@ -50,10 +55,7 @@ interface PreparedDownload {
 }
 
 /** Derives the file, metadata, and auth keys from an already recovered secret. */
-async function deriveFromSecret(
-  secret: Uint8Array,
-  saltB64: string,
-): Promise<PreparedDownload> {
+async function deriveFromSecret(secret: Uint8Array, saltB64: string): Promise<PreparedDownload> {
   const salt = fromBase64url(saltB64);
   const keys = await deriveKeys(secret, salt);
   const authToken = await computeAuthToken(keys.authKey);
@@ -79,11 +81,7 @@ async function prepareKeys(
     if (!argon2id) throw new Error("Argon2id is required to decrypt password-protected uploads");
 
     const passwordSalt = fromBase64url(passwordSaltB64);
-    const { key: passwordKey } = await deriveKeyFromPassword(
-      password,
-      passwordSalt,
-      argon2id,
-    );
+    const { key: passwordKey } = await deriveKeyFromPassword(password, passwordSalt, argon2id);
     secret = applyPasswordProtection(secret, passwordKey);
   }
 
@@ -103,15 +101,10 @@ function withUnlockedMeta(info: api.UploadInfo, unlocked: api.UnlockedMeta): api
 }
 
 /** Decrypts the upload metadata. Returns null for uploads that carry none. */
-async function decryptMeta(
-  info: api.UploadInfo,
-  metaKey: CryptoKey,
-): Promise<FileMetadata | null> {
+async function decryptMeta(info: api.UploadInfo, metaKey: CryptoKey): Promise<FileMetadata | null> {
   if (!info.encryptedMeta || !info.nonce) return null;
 
-  const ciphertext = Uint8Array.from(atob(info.encryptedMeta), (c) =>
-    c.charCodeAt(0),
-  );
+  const ciphertext = Uint8Array.from(atob(info.encryptedMeta), (c) => c.charCodeAt(0));
   const nonce = Uint8Array.from(atob(info.nonce), (c) => c.charCodeAt(0));
   return decryptMetadata(ciphertext, nonce, metaKey);
 }
@@ -156,15 +149,13 @@ export function useDownload() {
       } catch (err) {
         // A broken fragment or corrupted metadata must not block the page - the
         // download itself surfaces the real error.
-        console.warn("[SkySend] Could not decrypt metadata on load:", err);
+        console.warn("[Hajd.Cloud] Could not decrypt metadata on load:", err);
       }
 
       setState((s) => ({ ...s, phase: "idle", info, metadata }));
       return info;
     } catch (err) {
-      const message = err instanceof api.ApiError
-        ? err.message
-        : "Failed to load upload info";
+      const message = err instanceof api.ApiError ? err.message : "Failed to load upload info";
       setState((s) => ({ ...s, phase: "error", error: message }));
       return null;
     }
@@ -175,12 +166,7 @@ export function useDownload() {
    * transfer. Verification is free - only GET /api/download consumes a download.
    */
   const unlock = useCallback(
-    async (
-      id: string,
-      secretB64: string,
-      password: string,
-      argon2id: Argon2idHashFn,
-    ) => {
+    async (id: string, secretB64: string, password: string, argon2id: Argon2idHashFn) => {
       try {
         let info = state.info ?? (await api.fetchInfo(id));
         // Clearing the error lets PasswordPrompt toast again on a repeated failure.
@@ -211,7 +197,7 @@ export function useDownload() {
         try {
           metadata = await decryptMeta(info, keys.metaKey);
         } catch (err) {
-          console.warn("[SkySend] Could not decrypt metadata after unlock:", err);
+          console.warn("[Hajd.Cloud] Could not decrypt metadata after unlock:", err);
         }
 
         setState((s) => ({ ...s, phase: "idle", info, metadata, error: null }));
@@ -220,11 +206,12 @@ export function useDownload() {
           setState((s) => ({ ...s, phase: "needs-password", error: "rate-limited" }));
           return;
         }
-        const message = err instanceof api.ApiError
-          ? err.message
-          : err instanceof Error
+        const message =
+          err instanceof api.ApiError
             ? err.message
-            : "Failed to unlock upload";
+            : err instanceof Error
+              ? err.message
+              : "Failed to unlock upload";
         setState((s) => ({ ...s, phase: "error", error: message }));
       }
     },
@@ -420,11 +407,12 @@ export function useDownload() {
           setState((s) => ({ ...s, phase: "needs-password", error: "rate-limited" }));
           return;
         }
-        const message = err instanceof api.ApiError
-          ? err.message
-          : err instanceof Error
+        const message =
+          err instanceof api.ApiError
             ? err.message
-            : "Download failed";
+            : err instanceof Error
+              ? err.message
+              : "Download failed";
         setState((s) => ({
           ...s,
           phase: "error",

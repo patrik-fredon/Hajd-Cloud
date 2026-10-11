@@ -7,8 +7,8 @@
   const root = document.documentElement;
   // The visual theme comes from the server too. A page served without the
   // placeholder filled in falls back to the default theme.
-  if (!["aurora", "midnight", "graphite"].includes(root.dataset.theme)) {
-    root.dataset.theme = "graphite";
+  if (!["crimson", "aurora", "midnight", "graphite"].includes(root.dataset.theme)) {
+    root.dataset.theme = "crimson";
   }
   // Server DEFAULT_COLOR_SCHEME, injected into index.html when the page is served.
   let scheme = root.dataset.defaultColorScheme;
@@ -33,5 +33,14 @@
   root.classList.toggle("dark", dark);
   document
     .querySelector('meta[name="theme-color"]')
-    ?.setAttribute("content", dark ? "#09090b" : "#ffffff");
+    ?.setAttribute(
+      "content",
+      root.dataset.theme === "crimson"
+        ? dark
+          ? "#0d080a"
+          : "#faf5f5"
+        : dark
+          ? "#09090b"
+          : "#ffffff",
+    );
 })();

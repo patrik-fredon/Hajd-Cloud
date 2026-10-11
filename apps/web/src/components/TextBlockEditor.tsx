@@ -16,21 +16,31 @@ interface TextBlockEditorProps {
   controls: ReactNode;
   disabled: boolean;
   mode?: EditorMode;
+  /** Hide optional controls for the simple note entry form without changing its content. */
+  simple?: boolean;
 }
 
 /**
  * A text block: plain text, or Markdown with a preview. Opens in a large dialog on request.
  * In a template it holds only what the text is about, and filling it in keeps that label.
  */
-export function TextBlockEditor({ block, onChange, controls, disabled, mode = "compose" }: TextBlockEditorProps) {
+export function TextBlockEditor({
+  block,
+  onChange,
+  controls,
+  disabled,
+  mode = "compose",
+  simple = false,
+}: TextBlockEditorProps) {
   const { t } = useTranslation();
   const [preview, setPreview] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const markdown = block.format === "markdown";
-  const showPreview = markdown && preview;
+  const showPreview = markdown && preview && !simple;
 
   const textareaClass = cn(
     "min-h-40 resize-y rounded-xl border-0 bg-transparent px-3 shadow-none focus-visible:ring-0",
+    mode === "compose" && "min-h-[clamp(18rem,45svh,34rem)] text-base",
     markdown && "font-mono text-sm",
   );
   const placeholder = markdown ? t("note.placeholder.markdown") : t("note.placeholder.text");
@@ -38,7 +48,9 @@ export function TextBlockEditor({ block, onChange, controls, disabled, mode = "c
     block.text ? (
       <MarkdownView text={block.text} className={cn("rounded-xl bg-card p-4", className)} />
     ) : (
-      <p className={cn("rounded-xl bg-card p-4 text-sm italic text-muted-foreground", className)}>{t("note.previewEmpty")}</p>
+      <p className={cn("rounded-xl bg-card p-4 text-sm italic text-muted-foreground", className)}>
+        {t("note.previewEmpty")}
+      </p>
     );
   const modeToggle = markdown && (
     <ToggleGroup
@@ -79,7 +91,12 @@ export function TextBlockEditor({ block, onChange, controls, disabled, mode = "c
 
   if (mode === "template") {
     return (
-      <BlockEditorFrame icon={FileText} title={t("tab.text")} controls={controls} toolbar={formatToggle}>
+      <BlockEditorFrame
+        icon={FileText}
+        title={t("tab.text")}
+        controls={controls}
+        toolbar={formatToggle}
+      >
         <BlockTitleRow
           value={block.label}
           onChange={(label) => onChange({ ...block, label })}
@@ -96,6 +113,7 @@ export function TextBlockEditor({ block, onChange, controls, disabled, mode = "c
       icon={FileText}
       title={mode === "fill" && block.label ? block.label : t("tab.text")}
       controls={controls}
+      hideHeader={simple}
       toolbar={
         <>
           {mode === "compose" && formatToggle}
@@ -106,7 +124,7 @@ export function TextBlockEditor({ block, onChange, controls, disabled, mode = "c
         </>
       }
     >
-      {mode === "compose" && (
+      {mode === "compose" && !simple && (
         <BlockTitleRow
           value={block.label}
           onChange={(label) => onChange({ ...block, label })}
@@ -134,7 +152,11 @@ export function TextBlockEditor({ block, onChange, controls, disabled, mode = "c
           <DialogHeader className="flex-row flex-wrap items-center gap-3 space-y-0 border-b px-6 py-4 pr-14">
             <DialogTitle className="mr-auto flex min-w-0 items-center gap-2 wrap-anywhere">
               {block.label || t("tab.text")}
-              {markdown && <span className="text-sm font-normal text-muted-foreground">· {t("tab.markdown")}</span>}
+              {markdown && (
+                <span className="text-sm font-normal text-muted-foreground">
+                  · {t("tab.markdown")}
+                </span>
+              )}
             </DialogTitle>
             {modeToggle}
           </DialogHeader>

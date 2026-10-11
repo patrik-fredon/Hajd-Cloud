@@ -26,9 +26,9 @@ export interface Accent {
   dark: AccentShades;
 }
 
-/** SkySend green. Dark mode uses a lighter shade of it unless an operator sets a color. */
-export const DEFAULT_ACCENT_LIGHT = "#2eb68c";
-export const DEFAULT_ACCENT_DARK = "#46c89d";
+/** Hajd.Cloud crimson. Dark mode uses a lighter shade of it unless an operator sets a color. */
+export const DEFAULT_ACCENT_LIGHT = "#991b35";
+export const DEFAULT_ACCENT_DARK = "#e06b80";
 
 /** WCAG AA for normal text, with a little room for tinted page backgrounds. */
 export const TEXT_CONTRAST = 4.8;
@@ -86,9 +86,10 @@ function readableOn(color: Rgb, surface: Rgb, toward: Rgb): Rgb {
 
 function shades(base: Rgb, mode: "light" | "dark"): AccentShades {
   const foreground = contrast(base, WHITE) >= contrast(base, BLACK) ? WHITE : BLACK;
-  const text = mode === "light"
-    ? readableOn(base, LIGHT_SURFACE, BLACK)
-    : readableOn(base, DARK_SURFACE, WHITE);
+  const text =
+    mode === "light"
+      ? readableOn(base, LIGHT_SURFACE, BLACK)
+      : readableOn(base, DARK_SURFACE, WHITE);
   return {
     base: toHex(base),
     foreground: toHex(foreground),
@@ -101,7 +102,7 @@ function shades(base: Rgb, mode: "light" | "dark"): AccentShades {
 
 /**
  * The accent for both color schemes. With one color (CUSTOM_COLOR) both schemes use it
- * as their base. Without one, SkySend green with its lighter dark-mode shade.
+ * as their base. Without one, Hajd.Cloud crimson with its lighter dark-mode shade.
  */
 export function deriveAccent(color?: string | null): Accent {
   const light = parseHex(color ?? DEFAULT_ACCENT_LIGHT);

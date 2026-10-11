@@ -14,7 +14,7 @@ interface RateLimitEntry {
  * Entries are lazily cleaned up when accessed.
  *
  * S-3 (Security Audit): This store is intentionally in-memory (not Redis/Valkey).
- * SkySend is designed as a single-instance, self-hosted tool. A persistent external
+ * Hajd.Cloud is designed as a single-instance, self-hosted tool. A persistent external
  * store would be over-engineering for the typical deployment model. If multi-instance
  * deployments are needed, rate limiting should be handled at the reverse proxy layer
  * (Nginx, Traefik, Cloudflare) which is better suited for distributed enforcement.
@@ -53,10 +53,7 @@ export function createRateLimiter(config: Config) {
     c.header("X-RateLimit-Reset", String(Math.ceil(entry.resetAt / 1000)));
 
     if (entry.count > config.RATE_LIMIT_MAX) {
-      return c.json(
-        { error: "Too many requests" },
-        429,
-      );
+      return c.json({ error: "Too many requests" }, 429);
     }
 
     await next();
@@ -95,7 +92,10 @@ export function toLimitKey(ip: string): string {
     const [high = 0, low = 0] = groups.slice(6);
     return [high >> 8, high & 0xff, low >> 8, low & 0xff].join(".");
   }
-  return `${groups.slice(0, 4).map((group) => group.toString(16)).join(":")}::/64`;
+  return `${groups
+    .slice(0, 4)
+    .map((group) => group.toString(16))
+    .join(":")}::/64`;
 }
 
 /**

@@ -11,8 +11,8 @@ body:
   - type: input
     id: version
     attributes:
-      label: SkySend Version
-      description: Which version of SkySend are you running?
+      label: Hajd.Cloud Version
+      description: Which version of Hajd.Cloud are you running?
       placeholder: e.g. v2.5.4
     validations:
       required: true
@@ -21,10 +21,10 @@ body:
     id: instance_type
     attributes:
       label: Instance Type
-      description: Are you using a self-hosted instance or a public instance (e.g. ch.skysend.app)?
+      description: Are you using a self-hosted instance or a public instance (e.g. skysend.hajd.cloud)?
       options:
         - Self-hosted instance
-        - Public instance (ch.skysend.app or other community instance)
+        - Public instance (skysend.hajd.cloud or other community instance)
     validations:
       required: true
 
@@ -32,7 +32,7 @@ body:
     id: component
     attributes:
       label: Component
-      description: Which part of SkySend is affected?
+      description: Which part of Hajd.Cloud is affected?
       options:
         - Server
         - Web UI

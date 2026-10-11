@@ -23,7 +23,7 @@ export function HomePage({ locale }: { locale: Locale }) {
   const softwareJsonLd = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "SkySend",
+    name: "Hajd.Cloud",
     description: t("meta.tagline"),
     url: `${SITE_URL}${localePath(locale, "/")}`,
     inLanguage: locale,

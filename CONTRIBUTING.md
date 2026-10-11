@@ -1,20 +1,20 @@
-# Contributing to SkySend
+# Contributing to Hajd.Cloud
 
 Contributions are welcome! Before submitting a pull request, please:
 
 1. Check existing issues and discussions to avoid duplicates
 2. For significant changes, open an issue first to discuss the approach
-3. More information can be found in the [Developer Guide](https://docs.skysend.app/developer-guide/) for setup instructions
+3. More information can be found in the Developer Guide for setup instructions
 
 Small fixes (language translations, typos, documentation improvements) can be submitted directly as PRs.
 
 ## Branches
 
-| Branch | What it holds |
-| :--- | :--- |
-| `main` | The released code. Each release merges `dev` into `main` and is tagged `vX.Y.Z` |
-| `dev` | Everything that is finished, waiting for the next release |
-| Feature branches | One feature or fix each, branched off `dev` |
+| Branch           | What it holds                                                                   |
+| :--------------- | :------------------------------------------------------------------------------ |
+| `main`           | The released code. Each release merges `dev` into `main` and is tagged `vX.Y.Z` |
+| `dev`            | Everything that is finished, waiting for the next release                       |
+| Feature branches | One feature or fix each, branched off `dev`                                     |
 
 **Pull requests go into `dev`, never into `main`.** Branch off `dev`, and open the pull request against `dev`. Only the maintainer merges `dev` into `main` for a release.
 
@@ -28,8 +28,7 @@ Small fixes (language translations, typos, documentation improvements) can be su
 ### Getting Started
 
 ```bash
-git clone https://github.com/Skyfay/SkySend.git
-cd SkySend
+cd Hajd.Cloud
 git checkout dev
 pnpm install
 cp .env.dev.example .env.dev

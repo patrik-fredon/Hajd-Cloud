@@ -1,0 +1,12 @@
+{
+  "tool": "Built-in image_gen",
+  "asset": "hajd_cloud_logo.webp",
+  "initial_prompt": "Use case: logo-brand. Asset type: finished square app logomark for Hajd Cloud, a private end-to-end encrypted file and note sharing app. Create a refined, memorable minimalist symbol combining a compact rounded cloud silhouette with a subtle secure folded-note or lock motif integrated inside it. Match a Graphite interface with near-black charcoal surfaces, restrained mint teal accent #50C8A3, and clean rounded geometric shapes. Use strong, simple flat shapes, crisp edges and clear negative space, readable as a 16px browser favicon and 28px header icon. One single centered emblem, large within the square with modest safe padding. Actual transparent background, no surrounding tile. No text, letters, wordmark, gradients, glow, shadows, mockups, decorative particles, or watermark. The cloud outline and internal motif should remain clear against both dark and light UI backgrounds.",
+  "refinement_prompt": "Refine this generated Hajd Cloud logo for use in a near-black Graphite app header and a tiny browser favicon. Preserve the centered cloud, folded document and padlock composition, square format and actual transparency. Change the cloud outline to flat bright mint #50C8A3 so it is clearly visible against charcoal #202020. Keep the document flat charcoal with a mint folded corner and mint padlock. Simplify the mark into clean solid color shapes with no gradients or shading. Reduce empty transparent margins to approximately 8 percent on each side. Crisp silhouette, no text, no shadow, no background tile. Make a finished polished logo with excellent small-size legibility.",
+  "transparent_background": true,
+  "export": {
+    "size": "512x512",
+    "format": "WebP",
+    "lossless": true
+  }
+}

@@ -1,5 +1,5 @@
 /**
- * Metadata encryption/decryption for SkySend.
+ * Metadata encryption/decryption for Hajd.Cloud.
  *
  * Metadata (file names, sizes, MIME types) is encrypted with AES-256-GCM
  * using the metaKey derived from HKDF and a random 12-byte IV.

@@ -13,9 +13,27 @@ import {
 
 // Colors an operator might plausibly pick, including the hard cases at both ends.
 const SAMPLES = [
-  "#2eb68c", "#46c89d", "#00b378", "#2563eb", "#7c3aed", "#e11d48", "#dc2626",
-  "#f59e0b", "#fde047", "#84cc16", "#06b6d4", "#ec4899", "#64748b",
-  "#000000", "#18181b", "#ffffff", "#f4f4f5", "#808080", "#777777",
+  "#991b35",
+  "#e06b80",
+  "#2eb68c",
+  "#46c89d",
+  "#00b378",
+  "#2563eb",
+  "#7c3aed",
+  "#e11d48",
+  "#dc2626",
+  "#f59e0b",
+  "#fde047",
+  "#84cc16",
+  "#06b6d4",
+  "#ec4899",
+  "#64748b",
+  "#000000",
+  "#18181b",
+  "#ffffff",
+  "#f4f4f5",
+  "#808080",
+  "#777777",
 ];
 
 // Every 17th gray step plus a hue sweep, so no mid-tone slips through.
@@ -27,7 +45,18 @@ const SWEEP = [
   ...Array.from({ length: 24 }, (_, i) => {
     const h = (i * 15) / 60;
     const x = Math.round(255 * (1 - Math.abs((h % 2) - 1)));
-    const [r, g, b] = h < 1 ? [255, x, 0] : h < 2 ? [x, 255, 0] : h < 3 ? [0, 255, x] : h < 4 ? [0, x, 255] : h < 5 ? [x, 0, 255] : [255, 0, x];
+    const [r, g, b] =
+      h < 1
+        ? [255, x, 0]
+        : h < 2
+          ? [x, 255, 0]
+          : h < 3
+            ? [0, 255, x]
+            : h < 4
+              ? [0, x, 255]
+              : h < 5
+                ? [x, 0, 255]
+                : [255, 0, x];
     return `#${[r, g, b].map((c) => c.toString(16).padStart(2, "0")).join("")}`;
   }),
 ];
@@ -45,7 +74,7 @@ describe("parseHex", () => {
 });
 
 describe("deriveAccent", () => {
-  it("uses SkySend green with a lighter dark shade by default", () => {
+  it("uses Hajd.Cloud crimson with a lighter dark shade by default", () => {
     const accent = deriveAccent();
     expect(accent.light.base).toBe(DEFAULT_ACCENT_LIGHT);
     expect(accent.dark.base).toBe(DEFAULT_ACCENT_DARK);
@@ -65,7 +94,9 @@ describe("deriveAccent", () => {
   it.each([...SAMPLES, ...SWEEP])("keeps text on %s at 4.5:1 or more", (color) => {
     const { light, dark } = deriveAccent(color);
     for (const shade of [light, dark]) {
-      expect(contrast(parseHex(shade.foreground), parseHex(shade.base))).toBeGreaterThanOrEqual(4.5);
+      expect(contrast(parseHex(shade.foreground), parseHex(shade.base))).toBeGreaterThanOrEqual(
+        4.5,
+      );
     }
   });
 
@@ -81,7 +112,15 @@ describe("accentCss", () => {
     const css = accentCss(deriveAccent("#2563eb"));
     expect(css).toMatch(/^:root \{/);
     expect(css).toContain(".dark {");
-    for (const token of ["primary", "primary-foreground", "primary-text", "primary-soft", "primary-line", "primary-glow", "ring"]) {
+    for (const token of [
+      "primary",
+      "primary-foreground",
+      "primary-text",
+      "primary-soft",
+      "primary-line",
+      "primary-glow",
+      "ring",
+    ]) {
       expect(css.match(new RegExp(`--color-${token}:`, "g"))).toHaveLength(2);
     }
   });
@@ -94,10 +133,12 @@ describe("index.css defaults", () => {
 
   it.each(["light", "dark"] as const)("match the derived %s accent", (mode) => {
     const shades = deriveAccent()[mode];
-    const block = mode === "light"
-      ? css.slice(css.indexOf("@theme"), css.indexOf("\n}\n", css.indexOf("@theme")))
-      : css.slice(css.indexOf("\n.dark {"), css.indexOf("\n}\n", css.indexOf("\n.dark {")));
-    const read = (token: string) => new RegExp(`--color-${token}:\\s*([^;]+);`).exec(block)?.[1]?.trim();
+    const block =
+      mode === "light"
+        ? css.slice(css.indexOf("@theme"), css.indexOf("\n}\n", css.indexOf("@theme")))
+        : css.slice(css.indexOf("\n.dark {"), css.indexOf("\n}\n", css.indexOf("\n.dark {")));
+    const read = (token: string) =>
+      new RegExp(`--color-${token}:\\s*([^;]+);`).exec(block)?.[1]?.trim();
     expect(read("primary")).toBe(shades.base);
     expect(read("primary-foreground")).toBe(shades.foreground);
     expect(read("primary-text")).toBe(shades.text);

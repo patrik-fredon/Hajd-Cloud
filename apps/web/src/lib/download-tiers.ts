@@ -103,7 +103,7 @@ export async function saveDecryptedDownload(options: SaveDownloadOptions): Promi
   try {
     const sw = !safari ? await ensureSwController() : null;
     if (sw) {
-      console.info("[SkySend] Download tier: 1 (SW stream)");
+      console.info("[Hajd.Cloud] Download tier: 1 (SW stream)");
       onDebug(() => ({
         tier: "sw",
         swPath: null,
@@ -138,7 +138,7 @@ export async function saveDecryptedDownload(options: SaveDownloadOptions): Promi
     // User-initiated cancel - do not fall through to Tier 2/3
     if (swErr instanceof DOMException && swErr.name === "AbortError") throw swErr;
     if (isTruncated(swErr)) throw swErr;
-    console.warn("[SkySend] SW stream failed, trying fallback:", swErr);
+    console.warn("[Hajd.Cloud] SW stream failed, trying fallback:", swErr);
   }
 
   /** Fetches the ciphertext and counts what arrives, with a note in the debug log on a stall. */
@@ -184,7 +184,7 @@ export async function saveDecryptedDownload(options: SaveDownloadOptions): Promi
   // Tier 2: showSaveFilePicker fallback (Chrome, Edge - if SW failed)
   if (!downloaded && typeof window.showSaveFilePicker === "function") {
     try {
-      console.info("[SkySend] Download tier: 2 (showSaveFilePicker)");
+      console.info("[Hajd.Cloud] Download tier: 2 (showSaveFilePicker)");
       onProgress(0, 0);
       onDebug((d) => ({
         tier: "file-picker",
@@ -209,13 +209,13 @@ export async function saveDecryptedDownload(options: SaveDownloadOptions): Promi
       if (pickerErr instanceof DOMException && pickerErr.name === "AbortError") throw pickerErr;
       // A failed pipeTo() aborts the writable, which discards the partial file.
       if (isTruncated(pickerErr)) throw pickerErr;
-      console.warn("[SkySend] showSaveFilePicker failed:", pickerErr);
+      console.warn("[Hajd.Cloud] showSaveFilePicker failed:", pickerErr);
     }
   }
 
   // Tier 3: Blob fallback (uses RAM - last resort / Safari default)
   if (!downloaded) {
-    console.warn(`[SkySend] Download tier: 3 (Blob fallback${safari ? " - Safari" : ""})`);
+    console.warn(`[Hajd.Cloud] Download tier: 3 (Blob fallback${safari ? " - Safari" : ""})`);
     onProgress(0, 0);
     onDebug((d) => ({
       tier: "blob",

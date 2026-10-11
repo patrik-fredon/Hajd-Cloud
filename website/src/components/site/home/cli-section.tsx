@@ -10,7 +10,7 @@ import { useI18n } from "@/i18n/provider";
 import type { MessageKey } from "@/i18n/translate";
 
 const COMMAND = "skysend upload ./q3-board-pack.pdf -e 7d -d 5";
-const URL_BASE = "https://ch.skysend.app/file/aB3kQ9xZ";
+const URL_BASE = "https://skysend.hajd.cloud/file/aB3kQ9xZ";
 const URL_SECRET = "#Zk3vT0qL8mWc2HxR9bN4yJ6sPa1eFgUd7tKiVo5nC3w";
 /** Ticks of one round of the terminal. The last one shows it finished. */
 const ROUND = 70;
@@ -29,7 +29,13 @@ const TONE: Record<Part["tone"], string> = {
 /** The lines of the terminal at step `t` of a round: the command typed, the upload, the link. */
 function linesAt(t: number): { parts: Part[]; cursor?: boolean }[] {
   const lines: { parts: Part[]; cursor?: boolean }[] = [
-    { parts: [{ text: "$ ", tone: "prompt" }, { text: COMMAND.slice(0, t * 4), tone: "text" }], cursor: t < 12 },
+    {
+      parts: [
+        { text: "$ ", tone: "prompt" },
+        { text: COMMAND.slice(0, t * 4), tone: "text" },
+      ],
+      cursor: t < 12,
+    },
   ];
   if (t >= 13 && t < 33) {
     const pct = Math.min(100, ((t - 13) / 19) * 100);
@@ -40,7 +46,10 @@ function linesAt(t: number): { parts: Part[]; cursor?: boolean }[] {
         { text: "Uploading ", tone: "muted" },
         { text: "█".repeat(fill), tone: "bar" },
         { text: "░".repeat(30 - fill), tone: "rest" },
-        { text: ` ${pct.toFixed(1)}% ${loaded >= 10 ? loaded.toFixed(1) : loaded.toFixed(2)} MB/12.4 MB 41.8 MB/s`, tone: "muted" },
+        {
+          text: ` ${pct.toFixed(1)}% ${loaded >= 10 ? loaded.toFixed(1) : loaded.toFixed(2)} MB/12.4 MB 41.8 MB/s`,
+          tone: "muted",
+        },
       ],
     });
   }
@@ -55,7 +64,12 @@ function linesAt(t: number): { parts: Part[]; cursor?: boolean }[] {
       ],
     });
     lines.push({
-      parts: [{ text: "Files: 1 | Size: 12.4 MB | Expires: 7 days | Downloads: 5 | Avg speed: 41.8 MB/s", tone: "muted" }],
+      parts: [
+        {
+          text: "Files: 1 | Size: 12.4 MB | Expires: 7 days | Downloads: 5 | Avg speed: 41.8 MB/s",
+          tone: "muted",
+        },
+      ],
     });
   }
   if (t >= 38) lines.push({ parts: [{ text: "$ ", tone: "prompt" }], cursor: true });
@@ -77,12 +91,19 @@ export function CliSection() {
     <section className="mx-auto grid max-w-[1248px] items-center gap-10 px-4 pt-28 sm:px-6 sm:pt-[140px] lg:grid-cols-[5fr_7fr] lg:gap-14">
       <div className="flex min-w-0 flex-col gap-[18px]">
         <Eyebrow>{t("cli.eyebrow")}</Eyebrow>
-        <h2 className="text-[32px] leading-[1.06] font-semibold tracking-[-0.04em] sm:text-[46px]">{t("cli.title")}</h2>
+        <h2 className="text-[32px] leading-[1.06] font-semibold tracking-[-0.04em] sm:text-[46px]">
+          {t("cli.title")}
+        </h2>
         <p className="text-base leading-relaxed text-muted-foreground">
           {t.rich("cli.lead", {
             code: (c) => <code className="font-mono text-[14px] text-foreground">{c}</code>,
             link: (c) => (
-              <a href={CLI_URL} target="_blank" rel="noreferrer" className="text-foreground underline underline-offset-4">
+              <a
+                href={CLI_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="text-foreground underline underline-offset-4"
+              >
                 {c}
               </a>
             ),
@@ -98,7 +119,9 @@ export function CliSection() {
                 onClick={() => setOs(c.id)}
                 className={cn(
                   "h-8 rounded-lg px-3 text-[13px] font-medium transition-colors",
-                  c.id === os ? "bg-accent text-foreground shadow-[var(--chip-shadow)]" : "text-muted-foreground hover:text-foreground"
+                  c.id === os
+                    ? "bg-accent text-foreground shadow-[var(--chip-shadow)]"
+                    : "text-muted-foreground hover:text-foreground",
                 )}
               >
                 {t(`cli.${c.id}`)}
@@ -114,10 +137,14 @@ export function CliSection() {
               onClick={() => copy("install", install.command)}
               className={cn(
                 "flex size-9 shrink-0 items-center justify-center rounded-lg transition-colors",
-                copied === "install" ? "bg-tone-green/16 text-tone-green" : "bg-accent text-subtle"
+                copied === "install" ? "bg-tone-green/16 text-tone-green" : "bg-accent text-subtle",
               )}
             >
-              {copied === "install" ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
+              {copied === "install" ? (
+                <Check className="size-3.5" />
+              ) : (
+                <Copy className="size-3.5" />
+              )}
             </button>
           </div>
         </div>
@@ -155,7 +182,9 @@ export function CliSection() {
                   {p.text}
                 </span>
               ))}
-              {line.cursor && <span className="fx-blink ml-0.5 inline-block h-4 w-2 bg-tone-green align-[-3px]" />}
+              {line.cursor && (
+                <span className="fx-blink ml-0.5 inline-block h-4 w-2 bg-tone-green align-[-3px]" />
+              )}
             </div>
           ))}
         </div>

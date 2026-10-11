@@ -18,8 +18,8 @@ export function Nav({ locale }: { locale: Locale }) {
     <header className="pointer-events-none fixed inset-x-0 top-0 z-40 px-3 pt-3 sm:px-4 sm:pt-5">
       <div className="glass pointer-events-auto mx-auto flex h-14 max-w-[1100px] items-center gap-5 rounded-[14px] pr-2 pl-3.5 sm:pr-2.5 sm:pl-4">
         <Link href={localePath(locale, "/")} className="flex shrink-0 items-center gap-2.5 text-[15px] font-semibold">
-          <Image src="/logo.svg" alt="" width={26} height={26} />
-          SkySend
+          <Image src="/hajd-cloud-logo-crimson.webp" alt="" width={26} height={26} />
+          Hajd.Cloud
         </Link>
 
         <NavLinks className="hidden gap-0.5 lg:flex" />

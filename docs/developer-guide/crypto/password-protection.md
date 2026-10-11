@@ -1,6 +1,6 @@
 # Password Protection
 
-SkySend supports optional password protection using Argon2id (WASM, memory-hard, GPU-resistant).
+Hajd.Cloud supports optional password protection using Argon2id (WASM, memory-hard, GPU-resistant).
 
 ## How It Works
 
@@ -17,19 +17,19 @@ The XOR operation is reversible, so the original secret can be recovered by appl
 
 ### Argon2id
 
-Argon2id is a memory-hard KDF that is resistant to GPU and ASIC attacks. SkySend uses it via a WASM implementation in the browser.
+Argon2id is a memory-hard KDF that is resistant to GPU and ASIC attacks. Hajd.Cloud uses it via a WASM implementation in the browser.
 
-| Parameter | Value |
-| --- | --- |
-| Memory | 65,536 KiB (64 MiB) |
-| Iterations | 3 |
-| Parallelism | 1 |
-| Hash Length | 32 bytes |
+| Parameter   | Value               |
+| ----------- | ------------------- |
+| Memory      | 65,536 KiB (64 MiB) |
+| Iterations  | 3                   |
+| Parallelism | 1                   |
+| Hash Length | 32 bytes            |
 
 These parameters follow the [OWASP strong recommendation](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html) for Argon2id.
 
 ```typescript
-const { key, algorithm } = await deriveKeyFromPassword(password, salt, argon2id)
+const { key, algorithm } = await deriveKeyFromPassword(password, salt, argon2id);
 // algorithm = "argon2id-v2"
 ```
 
@@ -38,7 +38,7 @@ const { key, algorithm } = await deriveKeyFromPassword(password, salt, argon2id)
 A 16-byte random salt is generated per upload:
 
 ```typescript
-const passwordSalt = randomBytes(16) // PASSWORD_SALT_LENGTH = 16
+const passwordSalt = randomBytes(16); // PASSWORD_SALT_LENGTH = 16
 ```
 
 The salt and the algorithm identifier are stored on the server so that the downloader can derive the same password key.
@@ -66,15 +66,15 @@ Without the metadata nobody can test a guess offline, so every guess has to pass
 
 ## Constants
 
-| Constant | Value |
-| --- | --- |
-| `PASSWORD_SALT_LENGTH` | 16 bytes |
-| `MIN_PASSWORD_LENGTH` | 8 characters, for a new password |
-| `DERIVED_KEY_LENGTH` | 32 bytes |
-| `ARGON2_PARAMS.memory` | 65,536 KiB |
-| `ARGON2_PARAMS.iterations` | 3 |
-| `ARGON2_PARAMS.parallelism` | 1 |
-| `ARGON2_PARAMS.hashLength` | 32 bytes |
+| Constant                    | Value                            |
+| --------------------------- | -------------------------------- |
+| `PASSWORD_SALT_LENGTH`      | 16 bytes                         |
+| `MIN_PASSWORD_LENGTH`       | 8 characters, for a new password |
+| `DERIVED_KEY_LENGTH`        | 32 bytes                         |
+| `ARGON2_PARAMS.memory`      | 65,536 KiB                       |
+| `ARGON2_PARAMS.iterations`  | 3                                |
+| `ARGON2_PARAMS.parallelism` | 1                                |
+| `ARGON2_PARAMS.hashLength`  | 32 bytes                         |
 
 ## Security Considerations
 

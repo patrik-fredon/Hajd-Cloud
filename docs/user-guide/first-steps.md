@@ -1,10 +1,10 @@
 # First Steps
 
-This guide walks you through uploading and sharing your first file with SkySend.
+This guide walks you through uploading and sharing your first file with Hajd.Cloud.
 
 ## Upload a File
 
-1. Open SkySend in your browser (default: [http://localhost:3000](http://localhost:3000))
+1. Open Hajd.Cloud in your browser (default: [http://localhost:3000](http://localhost:3000))
 2. **Drag & drop** files or a folder onto the upload zone, or use **Browse files** or **Browse folder**
 3. Optionally change the settings below the files. Each pill shows its value, and a click opens its choices, on a phone in a sheet from the bottom:
    - **Expires after** - One of the offered times
@@ -28,16 +28,16 @@ Notes use `/note/<id>#<secret>` instead.
 The part after `#` is the encryption key. Anyone with this link can download and decrypt the file. Share it only with intended recipients through a secure channel.
 :::
 
-The `#` fragment is never sent to the server - it stays in the browser. This is how SkySend achieves zero-knowledge encryption.
+The `#` fragment is never sent to the server - it stays in the browser. This is how Hajd.Cloud achieves zero-knowledge encryption.
 
 ## Multi-File Upload
 
-SkySend supports uploading multiple files or entire folders:
+Hajd.Cloud supports uploading multiple files or entire folders:
 
 1. **Multiple files** - Select multiple files in the file picker, or drag & drop several files at once
 2. **Folders** - Use the folder picker or drag & drop a folder
 
-When uploading multiple files, they are automatically zipped in your browser using [fflate](https://github.com/101arrowz/fflate) before encryption. The server only ever sees a single encrypted blob.
+When uploading multiple files, they are automatically zipped in your browser using fflate before encryption. The server only ever sees a single encrypted blob.
 
 The recipient downloads a `.zip` file containing all original files with their names preserved.
 
@@ -54,9 +54,9 @@ To get files from someone instead, open **Request**, set how long the request st
 
 ## Share a Note
 
-SkySend also shares encrypted notes, no file needed. A note is made of blocks, so text, passwords, code and SSH keys can travel together in one link.
+Hajd.Cloud also shares encrypted notes, no file needed. A note is made of blocks, so text, passwords, code and SSH keys can travel together in one link.
 
-1. Open SkySend and switch to the **Note** tab
+1. Open Hajd.Cloud and switch to the **Note** tab
 2. Pick the block to start with:
    - **Text** - Plain text, or Markdown with a preview, rendered with full GitHub Flavored Markdown support
    - **Password** - One or more passwords, each with an optional label. Includes a built-in password generator with configurable length, character types, and entropy display.
@@ -89,7 +89,7 @@ When burn after reading is enabled, the note content is deleted from the server 
 
 ## Manage Your Uploads
 
-SkySend stores your upload and note history locally in your browser (IndexedDB). No account is needed.
+Hajd.Cloud stores your upload and note history locally in your browser (IndexedDB). No account is needed.
 
 Navigate to **My Links** to:
 
@@ -111,11 +111,11 @@ Every instance has a **How it works** page at `/how`. It shows where the key tra
 
 ## Upload from the Terminal
 
-SkySend also provides a CLI client for uploading and downloading files from the terminal. It uses the same end-to-end encryption as the web interface.
+Hajd.Cloud also provides a CLI client for uploading and downloading files from the terminal. It uses the same end-to-end encryption as the web interface.
 
 ```bash
 # Install (Linux/macOS)
-curl -fsSL https://skysend.app/install.sh | sh
+pnpm client:build
 
 # Set your server
 skysend config set-server https://your-instance.com

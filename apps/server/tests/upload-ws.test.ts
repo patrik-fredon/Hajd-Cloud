@@ -45,7 +45,7 @@ const DEFAULT_CONFIG = {
   NOTE_VIEW_OPTIONS: [1, 2, 3, 5, 10, 20, 50, 100],
   NOTE_DEFAULT_VIEWS: 1,
   CLEANUP_INTERVAL: 60,
-  CUSTOM_TITLE: "SkySend",
+  CUSTOM_TITLE: "Hajd.Cloud",
   CORS_ORIGINS: [],
   RATE_LIMIT_WINDOW: 60000,
   RATE_LIMIT_MAX: 60,
@@ -121,10 +121,7 @@ describe("upload-ws route", () => {
     const headers = buildHeaders({ contentLength: "64" });
 
     // 1) init
-    await events.onMessage!(
-      msgEvent(JSON.stringify({ type: "init", headers })),
-      fake.ws,
-    );
+    await events.onMessage!(msgEvent(JSON.stringify({ type: "init", headers })), fake.ws);
     const ready = fake.allJson().find((m) => m.type === "ready") ?? null;
     expect(ready).toMatchObject({ type: "ready" });
     const uploadId = (ready as { id: string }).id;
@@ -136,10 +133,7 @@ describe("upload-ws route", () => {
     await events.onMessage!(msgEvent(payload.buffer), fake.ws);
 
     // 3) finalize
-    await events.onMessage!(
-      msgEvent(JSON.stringify({ type: "finalize" })),
-      fake.ws,
-    );
+    await events.onMessage!(msgEvent(JSON.stringify({ type: "finalize" })), fake.ws);
 
     const doneFrames = fake.allJson().filter((m) => m.type === "done");
     expect(doneFrames).toHaveLength(1);
@@ -202,10 +196,7 @@ describe("upload-ws route", () => {
   it("rejects invalid init payload", async () => {
     const { events } = await bootstrap();
     const fake = createFakeWs();
-    await events.onMessage!(
-      msgEvent(JSON.stringify({ type: "notinit" })),
-      fake.ws,
-    );
+    await events.onMessage!(msgEvent(JSON.stringify({ type: "notinit" })), fake.ws);
     const err = fake.allJson().find((m) => m.type === "error");
     expect(err).toBeTruthy();
     expect(fake.closed?.code).toBeDefined();
@@ -235,10 +226,7 @@ describe("upload-ws route", () => {
       fake.ws,
     );
     await events.onMessage!(msgEvent(new Uint8Array(32).buffer), fake.ws);
-    await events.onMessage!(
-      msgEvent(JSON.stringify({ type: "finalize" })),
-      fake.ws,
-    );
+    await events.onMessage!(msgEvent(JSON.stringify({ type: "finalize" })), fake.ws);
     const err = fake.allJson().find((m) => m.type === "error");
     expect(err).toMatchObject({ type: "error" });
     expect(String((err as { message: string }).message)).toMatch(/size/i);
@@ -250,7 +238,11 @@ describe("upload-ws route", () => {
       storage,
       upgradeWebSocket: mock.upgrade,
       quota: {
-        reserve: () => ({ ok: false, status: 429, reason: "Upload quota exceeded. Try again later." }),
+        reserve: () => ({
+          ok: false,
+          status: 429,
+          reason: "Upload quota exceeded. Try again later.",
+        }),
       },
     });
     await route.request("/", { method: "GET" });
@@ -261,7 +253,10 @@ describe("upload-ws route", () => {
       fake.ws,
     );
     const err = fake.allJson().find((m) => m.type === "error");
-    expect(err).toMatchObject({ type: "error", message: "Upload quota exceeded. Try again later." });
+    expect(err).toMatchObject({
+      type: "error",
+      message: "Upload quota exceeded. Try again later.",
+    });
   });
 
   it("sends keepalive messages during slow finalization", async () => {
@@ -269,16 +264,15 @@ describe("upload-ws route", () => {
     const fake = createFakeWs();
     const headers = buildHeaders({ contentLength: "16" });
 
-    await events.onMessage!(
-      msgEvent(JSON.stringify({ type: "init", headers })),
-      fake.ws,
-    );
+    await events.onMessage!(msgEvent(JSON.stringify({ type: "init", headers })), fake.ws);
     await events.onMessage!(msgEvent(new Uint8Array(16).buffer), fake.ws);
 
     // Delay finalizeChunkedUpload so the keepalive timer fires before done.
     let resolveFinalize!: () => void;
     vi.spyOn(storage, "finalizeChunkedUpload").mockReturnValueOnce(
-      new Promise<void>((resolve) => { resolveFinalize = resolve; }),
+      new Promise<void>((resolve) => {
+        resolveFinalize = resolve;
+      }),
     );
 
     // Switch to fake timers before finalize so setInterval uses them.
@@ -385,10 +379,7 @@ describe("upload-ws route", () => {
       fake.ws,
     );
     await events.onMessage!(msgEvent(new Uint8Array(16).buffer), fake.ws);
-    await events.onMessage!(
-      msgEvent(JSON.stringify({ type: "finalize" })),
-      fake.ws,
-    );
+    await events.onMessage!(msgEvent(JSON.stringify({ type: "finalize" })), fake.ws);
 
     expect(reservation.commit).toHaveBeenCalledWith(16);
   });

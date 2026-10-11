@@ -4,46 +4,46 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Light mode. The light scheme of the Graphite theme of the app, with the
+/* Light mode. The light scheme of the Crimson theme of the app, with the
    accent darkened until text and buttons read on white. */
 :root {
   --radius: 0.75rem;
 
-  --background: #efeff1;
-  --foreground: #111113;
-  --card: #ffffff;
-  --card-foreground: #111113;
-  --surface: #f4f4f6;
-  --surface-2: #ffffff;
-  --popover: #ffffff;
-  --popover-foreground: #111113;
-  --primary: #207f62;
-  --primary-foreground: #ffffff;
-  --secondary: #ffffff;
-  --secondary-foreground: #111113;
+  --background: #faf5f5;
+  --foreground: #281318;
+  --card: #fffafb;
+  --card-foreground: #281318;
+  --surface: #f4e8eb;
+  --surface-2: #fffafb;
+  --popover: #fffafb;
+  --popover-foreground: #281318;
+  --primary: #991b35;
+  --primary-foreground: #fffafb;
+  --secondary: #fffafb;
+  --secondary-foreground: #281318;
   --muted: #e9e9ec;
   --muted-foreground: #5f5f68;
   --subtle: #3f3f46;
   --faint: #6b6b73;
   --fainter: #a1a1aa;
   --accent: #ececef;
-  --accent-foreground: #111113;
+  --accent-foreground: #281318;
   --destructive: #dc2626;
-  --success: #207f62;
-  --success-foreground: #ffffff;
+  --success: #991b35;
+  --success-foreground: #fffafb;
   --border: #e2e2e6;
   --border-strong: #e2e2e6;
   --input: #cfcfd5;
-  --ring: #2eb68c;
+  --ring: #991b35;
 
-  --tone-green: #207f62;
+  --tone-green: #991b35;
   --tone-blue: #2563eb;
   --tone-blue-soft: #1d4ed8;
   --tone-cyan: #0e7490;
   --tone-violet: #7c3aed;
   --tone-amber: #b45309;
   --tone-red: #dc2626;
-  --tone-ink: #ffffff;
+  --tone-ink: #fffafb;
 
   --shine: #1f9e76;
   --glow-strength: 0.5;
@@ -53,42 +53,42 @@
   --header-border: rgb(17 17 19 / 0.08);
   --highlight: rgb(255 255 255 / 0.9);
   --card-shadow: 0 1px 3px rgb(0 0 0 / 0.06);
-  --chip-shadow: inset 0 1px 0 #ffffff, 0 1px 2px rgb(0 0 0 / 0.08);
+  --chip-shadow: inset 0 1px 0 #fffafb, 0 1px 2px rgb(0 0 0 / 0.08);
   --lift-shadow: 0 24px 48px -24px rgb(17 17 19 / 0.3);
   --deep-shadow: 0 40px 70px -30px rgb(17 17 19 / 0.3);
   --hero-shadow: 0 60px 120px -40px rgb(31 158 118 / 0.3);
 }
 
-/* Dark mode. The dark scheme of the Graphite theme, the look of the canvas. */
+/* Dark mode. The dark scheme of the Crimson theme, the look of the canvas. */
 .dark {
-  --background: #101012;
-  --foreground: #f2f2f3;
-  --card: #1b1b1e;
-  --card-foreground: #f2f2f3;
-  --surface: #141416;
-  --surface-2: #1e1e21;
-  --popover: #1e1e21;
-  --popover-foreground: #f2f2f3;
-  --primary: #46c89d;
+  --background: #0d080a;
+  --foreground: #f8e9ed;
+  --card: #1b1015;
+  --card-foreground: #f8e9ed;
+  --surface: #140c10;
+  --surface-2: #201219;
+  --popover: #201219;
+  --popover-foreground: #f8e9ed;
+  --primary: #e06b80;
   --primary-foreground: #000000;
-  --secondary: #1e1e21;
-  --secondary-foreground: #f2f2f3;
+  --secondary: #201219;
+  --secondary-foreground: #f8e9ed;
   --muted: #222225;
-  --muted-foreground: #9c9ca4;
+  --muted-foreground: #bd98a5;
   --subtle: #c8c8cd;
   --faint: #82828a;
   --fainter: #6b6b73;
   --accent: #26262a;
-  --accent-foreground: #f2f2f3;
+  --accent-foreground: #f8e9ed;
   --destructive: #f0555a;
-  --success: #46c89d;
+  --success: #e06b80;
   --success-foreground: #000000;
-  --border: #2a2a2e;
+  --border: #4a2734;
   --border-strong: #2f2f34;
-  --input: #36363b;
-  --ring: #46c89d;
+  --input: #704050;
+  --ring: #e06b80;
 
-  --tone-green: #46c89d;
+  --tone-green: #e06b80;
   --tone-blue: #60a5fa;
   --tone-blue-soft: #93c5fd;
   --tone-cyan: #22d3ee;
@@ -198,7 +198,7 @@
     background-color: var(--card);
     background-image: linear-gradient(
       180deg,
-      color-mix(in srgb, var(--card), #ffffff 3%),
+      color-mix(in srgb, var(--card), #fffafb 3%),
       var(--card)
     );
     box-shadow:
@@ -214,12 +214,12 @@
     box-shadow: inset 0 1px 0 var(--highlight);
   }
 
-  /* The main button of the Graphite theme: the accent with a light top edge. */
+  /* The main button of the Crimson theme: the accent with a light top edge. */
   .btn-primary {
     background-color: var(--primary);
     background-image: linear-gradient(
       180deg,
-      color-mix(in oklab, var(--primary), #ffffff 8%),
+      color-mix(in oklab, var(--primary), #fffafb 8%),
       var(--primary)
     );
     color: var(--primary-foreground);
@@ -244,7 +244,7 @@
     background-color: var(--secondary);
     background-image: linear-gradient(
       180deg,
-      color-mix(in srgb, var(--secondary), #ffffff 6%),
+      color-mix(in srgb, var(--secondary), #fffafb 6%),
       var(--secondary)
     );
     box-shadow: var(--chip-shadow);
@@ -269,7 +269,7 @@
           rgb(var(--spot-rgb) / 0.1),
           transparent 62%
         ),
-        linear-gradient(180deg, color-mix(in srgb, var(--card), #ffffff 3%), var(--card));
+        linear-gradient(180deg, color-mix(in srgb, var(--card), #fffafb 3%), var(--card));
     }
   }
 

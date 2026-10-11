@@ -1,14 +1,9 @@
-import { GITHUB_REPO } from "@/lib/content";
 import type { MessageKey, Messages } from "@/i18n/translate";
 
 export type RoadmapStatus = "idea" | "planned" | "in-progress";
 
 export type RoadmapCategory =
-  | "core-sharing"
-  | "storage"
-  | "monitoring"
-  | "security"
-  | "developer-experience";
+  "core-sharing" | "storage" | "monitoring" | "security" | "developer-experience";
 
 // The title and the description of an entry live in the messages under
 // roadmap.items.<slug> and roadmap.shipped.<slug>, so a slug without them does
@@ -86,7 +81,7 @@ export const SHIPPED_ITEMS: ShippedItem[] = [
     slug: "300-github-stars",
     stars: 300,
     releaseDate: "2026-08-10",
-    link: `https://github.com/${GITHUB_REPO}/stargazers`,
+    link: "/how",
   },
   {
     slug: "new-website",
@@ -100,7 +95,7 @@ export const SHIPPED_ITEMS: ShippedItem[] = [
     slug: "200-github-stars",
     stars: 200,
     releaseDate: "2026-05-28",
-    link: `https://github.com/${GITHUB_REPO}/stargazers`,
+    link: "/how",
   },
   {
     slug: "multi-block-code-notes",
@@ -114,7 +109,7 @@ export const SHIPPED_ITEMS: ShippedItem[] = [
     slug: "100-github-stars",
     stars: 100,
     releaseDate: "2026-05-10",
-    link: `https://github.com/${GITHUB_REPO}/stargazers`,
+    link: "/how",
   },
   {
     slug: "native-os-share-button",

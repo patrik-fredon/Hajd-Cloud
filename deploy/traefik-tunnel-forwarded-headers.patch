@@ -1,0 +1,16 @@
+--- /opt/traefik/traefik/traefik.yml
++++ /opt/traefik/traefik/traefik.yml
+@@ -32,9 +32,12 @@
+ entryPoints:
+   web:
+     address: ":80"
+-    # Trust Cloudflare IPs
++    # Trust Cloudflare IPs and the local tunnel connection.
+     forwardedHeaders:
++      notAppendXForwardedFor: true
+       trustedIPs:
++        # Docker presents host-local tunnel traffic through this gateway.
++        - "172.19.0.1/32"
+         - "173.245.48.0/20"
+         - "103.21.244.0/22"
+         - "103.22.200.0/22"

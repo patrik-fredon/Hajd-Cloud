@@ -44,7 +44,9 @@ const accentSpan = <span data-slot="accent" className="text-primary-text" />;
 function SectionHeading({ title, text }: { title: string; text?: string }) {
   return (
     <div className="mx-auto mb-8 max-w-2xl text-center">
-      <h2 className="text-[26px] font-semibold leading-tight tracking-[-0.03em] sm:text-[32px]">{title}</h2>
+      <h2 className="text-[26px] font-semibold leading-tight tracking-[-0.03em] sm:text-[32px]">
+        {title}
+      </h2>
       {text && <p className="mt-2.5 text-[15px] leading-relaxed text-muted-foreground">{text}</p>}
     </div>
   );
@@ -66,7 +68,10 @@ function IconTile({ icon: Icon, muted = false }: { icon: LucideIcon; muted?: boo
 /** A line between two flow nodes with a packet running along it. */
 function Connector() {
   return (
-    <div aria-hidden="true" className="relative mx-auto h-8 w-px overflow-hidden bg-border sm:h-px sm:w-full">
+    <div
+      aria-hidden="true"
+      className="relative mx-auto h-8 w-px overflow-hidden bg-border sm:h-px sm:w-full"
+    >
       <span className="absolute left-0 top-0 h-3 w-px animate-[how-packet-y_1.8s_ease-in-out_infinite] bg-primary motion-reduce:hidden sm:h-px sm:w-5 sm:animate-[how-packet-x_1.8s_ease-in-out_infinite]" />
     </div>
   );
@@ -87,8 +92,15 @@ function Flow() {
   return (
     <figure className="relative mx-auto max-w-4xl sm:pt-24">
       {/* The key's path runs over the server, never through it. */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-x-[15%] top-3 hidden h-24 sm:block">
-        <svg viewBox="0 0 400 90" preserveAspectRatio="none" className="h-full w-full overflow-visible">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-[15%] top-3 hidden h-24 sm:block"
+      >
+        <svg
+          viewBox="0 0 400 90"
+          preserveAspectRatio="none"
+          className="h-full w-full overflow-visible"
+        >
           <path
             d="M0 88 C 70 -6, 330 -6, 400 88"
             fill="none"
@@ -143,7 +155,15 @@ function newMaterial(): DemoMaterial {
   return { id: toBase64url(randomBytes(6)), secret: generateSecret(), salt: generateSalt() };
 }
 
-function DemoOutput({ label, badge, children }: { label: string; badge: ReactNode; children: ReactNode }) {
+function DemoOutput({
+  label,
+  badge,
+  children,
+}: {
+  label: string;
+  badge: ReactNode;
+  children: ReactNode;
+}) {
   return (
     <div className="space-y-2">
       <div className="flex flex-wrap items-center justify-between gap-2">
@@ -156,14 +176,16 @@ function DemoOutput({ label, badge, children }: { label: string; badge: ReactNod
 }
 
 /**
- * Encrypts what the visitor types with the same functions SkySend uses for notes. It runs
+ * Encrypts what the visitor types with the same functions Hajd.Cloud uses for notes. It runs
  * in the browser only and sends nothing anywhere.
  */
 function Demo() {
   const { t } = useTranslation();
   const supported = typeof crypto !== "undefined" && typeof crypto.subtle !== "undefined";
   const [text, setText] = useState(() => t("how.demoSample"));
-  const [material, setMaterial] = useState<DemoMaterial | null>(() => (supported ? newMaterial() : null));
+  const [material, setMaterial] = useState<DemoMaterial | null>(() =>
+    supported ? newMaterial() : null,
+  );
   const [result, setResult] = useState<DemoResult | null>(null);
   const [failed, setFailed] = useState(!supported);
 
@@ -178,7 +200,11 @@ function Demo() {
           computeAuthToken(authKey),
         ]);
         if (!stale) {
-          setResult({ ciphertext: toBase64url(ciphertext), token: toBase64url(token), bytes: ciphertext.length });
+          setResult({
+            ciphertext: toBase64url(ciphertext),
+            token: toBase64url(token),
+            bytes: ciphertext.length,
+          });
         }
       } catch {
         if (!stale) setFailed(true);
@@ -209,7 +235,12 @@ function Demo() {
               <Lock className="h-3.5 w-3.5 shrink-0" />
               {t("how.demoLocal")}
             </p>
-            <Button variant="outline" size="sm" onClick={() => setMaterial(newMaterial())} disabled={failed}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setMaterial(newMaterial())}
+              disabled={failed}
+            >
               <RefreshCw />
               {t("how.demoNewKey")}
             </Button>
@@ -232,7 +263,9 @@ function Demo() {
                   <span className="text-muted-foreground">
                     {window.location.origin}/note/{material.id}
                   </span>
-                  <span className="font-semibold text-primary-text">#{toBase64url(material.secret)}</span>
+                  <span className="font-semibold text-primary-text">
+                    #{toBase64url(material.secret)}
+                  </span>
                 </p>
               </DemoOutput>
               <DemoOutput
@@ -247,7 +280,9 @@ function Demo() {
                 </p>
               </DemoOutput>
               <DemoOutput label={t("how.demoToken")} badge={<Badge>{t("how.badgeSent")}</Badge>}>
-                <p className="break-all font-mono text-xs leading-relaxed text-muted-foreground">{result?.token}</p>
+                <p className="break-all font-mono text-xs leading-relaxed text-muted-foreground">
+                  {result?.token}
+                </p>
               </DemoOutput>
             </>
           )}
@@ -274,7 +309,9 @@ function Steps() {
             <Card className="h-full space-y-3 p-5">
               <div className="flex items-center justify-between">
                 <IconTile icon={icon} />
-                <span className="text-sm font-semibold tabular-nums text-primary-text">0{i + 1}</span>
+                <span className="text-sm font-semibold tabular-nums text-primary-text">
+                  0{i + 1}
+                </span>
               </div>
               <p className="font-semibold leading-snug">{title}</p>
               <p className="text-sm leading-relaxed text-muted-foreground">{text}</p>
@@ -307,8 +344,16 @@ function ServerRecord() {
       value: <code className="font-mono text-xs">k3Xp9aQ2wLm</code>,
       status: <Badge>{t("how.recordVisible")}</Badge>,
     },
-    { label: t("how.recordContent"), value: <Redacted label={t("how.recordEncrypted")} />, status: encrypted },
-    { label: t("how.recordName"), value: <Redacted label={t("how.recordEncrypted")} />, status: encrypted },
+    {
+      label: t("how.recordContent"),
+      value: <Redacted label={t("how.recordEncrypted")} />,
+      status: encrypted,
+    },
+    {
+      label: t("how.recordName"),
+      value: <Redacted label={t("how.recordEncrypted")} />,
+      status: encrypted,
+    },
     {
       label: t("how.recordToken"),
       value: <code className="font-mono text-xs text-muted-foreground">Qm9yZW…</code>,
@@ -353,7 +398,13 @@ function ServerRecord() {
 
 function Features() {
   const { t } = useTranslation();
-  const tile = (icon: LucideIcon, title: string, text: string, extra?: ReactNode, className?: string) => (
+  const tile = (
+    icon: LucideIcon,
+    title: string,
+    text: string,
+    extra?: ReactNode,
+    className?: string,
+  ) => (
     <Card key={title} className={cn("flex flex-col gap-3 p-5", className)}>
       <IconTile icon={icon} />
       <p className="font-semibold">{title}</p>
@@ -376,7 +427,9 @@ function Features() {
                 key={sec}
                 className={cn(
                   "rounded-full border px-3 py-1 text-xs",
-                  i === 1 ? "border-primary-line bg-primary-soft text-primary-text" : "border-border text-muted-foreground",
+                  i === 1
+                    ? "border-primary-line bg-primary-soft text-primary-text"
+                    : "border-border text-muted-foreground",
                 )}
               >
                 {formatDuration(sec)}
@@ -389,7 +442,13 @@ function Features() {
         {tile(Code, t("how.featureNotesTitle"), t("how.featureNotesText"))}
         {tile(Waves, t("how.featureStreamTitle"), t("how.featureStreamText"))}
         {tile(UserX, t("how.featurePrivacyTitle"), t("how.featurePrivacyText"))}
-        {tile(GitBranch, t("how.featureOpenTitle"), t("how.featureOpenText"), undefined, "sm:col-span-2 lg:col-span-3")}
+        {tile(
+          GitBranch,
+          t("how.featureOpenTitle"),
+          t("how.featureOpenText"),
+          undefined,
+          "sm:col-span-2 lg:col-span-3",
+        )}
       </div>
     </section>
   );
@@ -430,7 +489,10 @@ function Faq() {
       <SectionHeading title={t("how.faqTitle")} />
       <div className="mx-auto max-w-3xl space-y-2">
         {items.map(({ q, a }) => (
-          <details key={q} className="group rounded-2xl border border-border bg-card px-5 py-4 open:shadow-chip">
+          <details
+            key={q}
+            className="group rounded-2xl border border-border bg-card px-5 py-4 open:shadow-chip"
+          >
             <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-lg font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-details-marker]:hidden">
               {q}
               <Plus className="h-4 w-4 shrink-0 text-primary-text transition-transform group-open:rotate-45 motion-reduce:transition-none" />
@@ -460,7 +522,9 @@ export function HowItWorksPage() {
           >
             <Trans i18nKey="how.title" components={{ a: accentSpan }} />
           </h1>
-          <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground sm:text-base">{t("how.lead")}</p>
+          <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground sm:text-base">
+            {t("how.lead")}
+          </p>
         </div>
         <div className="relative mt-12">
           <Flow />
@@ -475,9 +539,14 @@ export function HowItWorksPage() {
       <Faq />
 
       <section>
-        <Card data-emphasis="main" className="mx-auto flex max-w-3xl flex-col items-center gap-4 px-6 py-12 text-center">
+        <Card
+          data-emphasis="main"
+          className="mx-auto flex max-w-3xl flex-col items-center gap-4 px-6 py-12 text-center"
+        >
           <h2 className="text-[26px] font-semibold tracking-[-0.03em]">{t("how.ctaTitle")}</h2>
-          <p className="max-w-md text-[15px] leading-relaxed text-muted-foreground">{t("how.ctaText")}</p>
+          <p className="max-w-md text-[15px] leading-relaxed text-muted-foreground">
+            {t("how.ctaText")}
+          </p>
           <Button asChild size="lg">
             <Link to="/">
               {t("how.ctaButton")}

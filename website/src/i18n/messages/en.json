@@ -1,15 +1,15 @@
 {
   "meta": {
-    "siteTitle": "SkySend - End-to-End Encrypted File and Note Sharing",
+    "siteTitle": "Hajd.Cloud - End-to-End Encrypted File and Note Sharing",
     "tagline": "End-to-end encrypted, self-hostable file and note sharing. The server only ever sees ciphertext.",
     "ogHeadline": "Share files only the recipient can read.",
     "blogTitle": "Blog",
-    "blogDescription": "Design decisions, trade-offs and guides from the people who build SkySend.",
+    "blogDescription": "Design decisions, trade-offs and guides from the people who build Hajd.Cloud.",
     "roadmapTitle": "Roadmap",
-    "roadmapDescription": "What shipped, what is being built and what is on the wishlist for SkySend. No promised dates, just an honest status.",
+    "roadmapDescription": "What shipped, what is being built and what is on the wishlist for Hajd.Cloud. No promised dates, just an honest status.",
     "reportTitle": "Report a link",
-    "reportDescription": "Report a SkySend file, note or request link to the instance that hosts it. Its operator gets the report and can delete the share.",
-    "blogOgLabel": "SkySend Blog"
+    "reportDescription": "Report a Hajd.Cloud file, note or request link to the instance that hosts it. Its operator gets the report and can delete the share.",
+    "blogOgLabel": "Hajd.Cloud Blog"
   },
   "lang": {
     "label": "Language",
@@ -28,7 +28,7 @@
     "roadmap": "Roadmap",
     "roadmapCaption": "Shipped and up next",
     "blog": "Blog",
-    "blogCaption": "Notes from building SkySend",
+    "blogCaption": "Notes from building Hajd.Cloud",
     "getStarted": "Get started",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
@@ -40,10 +40,10 @@
     "switchToLight": "Switch to light mode",
     "switchToDark": "Switch to dark mode",
     "sponsor": "Sponsor",
-    "sponsorLabel": "Sponsor SkySend on GitHub",
-    "sponsorTooltip": "Sponsor SkySend",
+    "sponsorLabel": "Sponsor Hajd.Cloud on GitHub",
+    "sponsorTooltip": "Sponsor Hajd.Cloud",
     "star": "Star",
-    "starLabel": "Star SkySend on GitHub",
+    "starLabel": "Star Hajd.Cloud on GitHub",
     "discord": "Discord"
   },
   "footer": {
@@ -237,7 +237,7 @@
   "key": {
     "eyebrow": "Zero knowledge",
     "title": "The key is in the link. <shine>The server never gets it.</shine>",
-    "lead": "Browsers never send the part of a link after the #. SkySend puts a random secret there and derives every key from it in your browser, with HKDF-SHA256.",
+    "lead": "Browsers never send the part of a link after the #. Hajd.Cloud puts a random secret there and derives every key from it in your browser, with HKDF-SHA256.",
     "cryptoDesign": "Read the crypto design",
     "howItWorks": "Try it on How it works",
     "parts": "Parts of a share link",
@@ -271,7 +271,7 @@
     "point2": "A JSON flag on the commands for scripts",
     "point3": "Signs in through OIDC when your instance asks",
     "terminal": "Terminal",
-    "terminalLabel": "A terminal uploading a file with the SkySend CLI"
+    "terminalLabel": "A terminal uploading a file with the Hajd.Cloud CLI"
   },
   "start": {
     "eyebrow": "Quick start",
@@ -346,10 +346,10 @@
     "q3": "What happens when a share expires?",
     "a3": "The server deletes the encrypted blob once its time runs out or its download limit is used up. A note set to burn after reading is gone after the first view.",
     "q4": "Is there a hosted version?",
-    "a4": "SkySend is made to run on your own server as one Docker image. Without a server, use one of the public instances, which run the same open code.",
+    "a4": "Hajd.Cloud is made to run on your own server as one Docker image. Without a server, use one of the public instances, which run the same open code.",
     "q5": "What can I share besides files?",
     "a5": "Notes made of blocks: text and Markdown, passwords, code and SSH keys, in any combination. With a request, someone else sends you files or a filled-in note that only you can open.",
-    "q6": "Which license does SkySend use?",
+    "q6": "Which license does Hajd.Cloud use?",
     "a6": "AGPL-3.0. The whole source, the crypto design included, is on GitHub."
   },
   "cta": {
@@ -360,7 +360,7 @@
   },
   "blog": {
     "eyebrow": "Blog",
-    "title": "Notes from <shine>building SkySend.</shine>",
+    "title": "Notes from <shine>building Hajd.Cloud.</shine>",
     "lead": "Design decisions, trade-offs and guides, written by the people who make it.",
     "filter": "Filter by tag",
     "allPosts": "All posts",
@@ -380,11 +380,9 @@
     "onThisPage": "On this page",
     "copyLink": "Copy link",
     "linkCopied": "Link copied",
-    "trySkySend": "Try SkySend",
-    "trySkySendText": "One container, files and notes encrypted in the browser, a key the server never sees.",
+    "tryHajd.Cloud": "Try Hajd.Cloud",
+    "tryHajd.CloudText": "One container, files and notes encrypted in the browser, a key the server never sees.",
     "getStarted": "Get started",
-    "writtenBy": "Written by {name}",
-    "maintainer": "Maintainer of SkySend.",
     "discuss": "Discuss on Discord",
     "previous": "Previous",
     "newer": "Newer",
@@ -402,7 +400,7 @@
   "roadmap": {
     "eyebrow": "Roadmap",
     "title": "From what shipped <br><shine>to what comes next.</shine>",
-    "lead": "One line through SkySend's releases and plans, from the first stable release to the ideas ahead. No promised dates, just an honest status.",
+    "lead": "One line through Hajd.Cloud's releases and plans, from the first stable release to the ideas ahead. No promised dates, just an honest status.",
     "now": "Now",
     "latestRelease": "Latest release",
     "readChangelog": "Read the changelog",
@@ -416,7 +414,7 @@
     "countOnGithub": "The count is on GitHub",
     "reached": "Reached {list}.",
     "reachedItem": "{count} on {day}",
-    "starOnGithub": "Star SkySend on GitHub",
+    "starOnGithub": "Star Hajd.Cloud on GitHub",
     "new": "New",
     "side": "Side of the timeline",
     "lookingBack": "Looking back",
@@ -477,11 +475,11 @@
       },
       "300-github-stars": {
         "title": "300 GitHub stars",
-        "description": "SkySend crossed 300 stars on GitHub, thank you for the continued support."
+        "description": "Hajd.Cloud crossed 300 stars on GitHub, thank you for the continued support."
       },
       "new-website": {
         "title": "A new website and UX",
-        "description": "The first skysend.app, more branding options and security hardening."
+        "description": "The first skysend.hajd.cloud, more branding options and security hardening."
       },
       "adaptive-zip-compression": {
         "title": "Adaptive ZIP compression",
@@ -489,7 +487,7 @@
       },
       "200-github-stars": {
         "title": "200 GitHub stars",
-        "description": "SkySend crossed 200 stars on GitHub, thanks to everyone in the community."
+        "description": "Hajd.Cloud crossed 200 stars on GitHub, thanks to everyone in the community."
       },
       "multi-block-code-notes": {
         "title": "Code notes with many blocks",
@@ -501,7 +499,7 @@
       },
       "100-github-stars": {
         "title": "100 GitHub stars",
-        "description": "SkySend crossed 100 stars on GitHub."
+        "description": "Hajd.Cloud crossed 100 stars on GitHub."
       },
       "native-os-share-button": {
         "title": "Native share button",

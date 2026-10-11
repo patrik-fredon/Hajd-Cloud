@@ -108,7 +108,7 @@ function ExportForm({
       const url = URL.createObjectURL(new Blob([json], { type: "application/json" }));
       const anchor = document.createElement("a");
       anchor.href = url;
-      anchor.download = "skysend-templates.json";
+      anchor.download = "hajd-cloud-templates.json";
       anchor.click();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
       toast.success(t("templates.exported", { count: picked.length }));

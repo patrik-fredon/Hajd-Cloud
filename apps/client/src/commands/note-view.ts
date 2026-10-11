@@ -10,7 +10,7 @@ export function registerNoteViewCommand(program: Command): void {
   program
     .command("note:view")
     .description("View an encrypted note in the interactive TUI")
-    .argument("<url>", "SkySend note share URL")
+    .argument("<url>", "Hajd.Cloud note share URL")
     .action(async (url: string) => {
       try {
         const parsed = parseShareUrl(url);

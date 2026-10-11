@@ -28,7 +28,7 @@ export function isPreviewImage(value: string): boolean {
 /**
  * Picks the link preview image as an absolute URL, which the Open Graph spec requires.
  * Returns null for an SVG or other unsupported CUSTOM_LOGO, because falling back to the
- * built-in logo would show SkySend branding on a white-labeled instance.
+ * built-in logo would show Hajd.Cloud branding on a white-labeled instance.
  */
 export function resolveOgImage(config: IndexHtmlConfig): string | null {
   let source: string | null = DEFAULT_OG_IMAGE;
@@ -61,12 +61,15 @@ export function renderIndexHtml(template: string, config: IndexHtmlConfig): stri
   // An empty image tag makes some crawlers fetch the page URL as an image, so drop the tags.
   const html = ogImage ? template : template.replace(/\s*<meta\b[^>]*__OG_IMAGE__[^>]*>/g, "");
 
-  return html
-    .replace(/__CUSTOM_TITLE__/g, () => escapeHtml(config.CUSTOM_TITLE))
-    // Both are Zod enums. The theme styles the page through <html data-theme>, and
-    // public/theme-init.js reads the color scheme before the first paint.
-    .replace(/__DEFAULT_THEME__/g, () => config.DEFAULT_THEME)
-    .replace(/__DEFAULT_COLOR_SCHEME__/g, () => config.DEFAULT_COLOR_SCHEME)
-    .replace(/__OG_IMAGE__/g, () => escapeHtml(ogImage ?? ""))
-    .replace(/__TWITTER_CARD__/g, () => twitterCard);
+  return (
+    html
+      .replace(/__CUSTOM_TITLE__/g, () => escapeHtml(config.CUSTOM_TITLE))
+      .replace(/__FAVICON__/g, () => escapeHtml(config.CUSTOM_LOGO ?? "/hajd-cloud-logo-crimson.webp"))
+      // Both are Zod enums. The theme styles the page through <html data-theme>, and
+      // public/theme-init.js reads the color scheme before the first paint.
+      .replace(/__DEFAULT_THEME__/g, () => config.DEFAULT_THEME)
+      .replace(/__DEFAULT_COLOR_SCHEME__/g, () => config.DEFAULT_COLOR_SCHEME)
+      .replace(/__OG_IMAGE__/g, () => escapeHtml(ogImage ?? ""))
+      .replace(/__TWITTER_CARD__/g, () => twitterCard)
+  );
 }

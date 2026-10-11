@@ -17,7 +17,10 @@ import { APP_VERSION } from "./version.js";
 const program = new Command()
   .name("skysend")
   .description("")
-  .addHelpText("beforeAll", "SkySend CLI - upload and download files with end-to-end encryption\n\nRun 'skysend' without arguments to start the interactive TUI.\n")
+  .addHelpText(
+    "beforeAll",
+    "Hajd.Cloud CLI - upload and download files with end-to-end encryption\n\nRun 'skysend' without arguments to start the interactive TUI.\n",
+  )
   .version(APP_VERSION);
 
 registerUploadCommand(program);

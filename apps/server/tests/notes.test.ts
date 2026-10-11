@@ -42,7 +42,7 @@ const DEFAULT_CONFIG = {
   NOTE_VIEW_OPTIONS: [0, 1, 2, 3, 5, 10, 20, 50, 100],
   NOTE_DEFAULT_VIEWS: 0,
   CLEANUP_INTERVAL: 60,
-  CUSTOM_TITLE: "SkySend",
+  CUSTOM_TITLE: "Hajd.Cloud",
   RATE_LIMIT_WINDOW: 60000,
   RATE_LIMIT_MAX: 60,
   TRUST_PROXY: false,
@@ -254,7 +254,9 @@ describe("note routes", () => {
 
     it("should accept password-protected note with valid fields", async () => {
       const app = createApp();
-      const passwordSalt = Buffer.from(crypto.getRandomValues(new Uint8Array(16))).toString("base64url");
+      const passwordSalt = Buffer.from(crypto.getRandomValues(new Uint8Array(16))).toString(
+        "base64url",
+      );
       const res = await app.request("/api/note", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

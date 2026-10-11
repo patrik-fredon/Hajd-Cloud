@@ -8,8 +8,8 @@ Delete an upload. Requires the owner token.
 
 **Headers:**
 
-| Header | Type | Description |
-| --- | --- | --- |
+| Header          | Type      | Description     |
+| --------------- | --------- | --------------- |
 | `X-Owner-Token` | base64url | Ownership token |
 
 ### Response

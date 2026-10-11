@@ -1,5 +1,5 @@
 /**
- * Note encryption/decryption for SkySend.
+ * Note encryption/decryption for Hajd.Cloud.
  *
  * Note content (text, passwords, code snippets) is encrypted client-side
  * with AES-256-GCM using the metaKey derived from HKDF and a random 12-byte nonce.

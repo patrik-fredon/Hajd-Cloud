@@ -10,10 +10,12 @@ import { showConfig } from "./commands/config.js";
 
 const program = new Command()
   .name("skysend")
-  .description("SkySend admin CLI - manage uploads and server configuration")
+  .description("Hajd.Cloud admin CLI - manage uploads and server configuration")
   .version("0.0.0");
 
-async function withContext(fn: (ctx: ReturnType<typeof createContext>) => Promise<void>): Promise<void> {
+async function withContext(
+  fn: (ctx: ReturnType<typeof createContext>) => Promise<void>,
+): Promise<void> {
   const ctx = createContext();
   try {
     await fn(ctx);
@@ -34,33 +36,25 @@ program
 program
   .command("delete <id>")
   .description("Delete an upload, a note or a file request by ID")
-  .action((id: string) =>
-    withContext((ctx) => deleteUpload(ctx, id)),
-  );
+  .action((id: string) => withContext((ctx) => deleteUpload(ctx, id)));
 
 program
   .command("stats")
   .description("Show storage overview")
   .option("--json", "Output as JSON")
-  .action((options: { json?: boolean }) =>
-    withContext((ctx) => showStats(ctx, options)),
-  );
+  .action((options: { json?: boolean }) => withContext((ctx) => showStats(ctx, options)));
 
 program
   .command("cleanup")
   .description("Remove expired uploads, notes and file requests")
   .option("-n, --dry-run", "Show what would be cleaned up")
-  .action((options: { dryRun?: boolean }) =>
-    withContext((ctx) => runCleanupCommand(ctx, options)),
-  );
+  .action((options: { dryRun?: boolean }) => withContext((ctx) => runCleanupCommand(ctx, options)));
 
 program
   .command("config")
   .description("Show server configuration")
   .option("--json", "Output as JSON")
-  .action((options: { json?: boolean }) =>
-    withContext((ctx) => showConfig(ctx, options)),
-  );
+  .action((options: { json?: boolean }) => withContext((ctx) => showConfig(ctx, options)));
 
 await program.parseAsync().catch((err: unknown) => {
   console.error(err instanceof Error ? err.message : String(err));

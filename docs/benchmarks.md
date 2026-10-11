@@ -10,14 +10,14 @@ These numbers reflect encrypted upload speed including client-side AES-256-GCM e
 
 As we want to provide realistic benchmarks, we tested with Connection over Internet with non optimized network conditions. This was not a Lab environment with direct connection between client and server and not a data center environment. The server was hosted on a LXC Container (Proxmox) about 40km away from the client over public internet. The Client was Macos which has limited network performance compared to a Linux machine, but this is more realistic for the average user.
 
-| Parameter | Value |
-|---|---|
-| **Server** | Linux, 4 Cores, 2GB Ram, NFS-Share, 10 Gbit/s network |
-| **Client** | MacOS, 10 Gbit/s network |
-| **Reverse Proxy** | Traefik v3 (TLS termination) |
-| **Upload Speed Limit** | None (`FILE_UPLOAD_SPEED_LIMIT=0`) |
-| **SkySend Version** | v2.5.1 |
-| **File Size** | 2.6 GB, ZIP File |
+| Parameter              | Value                                                 |
+| ---------------------- | ----------------------------------------------------- |
+| **Server**             | Linux, 4 Cores, 2GB Ram, NFS-Share, 10 Gbit/s network |
+| **Client**             | MacOS, 10 Gbit/s network                              |
+| **Reverse Proxy**      | Traefik v3 (TLS termination)                          |
+| **Upload Speed Limit** | None (`FILE_UPLOAD_SPEED_LIMIT=0`)                    |
+| **Hajd.Cloud Version** | v2.5.1                                                |
+| **File Size**          | 2.6 GB, ZIP File                                      |
 
 ## Results
 
@@ -27,32 +27,32 @@ As we want to provide realistic benchmarks, we tested with Connection over Inter
 
 Single persistent connection. No parallel requests needed.
 
-| Browser | Speed |
-|---|---|
-| Firefox | Ø 204.6 MB/s |
-| Safari | Ø 192.8 MB/s |
-| Google Chrome | Ø 175.1 MB/s |
+| Browser        | Speed        |
+| -------------- | ------------ |
+| Firefox        | Ø 204.6 MB/s |
+| Safari         | Ø 192.8 MB/s |
+| Google Chrome  | Ø 175.1 MB/s |
 | Microsoft Edge | Ø 192.4 MB/s |
-| Brave | Ø 165.9 MB/s |
+| Brave          | Ø 165.9 MB/s |
 
 ### Browser HTTP Chunked Upload (Fallback)
 
 Parallel 10 MB chunks over multiple HTTP/2 connections.
 
-| Browser | Speed |
-|---|---|
-| Firefox | Ø 226.7 MB/s |
-| Safari | Ø 182.9 MB/s |
-| Google Chrome | Ø 61.7 MB/s |
-| Microsoft Edge | Ø 99.4 MB/s |
-| Brave | Ø 54.0 MB/s |
+| Browser        | Speed        |
+| -------------- | ------------ |
+| Firefox        | Ø 226.7 MB/s |
+| Safari         | Ø 182.9 MB/s |
+| Google Chrome  | Ø 61.7 MB/s  |
+| Microsoft Edge | Ø 99.4 MB/s  |
+| Brave          | Ø 54.0 MB/s  |
 
 ### Client CLI (MacOS)
 
-| Client Mode | Speed |
-|---|---|
-| WebSocket | Ø 350 MB/s |
-| HTTP Chunked | Ø 70 MB/s |
+| Client Mode  | Speed      |
+| ------------ | ---------- |
+| WebSocket    | Ø 350 MB/s |
+| HTTP Chunked | Ø 70 MB/s  |
 
 ## Key Takeaways
 

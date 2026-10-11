@@ -43,7 +43,7 @@ function hexAt(seed: number, length: number) {
   return out;
 }
 
-const LINK_BASE = "https://ch.skysend.app/file/aB3kQ9xZ";
+const LINK_BASE = "https://skysend.hajd.cloud/file/aB3kQ9xZ";
 const LINK_SECRET = "#Zk3vT0qL8mWc2HxR9bN4yJ6sPa1eFgUd7tKiVo5nC3w";
 
 const FILES = [
@@ -82,7 +82,7 @@ function Pill({ children, className }: { children: ReactNode; className?: string
     <span
       className={cn(
         "flex h-8 items-center gap-1.5 rounded-full border px-3 text-[13px] font-medium whitespace-nowrap",
-        className
+        className,
       )}
     >
       {children}
@@ -98,8 +98,8 @@ function YouLayer() {
     <div className="relative flex flex-col gap-3 bg-background bg-dot-grid p-3 sm:p-5 lg:block lg:h-full lg:p-0">
       <div className="absolute top-5 left-1/2 -ml-[280px] hidden h-[52px] w-[560px] items-center gap-3.5 rounded-[14px] border border-[var(--header-border)] bg-[var(--header-bg)] pr-2 pl-3.5 shadow-[inset_0_1px_0_var(--highlight)] lg:flex">
         <span className="flex items-center gap-2 font-semibold">
-          <Image src="/logo.svg" alt="" width={22} height={22} />
-          SkySend
+          <Image src="/hajd-cloud-logo-crimson.webp" alt="" width={22} height={22} />
+          Hajd.Cloud
         </span>
         <span className="ml-2.5 flex gap-0.5 text-[13px] font-medium text-muted-foreground">
           <span className="flex h-8 items-center rounded-lg bg-accent px-3 text-foreground shadow-[var(--chip-shadow)]">
@@ -114,7 +114,12 @@ function YouLayer() {
         <SlidersHorizontal className="mr-2 ml-auto size-4 text-muted-foreground" />
       </div>
 
-      <div className={cn("panel flex flex-col gap-3.5 rounded-2xl p-4 shadow-[var(--lift-shadow)] sm:p-5", LEFT_CARD)}>
+      <div
+        className={cn(
+          "panel flex flex-col gap-3.5 rounded-2xl p-4 shadow-[var(--lift-shadow)] sm:p-5",
+          LEFT_CARD,
+        )}
+      >
         <div className="flex items-center justify-between gap-3">
           <span className="flex h-9 rounded-[10px] border border-border bg-surface p-[3px] text-[13px] font-medium">
             <span className="flex items-center gap-1.5 rounded-[7px] bg-accent px-3.5 shadow-[var(--chip-shadow)]">
@@ -132,13 +137,18 @@ function YouLayer() {
           {FILES.map((f, i) => (
             <div
               key={f.name}
-              className={cn("flex h-[52px] items-center gap-3 pr-3.5 pl-2.5", i < FILES.length - 1 && "border-b border-border")}
+              className={cn(
+                "flex h-[52px] items-center gap-3 pr-3.5 pl-2.5",
+                i < FILES.length - 1 && "border-b border-border",
+              )}
             >
               <Tile tone={f.tone}>
                 <f.icon className="size-4" />
               </Tile>
               <span className="min-w-0 truncate font-medium">{f.name}</span>
-              {"note" in f && <span className="hidden text-muted-foreground sm:inline">{t(f.note)}</span>}
+              {"note" in f && (
+                <span className="hidden text-muted-foreground sm:inline">{t(f.note)}</span>
+              )}
               <span className="ml-auto text-muted-foreground tabular-nums">{mb(f.size)}</span>
               <X className="size-3.5 shrink-0 text-faint" />
             </div>
@@ -165,7 +175,12 @@ function YouLayer() {
         </span>
       </div>
 
-      <div className={cn("panel flex flex-col gap-3.5 rounded-2xl p-4 shadow-[var(--lift-shadow)] sm:p-5", RIGHT_CARD)}>
+      <div
+        className={cn(
+          "panel flex flex-col gap-3.5 rounded-2xl p-4 shadow-[var(--lift-shadow)] sm:p-5",
+          RIGHT_CARD,
+        )}
+      >
         <div className="flex items-center gap-3">
           <span className="flex size-10 shrink-0 items-center justify-center rounded-[11px] bg-tone-green/16 text-tone-green">
             <Check className="size-[18px]" strokeWidth={2.4} />
@@ -212,7 +227,10 @@ function ServerLayer() {
   const tick = useTick(220, ref, 0);
   const dashed = "border border-dashed border-tone-green/35 bg-[#0e1010]/92";
   return (
-    <div ref={ref} className="dark relative flex flex-col gap-3 bg-[#0b0c0c] bg-[radial-gradient(rgb(70_200_157/0.13)_1px,transparent_1.5px)] bg-[length:22px_22px] p-3 text-[#f2f2f3] sm:p-5 lg:block lg:h-full lg:p-0">
+    <div
+      ref={ref}
+      className="dark relative flex flex-col gap-3 bg-[#0b0c0c] bg-[radial-gradient(rgb(70_200_157/0.13)_1px,transparent_1.5px)] bg-[length:22px_22px] p-3 text-[#f2f2f3] sm:p-5 lg:block lg:h-full lg:p-0"
+    >
       <div className="absolute top-5 left-1/2 -ml-[280px] hidden h-[52px] w-[560px] items-center gap-3 rounded-[14px] border border-dashed border-tone-green/40 bg-[#0e1010]/90 pr-4 pl-2.5 lg:flex">
         <span className="flex size-8 items-center justify-center rounded-lg bg-tone-green/14 text-tone-green">
           <Server className="size-4" />
@@ -236,12 +254,18 @@ function ServerLayer() {
             <span className="ml-auto text-[#9c9ca4] tabular-nums">184.3 MB</span>
           </div>
           <div className="flex h-[52px] items-center gap-3 border-b border-tone-green/14 px-3.5">
-            <span className="w-[70px] shrink-0 text-[13px] text-[#9c9ca4]">{t("lens.metadata")}</span>
-            <span className="overflow-hidden font-mono text-[13px] whitespace-nowrap text-tone-green">{hexAt(tick * 7 + 3, 44)}</span>
+            <span className="w-[70px] shrink-0 text-[13px] text-[#9c9ca4]">
+              {t("lens.metadata")}
+            </span>
+            <span className="overflow-hidden font-mono text-[13px] whitespace-nowrap text-tone-green">
+              {hexAt(tick * 7 + 3, 44)}
+            </span>
           </div>
           <div className="flex h-[52px] items-center gap-3 px-3.5">
             <span className="w-[70px] shrink-0 text-[13px] text-[#9c9ca4]">{t("lens.nonce")}</span>
-            <span className="overflow-hidden font-mono text-[13px] whitespace-nowrap text-tone-green">{hexAt(tick * 13 + 5, 24)}</span>
+            <span className="overflow-hidden font-mono text-[13px] whitespace-nowrap text-tone-green">
+              {hexAt(tick * 13 + 5, 24)}
+            </span>
           </div>
         </div>
         <div className="flex flex-wrap gap-2 text-[#c8c8cd]">
@@ -281,7 +305,10 @@ function ServerLayer() {
               ["ownerToken", "Qe4mZr8…v8Kd", "lens.ownerTokenNote"],
             ] as const
           ).map(([name, value, note]) => (
-            <div key={name} className="flex h-11 items-center gap-2.5 border-t border-tone-green/14">
+            <div
+              key={name}
+              className="flex h-11 items-center gap-2.5 border-t border-tone-green/14"
+            >
               <span className="w-24 shrink-0 font-mono text-[#c8c8cd]">{name}</span>
               <span className="hidden font-mono text-[#9c9ca4] sm:inline">{value}</span>
               <span className="ml-auto text-right text-[#9c9ca4]">{t(note)}</span>
@@ -347,7 +374,7 @@ export function Lens() {
           </span>
           <span className="flex h-7 w-[min(380px,52vw)] items-center justify-center gap-2 rounded-lg border border-border bg-surface text-[13px] text-muted-foreground">
             <Lock className="size-3" />
-            ch.skysend.app
+            skysend.hajd.cloud
           </span>
           <span className="hidden items-center justify-self-end gap-1.5 text-xs text-faint lg:flex [@media(hover:none)]:hidden">
             <ChevronsLeftRight className="size-3.5" />
@@ -355,7 +382,11 @@ export function Lens() {
           </span>
         </div>
 
-        <div role="group" aria-label={t("lens.pointOfView")} className="flex gap-1 border-b border-border bg-card p-2 lg:hidden">
+        <div
+          role="group"
+          aria-label={t("lens.pointOfView")}
+          className="flex gap-1 border-b border-border bg-card p-2 lg:hidden"
+        >
           {VIEWS.map((v) => {
             const on = view === v.id;
             return (
@@ -370,7 +401,7 @@ export function Lens() {
                     ? v.id === "server"
                       ? "bg-tone-green/16 text-tone-green"
                       : "bg-accent text-foreground shadow-[var(--chip-shadow)]"
-                    : "text-muted-foreground"
+                    : "text-muted-foreground",
                 )}
               >
                 <v.icon className="size-3.5" />
@@ -383,19 +414,30 @@ export function Lens() {
         <div
           onPointerMove={onMove}
           onPointerLeave={onLeave}
-          className={cn("relative text-left lg:h-[528px] lg:cursor-ew-resize lg:overflow-hidden", !manual && "lens-auto")}
+          className={cn(
+            "relative text-left lg:h-[528px] lg:cursor-ew-resize lg:overflow-hidden",
+            !manual && "lens-auto",
+          )}
           style={{ touchAction: "pan-y" }}
         >
           <div className={cn("lg:absolute lg:inset-0", view === "server" && "hidden lg:block")}>
             <YouLayer />
           </div>
-          <div className={cn("lens-clip lg:absolute lg:inset-0 lg:z-[2] lg:overflow-hidden", view === "you" && "hidden lg:block")}>
+          <div
+            className={cn(
+              "lens-clip lg:absolute lg:inset-0 lg:z-[2] lg:overflow-hidden",
+              view === "you" && "hidden lg:block",
+            )}
+          >
             <div className="lens-clip-inner lg:absolute lg:inset-0">
               <ServerLayer />
             </div>
           </div>
 
-          <div aria-hidden="true" className="lens-handle pointer-events-none absolute inset-0 z-[3] hidden lg:block">
+          <div
+            aria-hidden="true"
+            className="lens-handle pointer-events-none absolute inset-0 z-[3] hidden lg:block"
+          >
             <span className="absolute inset-y-0 left-0 -ml-px w-0.5 bg-[#46c89d] shadow-[0_0_18px_rgb(70_200_157/0.8)]" />
             <span className="absolute top-1/2 left-0 -mt-5 -ml-5 flex size-10 items-center justify-center rounded-full border border-[#46c89d]/60 bg-[#1e1e21] text-[#46c89d] shadow-[0_10px_24px_-8px_rgb(0_0_0/0.8),0_0_0_4px_rgb(70_200_157/0.12)]">
               <ChevronsLeftRight className="size-[18px]" />

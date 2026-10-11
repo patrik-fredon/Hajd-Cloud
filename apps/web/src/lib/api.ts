@@ -43,9 +43,12 @@ const configResponseSchema = z.object({
   customReportUrl: z.string().nullable(),
   // UI defaults
   // A server from before v3 sends a color scheme as defaultTheme, catch() keeps the default.
-  defaultTheme: z.enum(["aurora", "midnight", "graphite"]).catch("graphite"),
+  defaultTheme: z.enum(["crimson", "aurora", "midnight", "graphite"]).catch("crimson"),
   defaultColorScheme: z.enum(["dark", "light", "system"]).catch("system"),
-  defaultTab: z.enum(["file", "note", "text", "password", "code", "sshkey"]).optional().default("file"),
+  defaultTab: z
+    .enum(["file", "note", "text", "password", "code", "sshkey"])
+    .optional()
+    .default("file"),
   forceFilePassword: z.boolean().optional().default(false),
   forceNotePassword: z.boolean().optional().default(false),
   forceRequestPassword: z.boolean().optional().default(false),
@@ -97,10 +100,7 @@ export class ApiError extends Error {
   }
 }
 
-async function handleResponse<T>(
-  response: Response,
-  schema: z.ZodType<T>,
-): Promise<T> {
+async function handleResponse<T>(response: Response, schema: z.ZodType<T>): Promise<T> {
   if (!response.ok) {
     const body = await response.json().catch(() => ({ error: "Unknown error" }));
     throw new ApiError(
@@ -176,10 +176,7 @@ export async function uploadFile(
 
   if (!res.ok) {
     const data = await res.json().catch(() => ({ error: "Upload failed" }));
-    throw new ApiError(
-      res.status,
-      (data as { error?: string }).error ?? "Upload failed",
-    );
+    throw new ApiError(res.status, (data as { error?: string }).error ?? "Upload failed");
   }
 
   const data = await res.json();
@@ -202,10 +199,7 @@ export async function saveMeta(
   });
   if (!res.ok) {
     const data = await res.json().catch(() => ({ error: "Failed to save metadata" }));
-    throw new ApiError(
-      res.status,
-      (data as { error?: string }).error ?? "Failed to save metadata",
-    );
+    throw new ApiError(res.status, (data as { error?: string }).error ?? "Failed to save metadata");
   }
 }
 
@@ -247,14 +241,16 @@ const presignedResponseSchema = z.object({
 async function fetchCiphertext(
   path: string,
   headers: Record<string, string>,
-): Promise<{ stream: ReadableStream<Uint8Array>; size: number; fileCount: number; storageBackend: "s3" | "filesystem" }> {
+): Promise<{
+  stream: ReadableStream<Uint8Array>;
+  size: number;
+  fileCount: number;
+  storageBackend: "s3" | "filesystem";
+}> {
   const res = await fetch(path, { headers });
   if (!res.ok) {
     const data = await res.json().catch(() => ({ error: "Download failed" }));
-    throw new ApiError(
-      res.status,
-      (data as { error?: string }).error ?? "Download failed",
-    );
+    throw new ApiError(res.status, (data as { error?: string }).error ?? "Download failed");
   }
 
   // S3 backend returns JSON with a presigned URL
@@ -267,7 +263,7 @@ async function fetchCiphertext(
     } catch {
       throw new Error(
         "S3 CORS error: The bucket must allow cross-origin GET requests from this origin. " +
-        "Add this origin to the CORS policy of your S3/R2 bucket.",
+          "Add this origin to the CORS policy of your S3/R2 bucket.",
       );
     }
     if (!s3Res.ok) throw new ApiError(s3Res.status, "S3 download failed");
@@ -295,20 +291,14 @@ export function downloadFile(id: string, authToken: string) {
   return fetchCiphertext(`/api/download/${encodeURIComponent(id)}`, { "X-Auth-Token": authToken });
 }
 
-export async function deleteUpload(
-  id: string,
-  ownerToken: string,
-): Promise<void> {
+export async function deleteUpload(id: string, ownerToken: string): Promise<void> {
   const res = await fetch(`/api/upload/${encodeURIComponent(id)}`, {
     method: "DELETE",
     headers: { "X-Owner-Token": ownerToken },
   });
   if (!res.ok) {
     const data = await res.json().catch(() => ({ error: "Delete failed" }));
-    throw new ApiError(
-      res.status,
-      (data as { error?: string }).error ?? "Delete failed",
-    );
+    throw new ApiError(res.status, (data as { error?: string }).error ?? "Delete failed");
   }
 }
 
@@ -334,9 +324,7 @@ export interface CreateNoteResponse {
   expiresAt: string;
 }
 
-export async function createNote(
-  data: CreateNoteRequest,
-): Promise<CreateNoteResponse> {
+export async function createNote(data: CreateNoteRequest): Promise<CreateNoteResponse> {
   const res = await fetch("/api/note", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -344,10 +332,7 @@ export async function createNote(
   });
   if (!res.ok) {
     const body = await res.json().catch(() => ({ error: "Failed to create note" }));
-    throw new ApiError(
-      res.status,
-      (body as { error?: string }).error ?? "Failed to create note",
-    );
+    throw new ApiError(res.status, (body as { error?: string }).error ?? "Failed to create note");
   }
   return (await res.json()) as CreateNoteResponse;
 }
@@ -384,10 +369,7 @@ export async function fetchNoteInfo(id: string): Promise<NoteInfo> {
   return handleResponse(res, noteInfoResponseSchema);
 }
 
-export async function viewNote(
-  id: string,
-  authToken: string,
-): Promise<NoteViewResponse> {
+export async function viewNote(id: string, authToken: string): Promise<NoteViewResponse> {
   const res = await fetch(`/api/note/${encodeURIComponent(id)}/view`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -396,10 +378,7 @@ export async function viewNote(
   return handleResponse(res, noteViewResponseSchema);
 }
 
-export async function verifyNotePassword(
-  id: string,
-  authToken: string,
-): Promise<boolean> {
+export async function verifyNotePassword(id: string, authToken: string): Promise<boolean> {
   const res = await fetch(`/api/note/${encodeURIComponent(id)}/password`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -413,20 +392,14 @@ export async function verifyNotePassword(
   return true;
 }
 
-export async function deleteNote(
-  id: string,
-  ownerToken: string,
-): Promise<void> {
+export async function deleteNote(id: string, ownerToken: string): Promise<void> {
   const res = await fetch(`/api/note/${encodeURIComponent(id)}`, {
     method: "DELETE",
     headers: { "X-Owner-Token": ownerToken },
   });
   if (!res.ok) {
     const data = await res.json().catch(() => ({ error: "Delete failed" }));
-    throw new ApiError(
-      res.status,
-      (data as { error?: string }).error ?? "Delete failed",
-    );
+    throw new ApiError(res.status, (data as { error?: string }).error ?? "Delete failed");
   }
 }
 
@@ -455,7 +428,9 @@ export interface CreateRequestBody {
 
 const createRequestResponseSchema = z.object({ id: z.string().uuid(), closesAt: z.string() });
 
-export async function createRequest(body: CreateRequestBody): Promise<z.infer<typeof createRequestResponseSchema>> {
+export async function createRequest(
+  body: CreateRequestBody,
+): Promise<z.infer<typeof createRequestResponseSchema>> {
   const res = await fetch("/api/request", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -477,7 +452,10 @@ const senderRequestSchema = z.object({
 export type SenderRequest = z.infer<typeof senderRequestSchema>;
 
 /** What a sender sees of a request. Needs the token from the upload link. */
-export async function fetchRequestForSender(id: string, uploadToken: string): Promise<SenderRequest> {
+export async function fetchRequestForSender(
+  id: string,
+  uploadToken: string,
+): Promise<SenderRequest> {
   const res = await fetch(`/api/request/${encodeURIComponent(id)}`, {
     headers: { "X-Upload-Token": uploadToken },
   });
@@ -515,7 +493,7 @@ const inboxResponseSchema = z.object({
   usedUploads: z.number(),
   usedBytes: z.number(),
   // A request takes at most twice the largest FILE_REQUEST_UPLOAD_OPTIONS, which is at most
-  // 1000, so a longer list did not come from SkySend.
+  // 1000, so a longer list did not come from Hajd.Cloud.
   uploads: z.array(inboxUploadSchema).max(2000),
 });
 
@@ -539,7 +517,11 @@ export function downloadInboxFile(id: string, uploadId: string, inboxToken: stri
 
 const okResponseSchema = z.object({ ok: z.literal(true) });
 
-async function manageInbox(path: string, method: "POST" | "DELETE", ownerToken: string): Promise<void> {
+async function manageInbox(
+  path: string,
+  method: "POST" | "DELETE",
+  ownerToken: string,
+): Promise<void> {
   const res = await fetch(path, { method, headers: { "X-Inbox-Owner-Token": ownerToken } });
   await handleResponse(res, okResponseSchema);
 }

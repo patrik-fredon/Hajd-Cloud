@@ -5,15 +5,25 @@ import { ArrowLeft, ChevronLeft, ChevronRight, Languages } from "lucide-react";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import rehypePrettyCode from "rehype-pretty-code";
 import { PageBackdrop } from "@/components/site/page-backdrop";
-import { AuthorAvatar } from "@/components/site/blog/author-avatar";
 import { mdxComponents } from "@/components/site/blog/mdx-components";
-import { CopyLinkButton, ReadingProgress, TableOfContents } from "@/components/site/blog/post-client";
+import {
+  CopyLinkButton,
+  ReadingProgress,
+  TableOfContents,
+} from "@/components/site/blog/post-client";
 import { Glow, POST_CONIC, SpinBorder } from "@/components/site/fx";
 import { JsonLd } from "@/components/site/json-ld";
 import { localePath, type Locale } from "@/i18n/config";
 import { createTranslator } from "@/i18n/translate";
-import { getAllPosts, getAllSlugs, getHeadings, getPostBySlug, getPostLocales, splitTitle } from "@/lib/blog";
-import { CRYPTO_URL, DISCORD_URL, GITHUB_URL } from "@/lib/content";
+import {
+  getAllPosts,
+  getAllSlugs,
+  getHeadings,
+  getPostBySlug,
+  getPostLocales,
+  splitTitle,
+} from "@/lib/blog";
+import { CRYPTO_URL, DISCORD_URL } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
 import { formatDate } from "@/lib/utils";
@@ -45,7 +55,11 @@ export function blogPostMetadata(locale: Locale, slug: string) {
 }
 
 function Tag({ children }: { children: string }) {
-  return <span className="rounded-full border border-border-strong px-2.5 py-0.5 text-xs text-subtle">{children}</span>;
+  return (
+    <span className="rounded-full border border-border-strong px-2.5 py-0.5 text-xs text-subtle">
+      {children}
+    </span>
+  );
 }
 
 export function BlogPostPage({ locale, slug }: { locale: Locale; slug: string }) {
@@ -54,7 +68,10 @@ export function BlogPostPage({ locale, slug }: { locale: Locale; slug: string })
   const post = getPostBySlug(slug, locale);
   const headings = getHeadings(post.content);
   const [titleHead, titleTail] = splitTitle(post.title);
-  const meta = t("blog.readingTime", { date: formatDate(post.date, locale), minutes: post.readingMinutes });
+  const meta = t("blog.readingTime", {
+    date: formatDate(post.date, locale),
+    minutes: post.readingMinutes,
+  });
   // The page takes the color of the post: the glows, the reading bar, the
   // table of contents, the accents of the text and the band at the end.
   const tone = "var(--post-tone)";
@@ -75,8 +92,11 @@ export function BlogPostPage({ locale, slug }: { locale: Locale; slug: string })
     dateModified: post.date,
     inLanguage: post.lang,
     image: `${SITE_URL}${post.socialImage ?? localePath(locale, `/blog/${slug}/og.png`)}`,
-    author: { "@type": "Person", name: post.author, url: GITHUB_URL },
-    publisher: { "@type": "Organization", name: "SkySend", logo: { "@type": "ImageObject", url: `${SITE_URL}/logo.png` } },
+    publisher: {
+      "@type": "Organization",
+      name: "Hajd.Cloud",
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/logo.png` },
+    },
     mainEntityOfPage: { "@type": "WebPage", "@id": postUrl },
     url: postUrl,
     keywords: post.tags.join(", "),
@@ -85,8 +105,18 @@ export function BlogPostPage({ locale, slug }: { locale: Locale; slug: string })
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "SkySend", item: `${SITE_URL}${localePath(locale, "/")}` },
-      { "@type": "ListItem", position: 2, name: t("meta.blogTitle"), item: `${SITE_URL}${localePath(locale, "/blog/")}` },
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Hajd.Cloud",
+        item: `${SITE_URL}${localePath(locale, "/")}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: t("meta.blogTitle"),
+        item: `${SITE_URL}${localePath(locale, "/blog/")}`,
+      },
       { "@type": "ListItem", position: 3, name: post.title, item: postUrl },
     ],
   };
@@ -117,7 +147,10 @@ export function BlogPostPage({ locale, slug }: { locale: Locale; slug: string })
                 className="inline-flex h-8 items-center gap-1.5 rounded-full border px-3 text-[13px] font-medium transition-[filter] hover:brightness-110"
                 style={{ color: tone, borderColor: tint(30), background: tint(10) }}
               >
-                <span aria-hidden="true" className="size-1.5 rounded-full bg-current shadow-[0_0_8px_currentColor]" />
+                <span
+                  aria-hidden="true"
+                  className="size-1.5 rounded-full bg-current shadow-[0_0_8px_currentColor]"
+                />
                 {post.tags[0]}
               </Link>
             </>
@@ -136,14 +169,15 @@ export function BlogPostPage({ locale, slug }: { locale: Locale; slug: string })
           {titleHead}
           {titleTail && <span className="fx-shine">{titleTail}</span>}
         </h1>
-        <p lang={post.lang} className="max-w-[760px] text-lg leading-[1.55] text-muted-foreground sm:text-xl">
+        <p
+          lang={post.lang}
+          className="max-w-[760px] text-lg leading-[1.55] text-muted-foreground sm:text-xl"
+        >
           {post.excerpt}
         </p>
         <div className="flex flex-wrap items-center gap-x-3.5 gap-y-3 pt-1.5">
           <div className="flex items-center gap-3.5">
-            <AuthorAvatar name={post.author} size={40} />
             <div>
-              <div className="font-semibold">{post.author}</div>
               <div className="text-[13px] text-muted-foreground">{meta}</div>
             </div>
           </div>
@@ -189,10 +223,17 @@ export function BlogPostPage({ locale, slug }: { locale: Locale; slug: string })
         <aside className="sticky top-24 hidden flex-col gap-5 lg:flex">
           <TableOfContents headings={headings} />
           <div className="panel relative flex flex-col gap-3 overflow-hidden rounded-2xl p-[18px]">
-            <Glow color="var(--post-glow)" opacity={0.25} blur={50} className="-top-[60px] -right-[60px] size-[180px]" />
-            <Image src="/logo.svg" alt="" width={36} height={36} className="relative" />
-            <div className="relative font-semibold">{t("blog.trySkySend")}</div>
-            <p className="relative text-[13px] leading-[1.55] text-muted-foreground">{t("blog.trySkySendText")}</p>
+            <Glow
+              color="var(--post-glow)"
+              opacity={0.25}
+              blur={50}
+              className="-top-[60px] -right-[60px] size-[180px]"
+            />
+            <Image src="/hajd-cloud-logo-crimson.webp" alt="" width={36} height={36} className="relative" />
+            <div className="relative font-semibold">{t("blog.tryHajd.Cloud")}</div>
+            <p className="relative text-[13px] leading-[1.55] text-muted-foreground">
+              {t("blog.tryHajd.CloudText")}
+            </p>
             <Link
               href={localePath(locale, "/#start")}
               className="btn-primary relative flex h-9 items-center justify-center rounded-lg font-medium"
@@ -205,11 +246,7 @@ export function BlogPostPage({ locale, slug }: { locale: Locale; slug: string })
 
       <section className="relative mx-auto mt-[72px] flex max-w-[1088px] flex-col gap-5 px-4 sm:px-6">
         <div className="panel flex flex-wrap items-center gap-4 rounded-[18px] p-5">
-          <AuthorAvatar name={post.author} size={48} />
-          <div className="grow">
-            <div className="font-semibold">{t("blog.writtenBy", { name: post.author })}</div>
-            <div className="text-muted-foreground">{t("blog.maintainer")}</div>
-          </div>
+          <div className="grow"></div>
           <a
             href={DISCORD_URL}
             target="_blank"
@@ -234,7 +271,10 @@ export function BlogPostPage({ locale, slug }: { locale: Locale; slug: string })
                 {neighbour.title}
               </span>
               <span className="text-[13px] text-muted-foreground">
-                {t("blog.readingTime", { date: formatDate(neighbour.date, locale), minutes: neighbour.readingMinutes })}
+                {t("blog.readingTime", {
+                  date: formatDate(neighbour.date, locale),
+                  minutes: neighbour.readingMinutes,
+                })}
               </span>
             </Link>
           )}
@@ -247,17 +287,33 @@ export function BlogPostPage({ locale, slug }: { locale: Locale; slug: string })
               <ChevronRight className="size-3.5" />
             </span>
             <span className="text-lg font-semibold tracking-[-0.02em]">{t("blog.backToBlog")}</span>
-            <span className="text-[13px] text-muted-foreground">{t("blog.posts", { count: posts.length })}</span>
+            <span className="text-[13px] text-muted-foreground">
+              {t("blog.posts", { count: posts.length })}
+            </span>
           </Link>
         </div>
       </section>
 
       <section className="mx-auto mt-[72px] max-w-[1248px] px-4 sm:px-6">
-        <SpinBorder conic={POST_CONIC} size={1600} speed="normal" radius={28} innerClassName="dark overflow-hidden bg-[#0c0d0e] text-foreground">
-          <Glow color="var(--post-glow)" opacity={0.25} blur={90} drift={1} className="-top-[60px] left-[30%] h-[260px] w-[500px]" />
+        <SpinBorder
+          conic={POST_CONIC}
+          size={1600}
+          speed="normal"
+          radius={28}
+          innerClassName="dark overflow-hidden bg-[#0c0d0e] text-foreground"
+        >
+          <Glow
+            color="var(--post-glow)"
+            opacity={0.25}
+            blur={90}
+            drift={1}
+            className="-top-[60px] left-[30%] h-[260px] w-[500px]"
+          />
           <div className="relative flex flex-wrap items-center gap-8 p-7 sm:p-14">
             <div className="min-w-[240px] grow basis-0">
-              <div className="text-[28px] font-semibold tracking-[-0.035em] sm:text-4xl">{t("blog.ctaTitle")}</div>
+              <div className="text-[28px] font-semibold tracking-[-0.035em] sm:text-4xl">
+                {t("blog.ctaTitle")}
+              </div>
               <div className="mt-2 text-base text-muted-foreground">{t("blog.ctaLead")}</div>
             </div>
             <div className="flex flex-wrap gap-2.5">

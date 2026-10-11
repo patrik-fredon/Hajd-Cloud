@@ -1,15 +1,15 @@
 # Reverse Proxy
 
-SkySend should be placed behind a reverse proxy for production use. This provides TLS termination, custom domain support, and additional security.
+Hajd.Cloud should be placed behind a reverse proxy for production use. This provides TLS termination, custom domain support, and additional security.
 
 ::: warning Required for Production
-SkySend share links contain the encryption key in the URL fragment (`#`). Using HTTPS is essential to prevent the link from being intercepted in transit.
+Hajd.Cloud share links contain the encryption key in the URL fragment (`#`). Using HTTPS is essential to prevent the link from being intercepted in transit.
 :::
 
 ::: warning Access logs
-Traefik, Nginx, and Cloudflare write the full request path into their access logs, and SkySend cannot influence that.
+Traefik, Nginx, and Cloudflare write the full request path into their access logs, and Hajd.Cloud cannot influence that.
 
-This normally holds nothing sensitive, because the key lives in the URL fragment and browsers never send it. A mail security gateway that rewrites a share link breaks that assumption: the key then arrives inside the path and lands in the proxy log. SkySend truncates its own log at the resource ID, so the proxy is the remaining place where such a key can persist.
+This normally holds nothing sensitive, because the key lives in the URL fragment and browsers never send it. A mail security gateway that rewrites a share link breaks that assumption: the key then arrives inside the path and lands in the proxy log. Hajd.Cloud truncates its own log at the resource ID, so the proxy is the remaining place where such a key can persist.
 
 If your instance handles sensitive content, disable the access log for `/file/` and `/note/` paths or strip everything after the ID before it is written. See [Troubleshooting](/user-guide/troubleshooting#share-link-opens-but-the-page-says-not-found) for what causes this.
 :::
@@ -126,14 +126,14 @@ If the upgrade fails (for example because a middleware strips the `Upgrade` head
 
 ## Trust Proxy
 
-When running behind a reverse proxy, set `TRUST_PROXY=true` so that SkySend correctly reads the client IP from `X-Forwarded-For` and `X-Real-IP` headers. This is important for rate limiting and upload quotas.
+When running behind a reverse proxy, set `TRUST_PROXY=true` so that Hajd.Cloud correctly reads the client IP from `X-Forwarded-For` and `X-Real-IP` headers. This is important for rate limiting and upload quotas.
 
 ```bash
 TRUST_PROXY=true
 ```
 
 ::: danger Security Warning
-Only enable `TRUST_PROXY` when SkySend is behind a trusted reverse proxy. If exposed directly to the internet with this setting enabled, clients can spoof their IP address.
+Only enable `TRUST_PROXY` when Hajd.Cloud is behind a trusted reverse proxy. If exposed directly to the internet with this setting enabled, clients can spoof their IP address.
 :::
 
 ## BASE_URL

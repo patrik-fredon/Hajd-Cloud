@@ -1,18 +1,17 @@
 ---
 title: "Introducing Requests: Ask for Files and Notes Only You Can Open"
 date: "2026-10-08"
-excerpt: "SkySend 3.0 turns sharing around. Send someone an upload link, and the files, the note or both that come back are encrypted for you alone."
+excerpt: "Hajd.Cloud 3.0 turns sharing around. Send someone an upload link, and the files, the note or both that come back are encrypted for you alone."
 tags: ["release", "requests", "notes", "encryption"]
-author: "Skyfay"
 cover:
   badge: "REQ"
   tone: "violet"
   snippet: "/request/Hx2k9PqL#BKz8…\n/inbox/Hx2k9PqL#Qe4mZr8…"
 ---
 
-Until now, SkySend worked in one direction. You had something, you encrypted it in your browser and you sent the link. But just as often it goes the other way round: you need a signed contract from a client, the login to a router from someone on site, or a scan of an ID together with the account details of a new colleague. That usually ends up as an email attachment or a message in a chat, sitting there for years.
+Until now, Hajd.Cloud worked in one direction. You had something, you encrypted it in your browser and you sent the link. But just as often it goes the other way round: you need a signed contract from a client, the login to a router from someone on site, or a scan of an ID together with the account details of a new colleague. That usually ends up as an email attachment or a message in a chat, sitting there for years.
 
-SkySend 3.0 adds **requests**. You ask for files, a note or both, hand out the upload link, and whatever arrives is encrypted for you alone. The sender needs no account, and the server cannot open the inbox.
+Hajd.Cloud 3.0 adds **requests**. You ask for files, a note or both, hand out the upload link, and whatever arrives is encrypted for you alone. The sender needs no account, and the server cannot open the inbox.
 
 ## How a request works
 
@@ -30,7 +29,8 @@ The **upload link** lets people send into the request, and nothing else. Hand it
 The **inbox link** opens, downloads and deletes everything that arrives. It is the only way in.
 
 <Callout title="Keep the inbox link to yourself.">
-Nobody can recover it, not even the operator of the instance. Save it before you leave the page, or add a password so the link alone opens nothing.
+  Nobody can recover it, not even the operator of the instance. Save it before you leave the page,
+  or add a password so the link alone opens nothing.
 </Callout>
 
 ## Ask for files
@@ -41,7 +41,7 @@ The sender drops one or more files into the upload page. Several files in one up
 
 Some things are not files: a password, an API key, the details of a Wi-Fi network. A request can ask for a note instead, so they never have to go through a chat.
 
-Lay out the fields of the note in a template, like a username and a password. The sender sees your fields with their labels fixed and fills in the values. SkySend comes with templates for credentials, an SSH key, a Wi-Fi network and an API key, and you can save your own. Without a template the sender writes freely, with the same blocks as any SkySend note: text, passwords, code and SSH keys.
+Lay out the fields of the note in a template, like a username and a password. The sender sees your fields with their labels fixed and fills in the values. Hajd.Cloud comes with templates for credentials, an SSH key, a Wi-Fi network and an API key, and you can save your own. Without a template the sender writes freely, with the same blocks as any Hajd.Cloud note: text, passwords, code and SSH keys.
 
 In the inbox, **Open** shows the note right in the page, with buttons to copy everything or save it as text. Templates live in your browser and never hold a value, only the fields.
 
@@ -53,20 +53,32 @@ That fits the cases where a document alone is not enough, like an ID scan togeth
 
 ## Compared with the usual ways
 
-<Compare left="Email or a chat" right="A SkySend request">
+<Compare left="Email or a chat" right="A Hajd.Cloud request">
   <Row label="Who can read it" left="You and the provider" right="Only you" />
-  <Row label="File names and note fields" left="Readable by the provider" right="Encrypted in the sender's browser" />
-  <Row label="A password in it" left="Stays in the history for years" right="Deleted with the upload" />
-  <Row label="What the sender needs" left="An account with the same service" right="The upload link" />
+  <Row
+    label="File names and note fields"
+    left="Readable by the provider"
+    right="Encrypted in the sender's browser"
+  />
+  <Row
+    label="A password in it"
+    left="Stays in the history for years"
+    right="Deleted with the upload"
+  />
+  <Row
+    label="What the sender needs"
+    left="An account with the same service"
+    right="The upload link"
+  />
 </Compare>
 
 ## The cryptography in short
 
 When you create a request, your browser makes a P-256 key pair. The public key goes into the part of the upload link after the `#`, which browsers never send to a server. The private key is sealed into a vault that only the inbox link opens.
 
-A sender's browser encrypts the files or the note with a fresh key, like any SkySend upload, and seals that key to your public key with HPKE, RFC 9180. A note is padded to whole kilobytes first, so its size tells little about how long a password in it is. The server stores the ciphertext, the sealed key and the vault, and never learns either link's secret or the public key. Keeping the public key from the server matters too: a server that knew it could slip uploads of its own into your inbox.
+A sender's browser encrypts the files or the note with a fresh key, like any Hajd.Cloud upload, and seals that key to your public key with HPKE, RFC 9180. A note is padded to whole kilobytes first, so its size tells little about how long a password in it is. The server stores the ciphertext, the sealed key and the vault, and never learns either link's secret or the public key. Keeping the public key from the server matters too: a server that knew it could slip uploads of its own into your inbox.
 
-The full design is on the [requests cryptography page](https://docs.skysend.app/developer-guide/crypto/file-requests).
+The full design is on the requests cryptography page.
 
 ## Things to keep in mind
 
@@ -79,4 +91,4 @@ The full design is on the [requests cryptography page](https://docs.skysend.app/
 
 Requests are on by default. An instance that sets `ENABLED_SERVICES` adds `request` to offer them. A request for a note works even when `note` is left out, and its size follows `NOTE_MAX_SIZE`. With `OIDC_PROTECT_REQUESTS`, creating a request needs a login, while sending into one never does. A public instance should set `FILE_REQUEST_DAILY_LIMIT` and an upload quota.
 
-Everything else is in the [requests guide](https://docs.skysend.app/user-guide/file-requests).
+Everything else is in the requests guide.

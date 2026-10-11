@@ -3,6 +3,8 @@ import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import en from "./en.json";
 import de from "./de.json";
+import cs from "./cs.json";
+import sk from "./sk.json";
 import es from "./es.json";
 import fr from "./fr.json";
 import fi from "./fi.json";
@@ -43,6 +45,8 @@ i18n
     resources: {
       en: { translation: en },
       de: { translation: de },
+      cs: { translation: cs },
+      sk: { translation: sk },
       es: { translation: es },
       fr: { translation: fr },
       fi: { translation: fi },

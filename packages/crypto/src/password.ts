@@ -1,5 +1,5 @@
 /**
- * Password-based key derivation for SkySend.
+ * Password-based key derivation for Hajd.Cloud.
  *
  * When a user sets a password on an upload, the password is used to
  * derive an additional encryption layer. The password never leaves

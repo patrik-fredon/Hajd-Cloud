@@ -67,17 +67,17 @@ Code that ships in the repository still counts, even when its purpose is to keep
 
 **Scope** identifies the affected part of the monorepo. Always exactly one, never two joined:
 
-| Scope | Covers |
-| :--- | :--- |
-| `server` | Backend API, database, storage, middleware (`apps/server`) |
-| `web` | Frontend UI, components, hooks, pages (`apps/web`) |
-| `client` | End-user CLI and TUI (`apps/client`) |
-| `cli` | Admin CLI (`apps/cli`) |
-| `crypto` | Encryption library (`packages/crypto`) |
-| `docs` | Documentation site (`docs/`) |
-| `website` | Marketing site (`website/`) |
-| `docker` | Dockerfile, docker-compose, entrypoint |
-| `infra` | CI/CD, monorepo config, ESLint, TypeScript, build tooling, Workers |
+| Scope     | Covers                                                             |
+| :-------- | :----------------------------------------------------------------- |
+| `server`  | Backend API, database, storage, middleware (`apps/server`)         |
+| `web`     | Frontend UI, components, hooks, pages (`apps/web`)                 |
+| `client`  | End-user CLI and TUI (`apps/client`)                               |
+| `cli`     | Admin CLI (`apps/cli`)                                             |
+| `crypto`  | Encryption library (`packages/crypto`)                             |
+| `docs`    | Documentation site (`docs/`)                                       |
+| `website` | Marketing site (`website/`)                                        |
+| `docker`  | Dockerfile, docker-compose, entrypoint                             |
+| `infra`   | CI/CD, monorepo config, ESLint, TypeScript, build tooling, Workers |
 
 A change spanning several scopes becomes several entries, one per scope. Never `**web, server**:`.
 
@@ -95,18 +95,18 @@ Security entries name the advisory: `Updated hono to 4.12.32 to patch ... (GHSA-
 
 Never rearrange. Omit sections with no entries. Do not invent new ones.
 
-| # | Section | Use for |
-| :--- | :--- | :--- |
-| 1 | `### ✨ Features` | New features and capabilities |
-| 2 | `### 🐛 Bug Fixes` | Bug fixes |
-| 3 | `### 🔒 Security` | Security-related changes |
-| 4 | `### 🎨 Improvements` | Performance, UX, quality |
-| 5 | `### 🔄 Changed` | Changed behavior (non-breaking) |
-| 6 | `### 🗑️ Removed` | Removed features, deprecated code |
-| 7 | `### 📝 Documentation` | Documentation changes |
-| 8 | `### 🧪 Tests` | Tests added or changed |
-| 9 | `### 🔧 CI/CD` | Pipeline, Dockerfile, script changes |
-| 10 | `### 🐳 Docker` | Docker image info (always last, written by the release) |
+| #   | Section                | Use for                                                 |
+| :-- | :--------------------- | :------------------------------------------------------ |
+| 1   | `### ✨ Features`      | New features and capabilities                           |
+| 2   | `### 🐛 Bug Fixes`     | Bug fixes                                               |
+| 3   | `### 🔒 Security`      | Security-related changes                                |
+| 4   | `### 🎨 Improvements`  | Performance, UX, quality                                |
+| 5   | `### 🔄 Changed`       | Changed behavior (non-breaking)                         |
+| 6   | `### 🗑️ Removed`       | Removed features, deprecated code                       |
+| 7   | `### 📝 Documentation` | Documentation changes                                   |
+| 8   | `### 🧪 Tests`         | Tests added or changed                                  |
+| 9   | `### 🔧 CI/CD`         | Pipeline, Dockerfile, script changes                    |
+| 10  | `### 🐳 Docker`        | Docker image info (always last, written by the release) |
 
 ## Bug fix policy
 
@@ -122,7 +122,7 @@ Only log fixes for problems in **already released** versions. A problem found an
 ```markdown
 ## vX.Y.Z - Short Title
 
-*Released: Month Day, Year*
+_Released: Month Day, Year_
 ```
 
 The release writes the header with `*Release: In Progress*` and no title. Add the title and replace the line with the date once the version ships. A fragment has no header.
@@ -161,7 +161,7 @@ Tag rules: stable releases get `latest` plus the major tag (`v2`), `-beta` relea
 ```markdown
 ## v2.12.0 - Branding and Reports
 
-*Released: July 30, 2026*
+_Released: July 30, 2026_
 
 ### ✨ Features
 

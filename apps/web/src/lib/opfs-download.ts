@@ -36,11 +36,11 @@ export async function checkOpfsSupport(): Promise<boolean> {
     // If we got here, OPFS works
     _opfsSupported = true;
   } catch (err) {
-    console.warn("[SkySend] OPFS probe failed:", err);
+    console.warn("[Hajd.Cloud] OPFS probe failed:", err);
     _opfsSupported = false;
   }
 
-  console.info("[SkySend] OPFS support:", _opfsSupported);
+  console.info("[Hajd.Cloud] OPFS support:", _opfsSupported);
   return _opfsSupported;
 }
 
@@ -63,16 +63,14 @@ export function startOpfsDownload(
   onProgress: (progress: number) => void,
   plaintextSize?: number,
 ): Promise<OpfsDownloadResult> {
-  const worker = new Worker(
-    new URL("./opfs-worker.ts", import.meta.url),
-    { type: "module" },
-  );
+  const worker = new Worker(new URL("./opfs-worker.ts", import.meta.url), { type: "module" });
 
   return new Promise<OpfsDownloadResult>((resolve, reject) => {
     const cleanup = () => {
       worker.terminate();
       // Delete OPFS temp file on main thread (Worker may already be dead)
-      navigator.storage.getDirectory()
+      navigator.storage
+        .getDirectory()
         .then((root) => root.removeEntry(tempName))
         .catch(() => {});
     };
@@ -94,16 +92,19 @@ export function startOpfsDownload(
       reject(new Error(err.message || "OPFS worker error"));
     };
 
-    worker.postMessage({
-      type: "download",
-      url,
-      authToken,
-      secret,
-      salt,
-      tempName,
-      encryptedSize,
-      plaintextSize,
-    }, [secret, salt]);
+    worker.postMessage(
+      {
+        type: "download",
+        url,
+        authToken,
+        secret,
+        salt,
+        tempName,
+        encryptedSize,
+        plaintextSize,
+      },
+      [secret, salt],
+    );
   });
 }
 
@@ -124,11 +125,7 @@ export async function triggerSwDownload(
   if (!sw) {
     // First registration - wait for claim()
     await new Promise<void>((resolve) => {
-      navigator.serviceWorker.addEventListener(
-        "controllerchange",
-        () => resolve(),
-        { once: true },
-      );
+      navigator.serviceWorker.addEventListener("controllerchange", () => resolve(), { once: true });
     });
     sw = navigator.serviceWorker.controller;
   }
@@ -226,7 +223,7 @@ export async function ensureSwController(): Promise<ServiceWorker | null> {
           );
         });
       } catch (err) {
-        console.warn("[SkySend] SW registration failed:", err);
+        console.warn("[Hajd.Cloud] SW registration failed:", err);
         return null;
       }
     })(),
@@ -234,9 +231,9 @@ export async function ensureSwController(): Promise<ServiceWorker | null> {
   ]);
 
   if (result) {
-    console.info("[SkySend] Service Worker ready");
+    console.info("[Hajd.Cloud] Service Worker ready");
   } else {
-    console.warn("[SkySend] Service Worker not available (timeout or failed)");
+    console.warn("[Hajd.Cloud] Service Worker not available (timeout or failed)");
   }
   return result;
 }
@@ -318,9 +315,13 @@ export async function streamDownloadViaSw(
   // When the caller aborts, tell the SW to cancel the in-progress download.
   // The SW will set cancelled=true, cancel the reader, error the stream, and
   // send back a "dl-cancelled" message so we can clean up the promise below.
-  signal?.addEventListener("abort", () => {
-    downloadBc.postMessage({ type: "cancel", id: downloadId });
-  }, { once: true });
+  signal?.addEventListener(
+    "abort",
+    () => {
+      downloadBc.postMessage({ type: "cancel", id: downloadId });
+    },
+    { once: true },
+  );
 
   // Trigger download via <a> navigation (no download attribute).
   // Without the download attribute the browser treats this as a regular navigation,

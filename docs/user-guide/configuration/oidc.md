@@ -1,6 +1,6 @@
 # OIDC / SSO Authentication
 
-SkySend supports optional single sign-on via any OIDC-compliant provider. When configured, file uploads and/or note creation require users to authenticate first. Downloads are always public - authentication only gates the upload action.
+Hajd.Cloud supports optional single sign-on via any OIDC-compliant provider. When configured, file uploads and/or note creation require users to authenticate first. Downloads are always public - authentication only gates the upload action.
 
 All OIDC endpoints (authorization, token, userinfo, end-session) are auto-discovered from the issuer URL. You never need to specify individual endpoint URLs manually.
 
@@ -8,7 +8,7 @@ For the full list of configuration variables, see [Environment Variables](/user-
 
 ## What to Register at Your Provider
 
-You only need to configure **one redirect/callback URL** at your provider, regardless of whether users access SkySend via the web browser or the CLI client:
+You only need to configure **one redirect/callback URL** at your provider, regardless of whether users access Hajd.Cloud via the web browser or the CLI client:
 
 ```
 https://skysend.example.com/auth/callback
@@ -16,7 +16,7 @@ https://skysend.example.com/auth/callback
 
 Replace `skysend.example.com` with your actual domain (the value of `BASE_URL`).
 
-**No additional URLs are needed for the CLI.** The CLI piggybacks on the same server callback - SkySend handles the provider redirect first and then forwards the session token to the CLI's temporary local listener. The provider never talks to the CLI directly.
+**No additional URLs are needed for the CLI.** The CLI piggybacks on the same server callback - Hajd.Cloud handles the provider redirect first and then forwards the session token to the CLI's temporary local listener. The provider never talks to the CLI directly.
 
 ::: tip Grant type
 Register the application as a **confidential client** with the **authorization code** grant type and PKCE support. You need both a client ID and a client secret.
@@ -25,18 +25,19 @@ Register the application as a **confidential client** with the **authorization c
 ## Session Secret
 
 ::: tip Persist sessions across restarts
-If `OIDC_SESSION_SECRET` is not set, SkySend generates a random secret at startup. Every server restart will sign out all logged-in users. Set a fixed value to persist sessions:
+If `OIDC_SESSION_SECRET` is not set, Hajd.Cloud generates a random secret at startup. Every server restart will sign out all logged-in users. Set a fixed value to persist sessions:
 
 ```sh
 # generate once, then set as OIDC_SESSION_SECRET
 openssl rand -base64 48
 ```
+
 :::
 
 ## Provider Setup
 
 ::: tip No identity provider yet?
-[PocketID](https://github.com/stonith404/pocket-id) is a lightweight, self-hostable OIDC provider that is easy to set up and pairs well with SkySend. It is a good starting point if you do not already have an IdP.
+PocketID is a lightweight, self-hostable OIDC provider that is easy to set up and pairs well with Hajd.Cloud. It is a good starting point if you do not already have an IdP.
 :::
 
 ### PocketID
@@ -66,6 +67,7 @@ environment:
 ```
 
 In Keycloak, create a new client with:
+
 - **Client type**: OpenID Connect
 - **Valid redirect URIs**: `https://skysend.example.com/auth/callback`
 - **Client authentication**: On (confidential client)
@@ -97,7 +99,7 @@ environment:
 ```
 
 ::: tip Finding the issuer URL
-Open `{your-issuer}/.well-known/openid-configuration` in a browser. If you get a JSON document with an `authorization_endpoint` field, the URL is correct. SkySend reads this document automatically at login time.
+Open `{your-issuer}/.well-known/openid-configuration` in a browser. If you get a JSON document with an `authorization_endpoint` field, the URL is correct. Hajd.Cloud reads this document automatically at login time.
 :::
 
 ## Partial Protection

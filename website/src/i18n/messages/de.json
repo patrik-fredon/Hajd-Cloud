@@ -1,15 +1,15 @@
 {
   "meta": {
-    "siteTitle": "SkySend - Ende-zu-Ende verschlüsselte Datei- und Notizfreigabe",
+    "siteTitle": "Hajd.Cloud - Ende-zu-Ende verschlüsselte Datei- und Notizfreigabe",
     "tagline": "Ende-zu-Ende verschlüsselte Datei- und Notizfreigabe zum Selbsthosten. Der Server sieht immer nur Chiffretext.",
     "ogHeadline": "Teilen Sie Dateien, die nur der Empfänger lesen kann.",
     "blogTitle": "Blog",
-    "blogDescription": "Designentscheidungen, Abwägungen und Anleitungen von den Leuten, die SkySend bauen.",
+    "blogDescription": "Designentscheidungen, Abwägungen und Anleitungen von den Leuten, die Hajd.Cloud bauen.",
     "roadmapTitle": "Roadmap",
-    "roadmapDescription": "Was erschienen ist, woran gearbeitet wird und was auf der Wunschliste von SkySend steht. Keine versprochenen Termine, nur ein ehrlicher Stand.",
+    "roadmapDescription": "Was erschienen ist, woran gearbeitet wird und was auf der Wunschliste von Hajd.Cloud steht. Keine versprochenen Termine, nur ein ehrlicher Stand.",
     "reportTitle": "Einen Link melden",
-    "reportDescription": "Melden Sie einen Datei-, Notiz- oder Anfrage-Link von SkySend der Instanz, die ihn hostet. Ihr Betreiber erhält die Meldung und kann die Freigabe löschen.",
-    "blogOgLabel": "SkySend Blog"
+    "reportDescription": "Melden Sie einen Datei-, Notiz- oder Anfrage-Link von Hajd.Cloud der Instanz, die ihn hostet. Ihr Betreiber erhält die Meldung und kann die Freigabe löschen.",
+    "blogOgLabel": "Hajd.Cloud Blog"
   },
   "lang": {
     "label": "Sprache",
@@ -28,7 +28,7 @@
     "roadmap": "Roadmap",
     "roadmapCaption": "Erschienen und als Nächstes",
     "blog": "Blog",
-    "blogCaption": "Notizen aus der Entwicklung von SkySend",
+    "blogCaption": "Notizen aus der Entwicklung von Hajd.Cloud",
     "getStarted": "Loslegen",
     "openMenu": "Menü öffnen",
     "closeMenu": "Menü schließen",
@@ -40,10 +40,10 @@
     "switchToLight": "Zum hellen Modus wechseln",
     "switchToDark": "Zum dunklen Modus wechseln",
     "sponsor": "Sponsern",
-    "sponsorLabel": "SkySend auf GitHub sponsern",
-    "sponsorTooltip": "SkySend sponsern",
+    "sponsorLabel": "Hajd.Cloud auf GitHub sponsern",
+    "sponsorTooltip": "Hajd.Cloud sponsern",
     "star": "Stern",
-    "starLabel": "SkySend auf GitHub einen Stern geben",
+    "starLabel": "Hajd.Cloud auf GitHub einen Stern geben",
     "discord": "Discord"
   },
   "footer": {
@@ -237,7 +237,7 @@
   "key": {
     "eyebrow": "Zero Knowledge",
     "title": "Der Schlüssel steckt im Link. <shine>Der Server bekommt ihn nie.</shine>",
-    "lead": "Browser senden den Teil eines Links nach dem # nie mit. SkySend legt dort ein zufälliges Geheimnis ab und leitet in Ihrem Browser jeden Schlüssel daraus ab, mit HKDF-SHA256.",
+    "lead": "Browser senden den Teil eines Links nach dem # nie mit. Hajd.Cloud legt dort ein zufälliges Geheimnis ab und leitet in Ihrem Browser jeden Schlüssel daraus ab, mit HKDF-SHA256.",
     "cryptoDesign": "Das Krypto-Design lesen",
     "howItWorks": "Auf „So funktioniert's“ ausprobieren",
     "parts": "Teile eines Freigabe-Links",
@@ -271,7 +271,7 @@
     "point2": "Eine JSON-Option an den Befehlen für Skripte",
     "point3": "Meldet sich über OIDC an, wenn Ihre Instanz es verlangt",
     "terminal": "Terminal",
-    "terminalLabel": "Ein Terminal, das eine Datei mit der SkySend-CLI hochlädt"
+    "terminalLabel": "Ein Terminal, das eine Datei mit der Hajd.Cloud-CLI hochlädt"
   },
   "start": {
     "eyebrow": "Schnellstart",
@@ -346,10 +346,10 @@
     "q3": "Was passiert, wenn eine Freigabe abläuft?",
     "a3": "Der Server löscht den verschlüsselten Blob, sobald seine Zeit abgelaufen oder sein Download-Limit erreicht ist. Eine Notiz mit „Nach dem Lesen löschen“ ist nach dem ersten Aufruf weg.",
     "q4": "Gibt es eine gehostete Version?",
-    "a4": "SkySend ist dafür gemacht, als ein Docker-Image auf Ihrem eigenen Server zu laufen. Ohne Server nutzen Sie eine der öffentlichen Instanzen, die denselben offenen Code betreiben.",
+    "a4": "Hajd.Cloud ist dafür gemacht, als ein Docker-Image auf Ihrem eigenen Server zu laufen. Ohne Server nutzen Sie eine der öffentlichen Instanzen, die denselben offenen Code betreiben.",
     "q5": "Was kann ich außer Dateien teilen?",
     "a5": "Notizen aus Blöcken: Text und Markdown, Passwörter, Code und SSH-Schlüssel, in jeder Kombination. Mit einer Anfrage sendet Ihnen jemand Dateien oder eine ausgefüllte Notiz, die nur Sie öffnen können.",
-    "q6": "Unter welcher Lizenz steht SkySend?",
+    "q6": "Unter welcher Lizenz steht Hajd.Cloud?",
     "a6": "AGPL-3.0. Der gesamte Quellcode, das Krypto-Design eingeschlossen, liegt auf GitHub."
   },
   "cta": {
@@ -360,7 +360,7 @@
   },
   "blog": {
     "eyebrow": "Blog",
-    "title": "Notizen aus der <shine>Entwicklung von SkySend.</shine>",
+    "title": "Notizen aus der <shine>Entwicklung von Hajd.Cloud.</shine>",
     "lead": "Designentscheidungen, Abwägungen und Anleitungen, geschrieben von den Leuten, die es bauen.",
     "filter": "Nach Schlagwort filtern",
     "allPosts": "Alle Beiträge",
@@ -380,11 +380,9 @@
     "onThisPage": "Auf dieser Seite",
     "copyLink": "Link kopieren",
     "linkCopied": "Link kopiert",
-    "trySkySend": "SkySend ausprobieren",
-    "trySkySendText": "Ein Container, Dateien und Notizen im Browser verschlüsselt, ein Schlüssel, den der Server nie sieht.",
+    "tryHajd.Cloud": "Hajd.Cloud ausprobieren",
+    "tryHajd.CloudText": "Ein Container, Dateien und Notizen im Browser verschlüsselt, ein Schlüssel, den der Server nie sieht.",
     "getStarted": "Loslegen",
-    "writtenBy": "Geschrieben von {name}",
-    "maintainer": "Maintainer von SkySend.",
     "discuss": "Auf Discord diskutieren",
     "previous": "Älterer",
     "newer": "Neuerer",
@@ -402,7 +400,7 @@
   "roadmap": {
     "eyebrow": "Roadmap",
     "title": "Was erschienen ist <br><shine>und was als Nächstes kommt.</shine>",
-    "lead": "Eine Linie durch die Releases und Pläne von SkySend, vom ersten stabilen Release bis zu den Ideen danach. Keine versprochenen Termine, nur ein ehrlicher Stand.",
+    "lead": "Eine Linie durch die Releases und Pläne von Hajd.Cloud, vom ersten stabilen Release bis zu den Ideen danach. Keine versprochenen Termine, nur ein ehrlicher Stand.",
     "now": "Jetzt",
     "latestRelease": "Neuestes Release",
     "readChangelog": "Changelog lesen",
@@ -416,7 +414,7 @@
     "countOnGithub": "Die Zahl steht auf GitHub",
     "reached": "Erreicht: {list}.",
     "reachedItem": "{count} am {day}",
-    "starOnGithub": "SkySend auf GitHub einen Stern geben",
+    "starOnGithub": "Hajd.Cloud auf GitHub einen Stern geben",
     "new": "Neu",
     "side": "Seite des Zeitstrahls",
     "lookingBack": "Rückblick",
@@ -477,11 +475,11 @@
       },
       "300-github-stars": {
         "title": "300 Sterne auf GitHub",
-        "description": "SkySend hat 300 Sterne auf GitHub überschritten, danke für die anhaltende Unterstützung."
+        "description": "Hajd.Cloud hat 300 Sterne auf GitHub überschritten, danke für die anhaltende Unterstützung."
       },
       "new-website": {
         "title": "Eine neue Website und UX",
-        "description": "Die erste skysend.app, mehr Branding-Optionen und gehärtete Sicherheit."
+        "description": "Die erste skysend.hajd.cloud, mehr Branding-Optionen und gehärtete Sicherheit."
       },
       "adaptive-zip-compression": {
         "title": "Adaptive ZIP-Kompression",
@@ -489,7 +487,7 @@
       },
       "200-github-stars": {
         "title": "200 Sterne auf GitHub",
-        "description": "SkySend hat 200 Sterne auf GitHub überschritten, danke an alle in der Community."
+        "description": "Hajd.Cloud hat 200 Sterne auf GitHub überschritten, danke an alle in der Community."
       },
       "multi-block-code-notes": {
         "title": "Code-Notizen mit mehreren Blöcken",
@@ -501,7 +499,7 @@
       },
       "100-github-stars": {
         "title": "100 Sterne auf GitHub",
-        "description": "SkySend hat 100 Sterne auf GitHub überschritten."
+        "description": "Hajd.Cloud hat 100 Sterne auf GitHub überschritten."
       },
       "native-os-share-button": {
         "title": "Teilen-Knopf des Systems",

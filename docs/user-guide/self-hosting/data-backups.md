@@ -1,6 +1,6 @@
 # Data & Backups
 
-SkySend stores persistent data in two separate locations. Both need to be backed up.
+Hajd.Cloud stores persistent data in two separate locations. Both need to be backed up.
 
 ## Data Directory
 
@@ -29,11 +29,11 @@ uploads/
 
 ## What Is Stored
 
-| File | Contents |
-| --- | --- |
-| `skysend.db` | Upload metadata: IDs, tokens, salt, encrypted metadata, expiry times, download counts |
+| File            | Contents                                                                                      |
+| --------------- | --------------------------------------------------------------------------------------------- |
+| `skysend.db`    | Upload metadata: IDs, tokens, salt, encrypted metadata, expiry times, download counts         |
 | `uploads/*.bin` | Encrypted file payloads (AES-256-GCM ciphertext). Only present when using filesystem storage. |
-| `branding/*` | Branding assets you placed there yourself, for example the logo referenced by `CUSTOM_LOGO`. |
+| `branding/*`    | Branding assets you placed there yourself, for example the logo referenced by `CUSTOM_LOGO`.  |
 
 ::: tip S3 Storage
 When using `STORAGE_BACKEND=s3`, encrypted files are stored in your S3 bucket instead of the local `uploads/` directory. You only need to back up the `data/` directory (SQLite database). The S3 bucket should be backed up separately using your provider's tools.
@@ -47,7 +47,7 @@ The database contains only encrypted metadata and hashed tokens. No plaintext fi
 
 ### Simple Copy
 
-Copy both directories. SQLite with WAL mode supports safe concurrent reads, so you can copy the database while SkySend is running:
+Copy both directories. SQLite with WAL mode supports safe concurrent reads, so you can copy the database while Hajd.Cloud is running:
 
 ```bash
 cp -r ./data ./data-backup-$(date +%Y%m%d)
@@ -70,9 +70,9 @@ Back up both host-side directories.
 
 To restore from a backup:
 
-1. Stop SkySend
+1. Stop Hajd.Cloud
 2. Replace the data directory with the backup
-3. Start SkySend
+3. Start Hajd.Cloud
 
 ```bash
 docker compose down
@@ -84,9 +84,10 @@ docker compose up -d
 
 ## Automatic Cleanup
 
-SkySend automatically cleans up expired uploads. The cleanup job runs at the interval specified by `CLEANUP_INTERVAL` (default: 60 seconds).
+Hajd.Cloud automatically cleans up expired uploads. The cleanup job runs at the interval specified by `CLEANUP_INTERVAL` (default: 60 seconds).
 
 Uploads are deleted when:
+
 - The expiry time has passed (`expiresAt <= now`)
 - The download limit has been reached (`downloadCount >= maxDownloads`)
 

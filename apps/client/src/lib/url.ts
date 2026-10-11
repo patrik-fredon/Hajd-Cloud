@@ -1,5 +1,5 @@
 /**
- * Parse and build SkySend share URLs.
+ * Parse and build Hajd.Cloud share URLs.
  *
  * Share URLs follow the pattern:
  *   https://send.example.com/file/<id>#<base64url-secret>

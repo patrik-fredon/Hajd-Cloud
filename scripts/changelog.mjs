@@ -30,16 +30,20 @@ export const FRAGMENT_DIR = path.join(ROOT, "changelog", "unreleased");
 export const CHANGELOG = path.join(ROOT, "docs", "changelog.md");
 
 /** The repository on GitHub, which the links of the changelog point to. */
-const REPO = "Skyfay/SkySend";
+function repository() {
+  return process.env.HAJD_CLOUD_REPOSITORY ?? "";
+}
 
 /** Whose pull requests get no thanks, since they maintain the project. */
-const MAINTAINERS = ["Skyfay"];
+function maintainers() {
+  return (process.env.HAJD_CLOUD_MAINTAINERS ?? "").split(",");
+}
 
 /** A GitHub login: letters, digits and single hyphens, at most 39 characters. */
 const LOGIN = /^[A-Za-z0-9](?:[A-Za-z0-9]|-(?=[A-Za-z0-9])){0,38}$/;
 
 /** The line of the changelog that new version blocks go below. */
-const MARKER = "All notable changes to SkySend are documented here.";
+const MARKER = "All notable changes to Hajd.Cloud are documented here.";
 
 /** The file in the fragment folder that explains it, which is no fragment. */
 const README = "README.md";
@@ -220,6 +224,7 @@ function run(command, args) {
  * @returns {Contribution | null}
  */
 export function findContribution(name, { dir = FRAGMENT_DIR, run: exec = run } = {}) {
+  if (!repository()) return null;
   const file = path.join(dir, name);
   const sha = exec("git", ["log", "-1", "--diff-filter=A", "--format=%H", "--", file]).trim();
   // Not committed yet, so no pull request can hold it.
@@ -228,7 +233,7 @@ export function findContribution(name, { dir = FRAGMENT_DIR, run: exec = run } =
 
   const found = exec("gh", [
     "api",
-    `repos/${REPO}/commits/${sha}/pulls`,
+    `repos/${repository()}/commits/${sha}/pulls`,
     "--jq",
     ".[0] | [.number, .user.login, .user.type] | @tsv",
   ]).trim();
@@ -239,12 +244,12 @@ export function findContribution(name, { dir = FRAGMENT_DIR, run: exec = run } =
   // Bots get no thanks, and their logins look different anyway, like `dependabot[bot]`.
   if (type !== "User") return null;
   if (!LOGIN.test(author)) throw new Error(`gh returned no pull request for ${name}`);
-  return MAINTAINERS.includes(author) ? null : { author, number: Number(number) };
+  return maintainers().includes(author) ? null : { author, number: Number(number) };
 }
 
 /**
  * The fragment with the thanks of its contribution at the end of every entry, like
- * `Thanks @user ([#81](https://github.com/Skyfay/SkySend/pull/81))`. An entry that thanks
+ * `Thanks @user ([#81](https://github.com/example/project/pull/81))`. An entry that thanks
  * someone already, the reporter of an advisory for example, keeps its own words.
  *
  * @param {Fragment} fragment
@@ -254,7 +259,7 @@ export function findContribution(name, { dir = FRAGMENT_DIR, run: exec = run } =
 export function creditFragment(fragment, contribution) {
   if (!contribution) return fragment;
   const { author, number } = contribution;
-  const thanks = `Thanks @${author} ([#${number}](https://github.com/${REPO}/pull/${number}))`;
+  const thanks = `Thanks @${author} ([#${number}](https://github.com/${repository()}/pull/${number}))`;
   const sections = new Map(
     [...fragment.sections].map(([heading, entries]) => [
       heading,
@@ -288,7 +293,7 @@ export function creditAll(fragments, find = findContribution) {
 
 /**
  * The entries of a section grouped by scope, in the order of `SCOPES`, so a reader finds the
- * lines of one part of SkySend together. Within a scope they keep the order of the fragments.
+ * lines of one part of Hajd.Cloud together. Within a scope they keep the order of the fragments.
  *
  * @param {string[]} entries
  * @returns {string[]}
@@ -318,7 +323,7 @@ export function renderBlock(version, tags, fragments) {
   lines.push(
     DOCKER_SECTION,
     "",
-    `- **Image**: \`skyfay/skysend:v${version}\``,
+    `- **Image**: \`hajd-cloud/skysend:v${version}\``,
     `- **Also tagged as**: ${tags}`,
     "- **Platforms**: linux/amd64, linux/arm64",
   );

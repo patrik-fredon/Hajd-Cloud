@@ -1,117 +1,128 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted } from "vue";
 
-const WORKER_URL = 'https://instances.skysend.app'
+const WORKER_URL = "";
 
 interface Instance {
-  name: string
-  url: string
-  country: string
-  flag: string
-  contact: { label: string; url: string }
-  online: boolean
-  version: string | null
-  enabledServices: string[]
-  fileMaxSize: number | null
-  fileMaxFilesPerUpload: number | null
-  fileMaxExpiry: number | null
-  fileMaxDownloads: number | null
-  fileUploadQuotaBytes: number | null
-  fileUploadQuotaWindow: number | null
-  noteMaxSize: number | null
-  noteMaxExpiry: number | null
-  noteMaxViews: number | null
+  name: string;
+  url: string;
+  country: string;
+  flag: string;
+  contact: { label: string; url: string };
+  online: boolean;
+  version: string | null;
+  enabledServices: string[];
+  fileMaxSize: number | null;
+  fileMaxFilesPerUpload: number | null;
+  fileMaxExpiry: number | null;
+  fileMaxDownloads: number | null;
+  fileUploadQuotaBytes: number | null;
+  fileUploadQuotaWindow: number | null;
+  noteMaxSize: number | null;
+  noteMaxExpiry: number | null;
+  noteMaxViews: number | null;
 }
 
 interface CachedData {
-  instances: Instance[]
-  lastUpdated: string | null
+  instances: Instance[];
+  lastUpdated: string | null;
 }
 
-const loading = ref(true)
-const instances = ref<Instance[]>([])
-const lastUpdated = ref<string | null>(null)
-const filter = ref<'all' | 'file' | 'note'>('all')
+const loading = ref(true);
+const instances = ref<Instance[]>([]);
+const lastUpdated = ref<string | null>(null);
+const filter = ref<"all" | "file" | "note">("all");
 
 function isOfficial(url: string): boolean {
   try {
-    return new URL(url).hostname.endsWith('skysend.app')
+    return new URL(url).hostname.endsWith("skysend.hajd.cloud");
   } catch {
-    return false
+    return false;
   }
 }
 
 const filteredInstances = computed(() => {
-  const list = filter.value === 'all'
-    ? instances.value
-    : instances.value.filter((inst) => inst.enabledServices.includes(filter.value))
+  const list =
+    filter.value === "all"
+      ? instances.value
+      : instances.value.filter((inst) => inst.enabledServices.includes(filter.value));
   return [...list].sort((a, b) => {
-    const aOff = isOfficial(a.url) ? 0 : 1
-    const bOff = isOfficial(b.url) ? 0 : 1
-    return aOff - bOff
-  })
-})
+    const aOff = isOfficial(a.url) ? 0 : 1;
+    const bOff = isOfficial(b.url) ? 0 : 1;
+    return aOff - bOff;
+  });
+});
 
 function formatBytes(bytes: number | null, unlimitedIfZero = false): string {
-  if (bytes === null) return '-'
-  if (bytes === 0) return unlimitedIfZero ? '∞' : '-'
-  const units = ['B', 'KB', 'MB', 'GB', 'TB']
-  const i = Math.floor(Math.log(bytes) / Math.log(1024))
-  const value = bytes / Math.pow(1024, i)
-  return `${Number.isInteger(value) ? value : value.toFixed(1)} ${units[i]}`
+  if (bytes === null) return "-";
+  if (bytes === 0) return unlimitedIfZero ? "∞" : "-";
+  const units = ["B", "KB", "MB", "GB", "TB"];
+  const i = Math.floor(Math.log(bytes) / Math.log(1024));
+  const value = bytes / Math.pow(1024, i);
+  return `${Number.isInteger(value) ? value : value.toFixed(1)} ${units[i]}`;
 }
 
 function formatDuration(seconds: number | null): string {
-  if (seconds === null) return '-'
-  if (seconds < 3600) return `${Math.round(seconds / 60)} min`
-  if (seconds < 86400) return `${Math.round(seconds / 3600)} hours`
-  return `${Math.round(seconds / 86400)} days`
+  if (seconds === null) return "-";
+  if (seconds < 3600) return `${Math.round(seconds / 60)} min`;
+  if (seconds < 86400) return `${Math.round(seconds / 3600)} hours`;
+  return `${Math.round(seconds / 86400)} days`;
 }
 
 function formatNumber(n: number | null): string {
-  if (n === null) return '-'
-  if (n === 0) return 'Unlimited'
-  return String(n)
+  if (n === null) return "-";
+  if (n === 0) return "Unlimited";
+  return String(n);
 }
 
 function serviceLabels(services: string[]): string {
-  if (services.includes('file') && services.includes('note')) return 'Files & Notes'
-  if (services.includes('file')) return 'Files only'
-  if (services.includes('note')) return 'Notes only'
-  return '-'
+  if (services.includes("file") && services.includes("note")) return "Files & Notes";
+  if (services.includes("file")) return "Files only";
+  if (services.includes("note")) return "Notes only";
+  return "-";
 }
 
 function relativeTime(iso: string): string {
-  const diff = Date.now() - new Date(iso).getTime()
-  const mins = Math.floor(diff / 60000)
-  if (mins < 1) return 'just now'
-  if (mins < 60) return `${mins} min ago`
-  const hours = Math.floor(mins / 60)
-  if (hours < 24) return `${hours}h ago`
-  return `${Math.floor(hours / 24)}d ago`
+  const diff = Date.now() - new Date(iso).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return "just now";
+  if (mins < 60) return `${mins} min ago`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return `${hours}h ago`;
+  return `${Math.floor(hours / 24)}d ago`;
 }
 
 onMounted(async () => {
+  if (!WORKER_URL) {
+    loading.value = false;
+    return;
+  }
   try {
-    const res = await fetch(WORKER_URL, { signal: AbortSignal.timeout(8000) })
-    if (!res.ok) return
-    const data: CachedData = await res.json()
-    instances.value = data.instances
-    lastUpdated.value = data.lastUpdated
+    const res = await fetch(WORKER_URL, { signal: AbortSignal.timeout(8000) });
+    if (!res.ok) return;
+    const data: CachedData = await res.json();
+    instances.value = data.instances;
+    lastUpdated.value = data.lastUpdated;
   } catch {
     // Worker unreachable - instances stays empty
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-})
+});
 </script>
 
 <template>
   <div class="instances-controls">
     <div class="filter-group">
-      <button :class="['filter-btn', { active: filter === 'all' }]" @click="filter = 'all'">All</button>
-      <button :class="['filter-btn', { active: filter === 'file' }]" @click="filter = 'file'">Files</button>
-      <button :class="['filter-btn', { active: filter === 'note' }]" @click="filter = 'note'">Notes</button>
+      <button :class="['filter-btn', { active: filter === 'all' }]" @click="filter = 'all'">
+        All
+      </button>
+      <button :class="['filter-btn', { active: filter === 'file' }]" @click="filter = 'file'">
+        Files
+      </button>
+      <button :class="['filter-btn', { active: filter === 'note' }]" @click="filter = 'note'">
+        Notes
+      </button>
     </div>
     <span v-if="lastUpdated" class="last-updated">Updated {{ relativeTime(lastUpdated) }}</span>
   </div>
@@ -160,7 +171,9 @@ onMounted(async () => {
         <div class="card-subtitle">
           {{ inst.country }}
           <span class="separator">·</span>
-          <a :href="inst.contact.url" target="_blank" rel="noopener noreferrer" class="contact">{{ inst.contact.label }}</a>
+          <a :href="inst.contact.url" target="_blank" rel="noopener noreferrer" class="contact">{{
+            inst.contact.label
+          }}</a>
         </div>
       </div>
       <div v-if="inst.enabledServices.length > 0" class="card-services">
@@ -179,7 +192,14 @@ onMounted(async () => {
         </div>
         <div class="stat">
           <span class="stat-value">{{ formatBytes(inst.fileUploadQuotaBytes, true) }}</span>
-          <span class="stat-label">Quota{{ inst.fileUploadQuotaBytes !== 0 ? ' / ' + (inst.fileUploadQuotaWindow ? formatDuration(inst.fileUploadQuotaWindow) : '24h') : '' }}</span>
+          <span class="stat-label"
+            >Quota{{
+              inst.fileUploadQuotaBytes !== 0
+                ? " / " +
+                  (inst.fileUploadQuotaWindow ? formatDuration(inst.fileUploadQuotaWindow) : "24h")
+                : ""
+            }}</span
+          >
         </div>
         <div class="stat">
           <span class="stat-value">{{ formatDuration(inst.fileMaxExpiry) }}</span>
@@ -430,7 +450,12 @@ onMounted(async () => {
 
 .skeleton {
   display: inline-block;
-  background: linear-gradient(90deg, var(--vp-c-divider) 25%, var(--vp-c-bg) 50%, var(--vp-c-divider) 75%);
+  background: linear-gradient(
+    90deg,
+    var(--vp-c-divider) 25%,
+    var(--vp-c-bg) 50%,
+    var(--vp-c-divider) 75%
+  );
   background-size: 200% 100%;
   animation: skeleton-pulse 1.5s ease-in-out infinite;
   border-radius: 4px;
@@ -477,7 +502,11 @@ onMounted(async () => {
 }
 
 @keyframes skeleton-pulse {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 </style>

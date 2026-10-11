@@ -1,27 +1,33 @@
 # Threat Model
 
-This document describes the threat model for SkySend, outlining what it protects against and what is out of scope.
+This document describes the threat model for Hajd.Cloud, outlining what it protects against and what is out of scope.
 
 ## Actors
 
 ### Uploader
+
 The person who uploads a file and generates a share link.
 
 ### Recipient
+
 The person who receives the share link and downloads the file.
 
 ### Server Operator
-The person or organization running the SkySend instance.
+
+The person or organization running the Hajd.Cloud instance.
 
 ### Network Attacker
+
 An attacker who can observe or modify network traffic between client and server.
 
 ### Storage Attacker
+
 An attacker who gains access to the server's filesystem or database.
 
-## What SkySend Protects Against
+## What Hajd.Cloud Protects Against
 
 ### Compromised Server
+
 **Threat**: The server operator or an attacker with server access reads uploaded files.
 
 **Mitigation**: All files are encrypted client-side with AES-256-GCM before upload. The encryption key is never sent to the server - it exists only in the URL fragment. The server stores only ciphertext.
@@ -29,6 +35,7 @@ An attacker who gains access to the server's filesystem or database.
 **Result**: Even with full database and filesystem access, an attacker cannot decrypt files without the share link. Changing the code the instance serves is a different attack, see [A Malicious Instance Serving Modified Code](#a-malicious-instance-serving-modified-code).
 
 ### Passive Network Observation
+
 **Threat**: An attacker intercepts traffic between the client and server.
 
 **Mitigation**: When using HTTPS (strongly recommended), all traffic is encrypted in transit. The URL fragment (`#secret`) is never included in HTTP requests, so it cannot be observed even in TLS termination logs.
@@ -36,6 +43,7 @@ An attacker who gains access to the server's filesystem or database.
 **Result**: The encryption key is not visible to network observers.
 
 ### Brute-Force Token Guessing
+
 **Threat**: An attacker tries to guess auth tokens to download files.
 
 **Mitigation**: Auth tokens are derived from 256-bit secrets via HMAC-SHA256. Token verification uses constant-time comparison to prevent timing attacks.
@@ -43,6 +51,7 @@ An attacker who gains access to the server's filesystem or database.
 **Result**: Brute-forcing a 256-bit key space is computationally infeasible.
 
 ### Brute-Force Password Guessing
+
 **Threat**: An attacker tries to brute-force the password on a password-protected upload.
 
 **Mitigation**: Password-derived keys use Argon2id (64 MiB memory, GPU-resistant). The server releases the encrypted metadata of a password-protected upload only after a correct password, so someone with the link has nothing to test guesses against offline. Every guess has to pass the password check or the download, which share one lockout per IP and upload. New passwords need at least 8 characters.
@@ -50,6 +59,7 @@ An attacker who gains access to the server's filesystem or database.
 **Result**: Online brute-force is impractical due to the lockout and rate limiting. Offline brute-force needs the link and the server's database together, and even then costs one Argon2id run per guess, which puts 8 random characters out of reach for years.
 
 ### Upload Abuse (Storage Exhaustion)
+
 **Threat**: An attacker uploads large amounts of data to fill the server's disk.
 
 **Mitigation**: Upload quotas (HMAC-hashed IPs with daily rotation), maximum file size limits, rate limiting, and automatic expiry/cleanup.
@@ -57,35 +67,39 @@ An attacker who gains access to the server's filesystem or database.
 **Result**: Storage abuse is bounded by configured limits.
 
 ### IP Tracking via Quotas
+
 **Threat**: The quota system could be used to track users by IP.
 
 **Mitigation**: IPs are hashed with HMAC-SHA256 using a key that rotates daily. When the key rotates, the entire quota store is cleared. No plaintext IPs are ever stored.
 
 **Result**: IP addresses cannot be recovered from quota records, and tracking across days is impossible.
 
-## What SkySend Does NOT Protect Against
+## What Hajd.Cloud Does NOT Protect Against
 
 ### Compromised Client
-If the uploader's or recipient's device is compromised (malware, keylogger), the attacker can access plaintext files. SkySend cannot protect against endpoint compromise.
+
+If the uploader's or recipient's device is compromised (malware, keylogger), the attacker can access plaintext files. Hajd.Cloud cannot protect against endpoint compromise.
 
 ### A Malicious Instance Serving Modified Code
+
 The web app, its scripts and its Service Worker come from the instance you open. An operator who changes that code, or anyone who takes over the server or its reverse proxy, can make the browser hand over what it decrypts: the key in a link, a password you type, the files and notes you open and an inbox you open. Everything stored before stays encrypted, and nothing is at risk while the instance serves the published code. Every end-to-end encrypted web app shares this limit, because a browser runs whatever code the site sends.
 
 What to do about it:
 
-- Use an instance whose operator you trust, or [run your own](/user-guide/self-hosting/docker). The official instances are operated by the SkySend project.
+- Use an instance whose operator you trust, or [run your own](/user-guide/self-hosting/docker). The official instances are operated by the Hajd.Cloud project.
 - For files and notes, the [CLI client](/user-guide/client-cli/) is shipped on its own and runs no code from the instance. It does not cover file requests yet.
 
 ### Share Link Interception
+
 If the share link is sent over an insecure channel (e.g., unencrypted email, public chat) and intercepted, the attacker can download and decrypt the file. Users should share links through secure channels.
 
 ### Link Rewriting by Mail Security Gateways
 
-Choosing the transport is the sender's decision, and SkySend cannot influence it. A link posted publicly or sent through a channel that reads along is outside the product's control.
+Choosing the transport is the sender's decision, and Hajd.Cloud cannot influence it. A link posted publicly or sent through a channel that reads along is outside the product's control.
 
 The recipient's mail infrastructure is a different case, because the sender has no say in it. Microsoft Defender Safe Links, Proofpoint URL Defense, and Mimecast rewrite links after the message has left the sender. Two outcomes are possible:
 
-- **The fragment is percent-encoded** (`#` becomes `%23`). The key then arrives as part of the request path, so the server, the reverse proxy, and any CDN see it in the request line. SkySend repairs the link in the browser and truncates its own request log at the resource ID, but the exposure itself cannot be undone, and logs in front of the application are the operator's responsibility.
+- **The fragment is percent-encoded** (`#` becomes `%23`). The key then arrives as part of the request path, so the server, the reverse proxy, and any CDN see it in the request line. Hajd.Cloud repairs the link in the browser and truncates its own request log at the resource ID, but the exposure itself cannot be undone, and logs in front of the application are the operator's responsibility.
 - **The fragment is dropped**. The key never reaches the browser and the link cannot be recovered at all.
 
 Either way, the gateway operator holds the full original URL, since the link was in the message body when it passed through their systems.
@@ -94,11 +108,11 @@ Either way, the gateway operator holds the full original URL, since the link was
 
 Decrypting an upload takes three separate pieces, and a rewritten link puts all of them in reach of whoever runs the instance:
 
-| Piece | Where it lives |
-| :--- | :--- |
+| Piece                            | Where it lives                      |
+| :------------------------------- | :---------------------------------- |
 | The secret from the URL fragment | The reverse proxy or CDN access log |
-| The HKDF salt | The database |
-| The ciphertext | The blob storage |
+| The HKDF salt                    | The database                        |
+| The ciphertext                   | The blob storage                    |
 
 **Without a password, that is enough.** An operator who holds the access log plus backups of the database and the blob storage can decrypt the upload, including after the sender deleted it. Deleting removes the live copy, it does not reach into a backup.
 
@@ -111,18 +125,23 @@ Decrypting an upload takes three separate pieces, and a rewritten link puts all 
 **Before the fact**, add a password and send it through a separate channel. That is the only measure which survives the exposure completely, because it keeps one required piece off the server entirely.
 
 ### Malicious File Content
-SkySend does not inspect or scan file contents. It encrypts and stores whatever the user uploads. SkySend is not responsible for malicious file content.
+
+Hajd.Cloud does not inspect or scan file contents. It encrypts and stores whatever the user uploads. Hajd.Cloud is not responsible for malicious file content.
 
 ### Unknown Senders in a File Request
+
 Anyone with the upload link of a [file request](/user-guide/file-requests) can upload into it, and nothing identifies them. The inbox marks every upload as unverified and cleans file names before showing them, but it cannot tell a wanted file from an unwanted one. Equally, a sender cannot verify who wrote the title of a request, which is why the upload page marks it as not checked. Hand out upload links only to the people you ask, and open only what you expected.
 
 ### Metadata Leakage (File Size)
+
 The server knows the encrypted file size, which reveals the approximate original file size. This is inherent to any file transfer system. File names and types are encrypted, and their metadata is padded to whole kilobytes, so its length does not reveal how long a file name is. Notes are padded the same way, so a note's size does not reveal how long a password in it is.
 
 ### Server Availability
-SkySend does not provide redundancy or high availability. If the server goes down, files are unavailable until it recovers.
+
+Hajd.Cloud does not provide redundancy or high availability. If the server goes down, files are unavailable until it recovers.
 
 ### Long-Term Secret Storage
+
 Share links contain the encryption key. If a share link is stored long-term (e.g., in chat logs, bookmark managers), anyone who later accesses it can download the file (until it expires).
 
 ## Recommendations
@@ -132,4 +151,4 @@ Share links contain the encryption key. If a share link is stored long-term (e.g
 3. **Set short expiry times** - Files should expire as soon as they are no longer needed
 4. **Use low download limits** - Set the download limit to the number of intended recipients
 5. **Use password protection** - For sensitive files, add a password and share it through a separate channel, which also covers links rewritten by a mail security gateway
-6. **Keep SkySend updated** - Apply updates promptly for security fixes
+6. **Keep Hajd.Cloud updated** - Apply updates promptly for security fixes

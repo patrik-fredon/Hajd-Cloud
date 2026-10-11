@@ -1,0 +1,13 @@
+{
+  "tool": "Built-in image_gen",
+  "prompt": "Use case: precise-object-edit. Asset type: Hajd.Cloud app logo, header icon and favicon. Input image 1 is the edit target: the previously approved transparent mint cloud, dark folded document and padlock. Change only its colors to fit a burgundy hacker-style UI: recolor the mint cloud, fold and padlock to restrained rose-crimson #e06b80, with darker crimson #991b35 details where appropriate. Keep the document near-black burgundy #1b1015. Preserve the same cloud silhouette, document, folded corner, lock proportions, composition and square framing. Preserve actual alpha transparency. Crisp simple flat shapes readable at 24px and on both #0d080a dark surfaces and #faf5f5 light surfaces. No green, no teal, no new symbols, no text, no background tile, no gradients, glow, shadows or watermark. This is recoloring the approved logo, not redesigning it.",
+  "source": "hajd_cloud_logo_crimson.png",
+  "asset": "hajd_cloud_logo_crimson.webp",
+  "reference": "hajd_cloud_logo.webp",
+  "export": {
+    "size": "512x512",
+    "format": "WebP",
+    "lossless": true
+  },
+  "iconVersion": "22c10ae613ab"
+}

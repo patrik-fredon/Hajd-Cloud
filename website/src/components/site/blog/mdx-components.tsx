@@ -18,8 +18,18 @@ function H2({ children }: { children?: ReactNode }) {
   return <h2 id={slugify(textOf(children))}>{children}</h2>;
 }
 
-/** A side by side table, the right column being SkySend. */
-function Compare({ label, left, right, children }: { label: string; left: string; right: string; children?: ReactNode }) {
+/** A side by side table, the right column being Hajd.Cloud. */
+function Compare({
+  label,
+  left,
+  right,
+  children,
+}: {
+  label: string;
+  left: string;
+  right: string;
+  children?: ReactNode;
+}) {
   return (
     <div className="not-prose my-8 overflow-x-auto rounded-[18px] border border-border bg-card">
       <div className="min-w-[520px]">
@@ -53,7 +63,10 @@ function Row({ label, left, right }: { label: string; left: string; right: strin
 function Callout({ title, children }: { title?: string; children?: ReactNode }) {
   return (
     <div className="not-prose relative my-8 flex gap-3.5 overflow-hidden rounded-[14px] border border-post/25 bg-post/6 py-4 pr-[18px] pl-[22px]">
-      <span aria-hidden="true" className="absolute inset-y-0 left-0 w-1 bg-post shadow-[0_0_12px_var(--post-tone)]" />
+      <span
+        aria-hidden="true"
+        className="absolute inset-y-0 left-0 w-1 bg-post shadow-[0_0_12px_var(--post-tone)]"
+      />
       <span className="flex size-[34px] shrink-0 items-center justify-center rounded-[10px] bg-post/14 text-post">
         <Info className="size-4" />
       </span>

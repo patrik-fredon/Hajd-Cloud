@@ -6,6 +6,7 @@
 @import "./styles/theme-aurora.css";
 @import "./styles/theme-midnight.css";
 @import "./styles/theme-graphite.css";
+@import "./styles/theme-crimson.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -16,7 +17,7 @@
  *
  * The primary tokens are the accent. They are derived from one color by
  * src/lib/accent.ts, which also writes them for CUSTOM_COLOR. The defaults here are
- * SkySend green and tests/lib/accent.test.ts checks that they match what
+ * Hajd.Cloud crimson and tests/lib/accent.test.ts checks that they match what
  * deriveAccent() makes of it.
  */
 @theme {
@@ -46,18 +47,18 @@
   --color-border: rgba(15, 17, 30, 0.09);
   --color-input: rgba(15, 17, 30, 0.16);
 
-  /* The accent. Same values as deriveAccent() for SkySend green. */
-  --color-primary: #2eb68c;
-  --color-primary-foreground: #000000;
-  --color-primary-text: #207f62;
-  --color-primary-soft: rgba(46, 182, 140, 0.12);
-  --color-primary-line: rgba(46, 182, 140, 0.42);
-  --color-primary-glow: rgba(46, 182, 140, 0.28);
+  /* The accent. Same values as deriveAccent() for Hajd.Cloud crimson. */
+  --color-primary: #991b35;
+  --color-primary-foreground: #ffffff;
+  --color-primary-text: #991b35;
+  --color-primary-soft: rgba(153, 27, 53, 0.12);
+  --color-primary-line: rgba(153, 27, 53, 0.42);
+  --color-primary-glow: rgba(153, 27, 53, 0.28);
   /* The main button. In light it takes the darker text shade of the accent with white
      text, which reads calmer than the bare accent. The text shade keeps 4.8:1 on white. */
   --color-action: var(--color-primary-text);
   --color-action-foreground: #ffffff;
-  --color-ring: #2eb68c;
+  --color-ring: #991b35;
 
   /* Status colors keep their meaning whatever the accent is. */
   --color-destructive: #dc2626;
@@ -113,15 +114,15 @@
   --color-border: rgba(255, 255, 255, 0.1);
   --color-input: rgba(255, 255, 255, 0.16);
 
-  --color-primary: #46c89d;
+  --color-primary: #e06b80;
   --color-primary-foreground: #000000;
-  --color-primary-text: #46c89d;
-  --color-primary-soft: rgba(70, 200, 157, 0.16);
-  --color-primary-line: rgba(70, 200, 157, 0.5);
-  --color-primary-glow: rgba(70, 200, 157, 0.22);
+  --color-primary-text: #e06b80;
+  --color-primary-soft: rgba(224, 107, 128, 0.16);
+  --color-primary-line: rgba(224, 107, 128, 0.5);
+  --color-primary-glow: rgba(224, 107, 128, 0.22);
   --color-action: var(--color-primary);
   --color-action-foreground: var(--color-primary-foreground);
-  --color-ring: #46c89d;
+  --color-ring: #e06b80;
 
   --color-destructive: #f87171;
   --color-destructive-foreground: #000000;
@@ -155,7 +156,9 @@
 
   body {
     @apply bg-page font-sans text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
     background-attachment: fixed;
   }
 }
@@ -199,17 +202,60 @@ html body[data-scroll-locked] {
 }
 
 /* Syntax highlighting: arta dark theme token overrides (scoped to .dark for class-based Tailwind dark mode) */
-.dark .hljs { color: #aaa; background: #222; }
-.dark .hljs-subst { color: #aaa; }
-.dark .hljs-section { color: #fff; font-weight: bold; }
-.dark .hljs-comment,.dark .hljs-quote,.dark .hljs-meta { color: #6e7a8a; }
-.dark .hljs-string,.dark .hljs-symbol,.dark .hljs-bullet,.dark .hljs-regexp { color: #ffcc33; }
-.dark .hljs-number,.dark .hljs-addition { color: #00cc66; }
-.dark .hljs-built_in,.dark .hljs-literal,.dark .hljs-type,.dark .hljs-template-variable,.dark .hljs-attribute,.dark .hljs-link { color: #32aaee; }
-.dark .hljs-keyword,.dark .hljs-selector-tag,.dark .hljs-name,.dark .hljs-selector-id,.dark .hljs-selector-class { color: #6644aa; }
-.dark .hljs-title,.dark .hljs-variable,.dark .hljs-deletion,.dark .hljs-template-tag { color: #bb1166; }
-.dark .hljs-doctag,.dark .hljs-strong { font-weight: bold; }
-.dark .hljs-emphasis { font-style: italic; }
+.dark .hljs {
+  color: #aaa;
+  background: #222;
+}
+.dark .hljs-subst {
+  color: #aaa;
+}
+.dark .hljs-section {
+  color: #fff;
+  font-weight: bold;
+}
+.dark .hljs-comment,
+.dark .hljs-quote,
+.dark .hljs-meta {
+  color: #6e7a8a;
+}
+.dark .hljs-string,
+.dark .hljs-symbol,
+.dark .hljs-bullet,
+.dark .hljs-regexp {
+  color: #ffcc33;
+}
+.dark .hljs-number,
+.dark .hljs-addition {
+  color: #00cc66;
+}
+.dark .hljs-built_in,
+.dark .hljs-literal,
+.dark .hljs-type,
+.dark .hljs-template-variable,
+.dark .hljs-attribute,
+.dark .hljs-link {
+  color: #32aaee;
+}
+.dark .hljs-keyword,
+.dark .hljs-selector-tag,
+.dark .hljs-name,
+.dark .hljs-selector-id,
+.dark .hljs-selector-class {
+  color: #6644aa;
+}
+.dark .hljs-title,
+.dark .hljs-variable,
+.dark .hljs-deletion,
+.dark .hljs-template-tag {
+  color: #bb1166;
+}
+.dark .hljs-doctag,
+.dark .hljs-strong {
+  font-weight: bold;
+}
+.dark .hljs-emphasis {
+  font-style: italic;
+}
 
 /* Override typography plugin accent colors to follow the accent.
    Must be outside any @layer so it wins over the plugin's @layer components rules.

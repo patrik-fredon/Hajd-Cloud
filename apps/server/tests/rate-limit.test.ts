@@ -23,7 +23,7 @@ function makeConfig(overrides: Partial<Config> = {}): Config {
     NOTE_VIEW_OPTIONS: [1, 2, 3, 5, 10, 20, 50, 100],
     NOTE_DEFAULT_VIEWS: 1,
     CLEANUP_INTERVAL: 60,
-    CUSTOM_TITLE: "SkySend",
+    CUSTOM_TITLE: "Hajd.Cloud",
     RATE_LIMIT_WINDOW: 60000,
     RATE_LIMIT_MAX: 5,
     TRUST_PROXY: false,

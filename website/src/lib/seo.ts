@@ -13,8 +13,6 @@ function languageAlternates(path: string, available: readonly Locale[] = LOCALES
   return languages;
 }
 
-
-
 /**
  * The metadata of a page in a language: its title and description, the
  * canonical URL, the other languages it exists in and its social cards. A page
@@ -43,11 +41,11 @@ export function pageMetadata(
     languages?: readonly Locale[];
     type?: "website" | "article";
     image?: string;
-  } = {}
+  } = {},
 ): Metadata {
   const t = createTranslator(locale);
   const contentLocale = canonicalLocale ?? locale;
-  const cardTitle = title ? `${title} | SkySend` : t("meta.siteTitle");
+  const cardTitle = title ? `${title} | Hajd.Cloud` : t("meta.siteTitle");
   const cardDescription = description ?? t("meta.tagline");
   const images = [{ url: image, ...OG_SIZE, alt: title ?? t("meta.siteTitle") }];
   return {
@@ -61,13 +59,20 @@ export function pageMetadata(
       title: cardTitle,
       description: cardDescription,
       url: localePath(contentLocale, path),
-      siteName: "SkySend",
+      siteName: "Hajd.Cloud",
       type,
       locale: INTL_LOCALE[contentLocale].replace("-", "_"),
-      alternateLocale: languages.filter((l) => l !== contentLocale).map((l) => INTL_LOCALE[l].replace("-", "_")),
+      alternateLocale: languages
+        .filter((l) => l !== contentLocale)
+        .map((l) => INTL_LOCALE[l].replace("-", "_")),
       images,
     },
-    twitter: { card: "summary_large_image", title: cardTitle, description: cardDescription, images },
+    twitter: {
+      card: "summary_large_image",
+      title: cardTitle,
+      description: cardDescription,
+      images,
+    },
   };
 }
 
@@ -81,9 +86,9 @@ export function rootMetadata(locale: Locale, siteUrl: string): Metadata {
   const { alternates: _alternates, ...shared } = pageMetadata(locale, "/");
   return {
     metadataBase: new URL(siteUrl),
-    title: { default: t("meta.siteTitle"), template: "%s | SkySend" },
+    title: { default: t("meta.siteTitle"), template: "%s | Hajd.Cloud" },
     description: t("meta.tagline"),
-    icons: { icon: "/logo.svg", apple: "/apple-touch-icon.png" },
+    icons: { icon: "/hajd-cloud-logo-crimson.webp", apple: "/apple-touch-icon.png" },
     manifest: "/manifest.webmanifest",
     ...shared,
   };

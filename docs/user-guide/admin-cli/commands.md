@@ -1,6 +1,6 @@
 # CLI Commands
 
-Detailed reference for all SkySend CLI commands.
+Detailed reference for all Hajd.Cloud CLI commands.
 
 ## list
 
@@ -12,10 +12,10 @@ skysend-cli list [options]
 
 ### Options
 
-| Flag | Description |
-| --- | --- |
-| `--all` | Include expired and exhausted uploads and notes, and file requests that are over and empty |
-| `--json` | Output as JSON (excludes sensitive fields) |
+| Flag     | Description                                                                                |
+| -------- | ------------------------------------------------------------------------------------------ |
+| `--all`  | Include expired and exhausted uploads and notes, and file requests that are over and empty |
+| `--json` | Output as JSON (excludes sensitive fields)                                                 |
 
 ### Output
 
@@ -29,13 +29,13 @@ aa197437-0205-47c4-8d72-37b195c5be76  1/2      4.9 KB    1.0 MB      1 (4.9 KB) 
 1 file request(s)
 ```
 
-| Column | Meaning |
-| --- | --- |
-| Uploads | Finished uploads of the allowed ones. A deleted upload keeps its slot. |
-| Received | Bytes of the finished uploads, deleted ones included |
-| Max/Upload | The most bytes one upload may have |
-| Kept | Uploads still stored, and their size |
-| Closes | Time until the request stops taking uploads, `expired` once that time has passed, or `closed` |
+| Column     | Meaning                                                                                       |
+| ---------- | --------------------------------------------------------------------------------------------- |
+| Uploads    | Finished uploads of the allowed ones. A deleted upload keeps its slot.                        |
+| Received   | Bytes of the finished uploads, deleted ones included                                          |
+| Max/Upload | The most bytes one upload may have                                                            |
+| Kept       | Uploads still stored, and their size                                                          |
+| Closes     | Time until the request stops taking uploads, `expired` once that time has passed, or `closed` |
 
 By default only active entries are shown: uploads and notes that are neither expired nor used up, and file requests that still take uploads or still hold some. Use `--all` to include everything.
 
@@ -122,8 +122,8 @@ skysend-cli stats [options]
 
 ### Options
 
-| Flag | Description |
-| --- | --- |
+| Flag     | Description    |
+| -------- | -------------- |
 | `--json` | Output as JSON |
 
 ### Output
@@ -157,8 +157,8 @@ skysend-cli cleanup [options]
 
 ### Options
 
-| Flag | Description |
-| --- | --- |
+| Flag        | Description                                    |
+| ----------- | ---------------------------------------------- |
 | `--dry-run` | Preview what would be removed without deleting |
 
 ### Dry Run
@@ -187,6 +187,7 @@ Cleaned up 3 item(s) (2.6 GB of files)
 ```
 
 Cleanup removes:
+
 - Uploads and files of file requests whose expiry time has passed or whose downloads are used up
 - Notes whose expiry time has passed or whose views are used up
 - File requests whose time ran out about 75 minutes ago and that hold no upload any more. The wait lets an upload that started before the request closed still finish. Closing a request by hand does not bring this forward.
@@ -203,8 +204,8 @@ skysend-cli config [options]
 
 ### Options
 
-| Flag | Description |
-| --- | --- |
+| Flag     | Description                                                                                                  |
+| -------- | ------------------------------------------------------------------------------------------------------------ |
 | `--json` | Output as JSON, with `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `OIDC_CLIENT_SECRET` and `OIDC_SESSION_SECRET` masked |
 
 ### Output
@@ -212,7 +213,7 @@ skysend-cli config [options]
 ```
 Server Configuration
 ====================
-Site Title:         SkySend
+Site Title:         Hajd.Cloud
 Base URL:           http://localhost:3000
 Host:               0.0.0.0:3000
 Data Directory:     ./data

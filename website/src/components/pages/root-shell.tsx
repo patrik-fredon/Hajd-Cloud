@@ -7,7 +7,7 @@ import { Footer } from "@/components/site/footer";
 import { JsonLd } from "@/components/site/json-ld";
 import { I18nProvider } from "@/i18n/provider";
 import { LANGUAGE_SCRIPT, localePath, type Locale } from "@/i18n/config";
-import { DISCORD_URL, GITHUB_REPO } from "@/lib/content";
+
 import { SITE_URL } from "@/lib/site";
 import "@/app/globals.css";
 
@@ -24,10 +24,9 @@ const geistMono = Geist_Mono({
 const ORGANIZATION_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "SkySend",
+  name: "Hajd.Cloud",
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
-  sameAs: [`https://github.com/${GITHUB_REPO}`, DISCORD_URL],
 };
 
 /**
@@ -48,7 +47,7 @@ export function RootShell({
   const websiteJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "SkySend",
+    name: "Hajd.Cloud",
     url: `${SITE_URL}${localePath(locale, "/")}`,
     inLanguage: locale,
   };

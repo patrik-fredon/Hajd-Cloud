@@ -1,6 +1,7 @@
 import * as fs from "node:fs";
 import * as os from "node:os";
 import { spawn } from "node:child_process";
+import { z } from "zod";
 import type { Command } from "commander";
 import { writeLine } from "../lib/progress.js";
 import { APP_VERSION } from "../version.js";
@@ -16,10 +17,14 @@ interface GithubRelease {
 }
 
 async function fetchLatestRelease(): Promise<GithubRelease> {
-  const res = await fetch(
-    "https://api.github.com/repos/skyfay/SkySend/releases/latest",
-    { headers: { "User-Agent": "skysend-cli", Accept: "application/vnd.github+json" } },
-  );
+  const endpoint = z.url({ protocol: /^https$/ }).safeParse(process.env.HAJD_CLOUD_RELEASE_URL);
+  if (!endpoint.success)
+    throw new Error(
+      "Set HAJD_CLOUD_RELEASE_URL to the deployment release endpoint before checking for updates.",
+    );
+  const res = await fetch(endpoint.data, {
+    headers: { "User-Agent": "skysend-cli", Accept: "application/vnd.github+json" },
+  });
   if (!res.ok) {
     throw new Error(`GitHub API returned ${res.status}: ${res.statusText}`);
   }
@@ -32,17 +37,29 @@ function getPlatform(): string {
 
   let osName: string;
   switch (platform) {
-    case "linux":  osName = "linux"; break;
-    case "darwin": osName = "macos"; break;
-    case "win32":  osName = "windows"; break;
-    default: throw new Error(`Unsupported platform: ${platform}`);
+    case "linux":
+      osName = "linux";
+      break;
+    case "darwin":
+      osName = "macos";
+      break;
+    case "win32":
+      osName = "windows";
+      break;
+    default:
+      throw new Error(`Unsupported platform: ${platform}`);
   }
 
   let archName: string;
   switch (arch) {
-    case "x64":   archName = "x64"; break;
-    case "arm64": archName = "arm64"; break;
-    default: throw new Error(`Unsupported architecture: ${arch}`);
+    case "x64":
+      archName = "x64";
+      break;
+    case "arm64":
+      archName = "arm64";
+      break;
+    default:
+      throw new Error(`Unsupported architecture: ${arch}`);
   }
 
   return `${osName}-${archName}`;
@@ -192,17 +209,13 @@ export function registerUpdateCommand(program: Command): void {
 
         if (
           err instanceof Error &&
-          ("code" in err) &&
+          "code" in err &&
           ((err as NodeJS.ErrnoException).code === "EACCES" ||
             (err as NodeJS.ErrnoException).code === "EPERM")
         ) {
-          console.error(
-            "Permission denied. Try running with sudo or re-run the install script.",
-          );
+          console.error("Permission denied. Try running with sudo or re-run the install script.");
         } else {
-          console.error(
-            `Update failed: ${err instanceof Error ? err.message : String(err)}`,
-          );
+          console.error(`Update failed: ${err instanceof Error ? err.message : String(err)}`);
         }
         process.exit(1);
       }

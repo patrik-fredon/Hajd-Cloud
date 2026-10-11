@@ -3,7 +3,17 @@
 import { useState, type CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, ChevronRight, Heart, Menu, Monitor, Moon, Sun, X } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  ChevronRight,
+  Heart,
+  Menu,
+  Monitor,
+  Moon,
+  Sun,
+  X,
+} from "lucide-react";
 import { Dialog } from "radix-ui";
 import { useTheme } from "next-themes";
 import { DiscordIcon } from "@/components/site/discord-icon";
@@ -56,11 +66,16 @@ export function MobileMenu({ version }: { version: string | null }) {
         >
           <div className="relative overflow-hidden rounded-[22px] bg-[linear-gradient(150deg,color-mix(in_srgb,var(--tone-green)_75%,transparent),var(--border)_38%,var(--border)_70%,color-mix(in_srgb,var(--tone-cyan)_60%,transparent))] p-px shadow-[0_40px_80px_-20px_rgb(0_0_0/0.6),0_30px_80px_-30px_rgb(23_163_122/0.5)]">
             <div className="relative overflow-hidden rounded-[21px] bg-card">
-              <Glow color="#17a37a" opacity={0.24} blur={60} className="-top-20 -right-16 h-[220px] w-[260px]" />
+              <Glow
+                color="#17a37a"
+                opacity={0.24}
+                blur={60}
+                className="-top-20 -right-16 h-[220px] w-[260px]"
+              />
 
               <div className="relative flex h-14 items-center gap-2.5 border-b border-border pr-2 pl-3.5">
-                <Image src="/logo.svg" alt="" width={26} height={26} />
-                <Dialog.Title className="font-semibold">SkySend</Dialog.Title>
+                <Image src="/hajd-cloud-logo-crimson.webp" alt="" width={26} height={26} />
+                <Dialog.Title className="font-semibold">Hajd.Cloud</Dialog.Title>
                 {version && (
                   <span className="ml-0.5 rounded-full bg-tone-green/16 px-2 py-px text-xs font-medium text-tone-green tabular-nums">
                     {version}
@@ -90,7 +105,7 @@ export function MobileMenu({ version }: { version: string | null }) {
                       onClick={close}
                       className={cn(
                         "fx-rise flex min-h-[60px] items-center gap-3.5 rounded-[14px] px-3 py-2.5 transition-[background-color,transform] duration-150 active:scale-[0.98]",
-                        !on && "hover:bg-foreground/[0.04]"
+                        !on && "hover:bg-foreground/[0.04]",
                       )}
                       style={
                         {
@@ -113,8 +128,12 @@ export function MobileMenu({ version }: { version: string | null }) {
                         <link.icon className="size-[18px]" />
                       </span>
                       <span className="flex min-w-0 grow flex-col gap-px">
-                        <span className="text-[17px] font-semibold tracking-[-0.01em]">{t(link.label)}</span>
-                        <span className="truncate text-[13px] text-muted-foreground">{t(link.caption)}</span>
+                        <span className="text-[17px] font-semibold tracking-[-0.01em]">
+                          {t(link.label)}
+                        </span>
+                        <span className="truncate text-[13px] text-muted-foreground">
+                          {t(link.caption)}
+                        </span>
                       </span>
                       {on ? (
                         <span className="flex items-center gap-1.5 text-xs font-medium text-tone-green">
@@ -132,8 +151,15 @@ export function MobileMenu({ version }: { version: string | null }) {
                 })}
               </nav>
 
-              <div className="fx-rise relative mx-4 mt-1 flex items-center gap-2 border-t border-border pt-3.5" style={{ animationDelay: "0.3s" }}>
-                <div role="radiogroup" aria-label={t("nav.colorScheme")} className="flex h-11 grow rounded-[11px] border border-border bg-surface p-[3px]">
+              <div
+                className="fx-rise relative mx-4 mt-1 flex items-center gap-2 border-t border-border pt-3.5"
+                style={{ animationDelay: "0.3s" }}
+              >
+                <div
+                  role="radiogroup"
+                  aria-label={t("nav.colorScheme")}
+                  className="flex h-11 grow rounded-[11px] border border-border bg-surface p-[3px]"
+                >
                   {THEMES.map((th) => {
                     const on = theme === th.value;
                     return (
@@ -146,7 +172,9 @@ export function MobileMenu({ version }: { version: string | null }) {
                         onClick={() => setTheme(th.value)}
                         className={cn(
                           "flex items-center justify-center gap-1.5 rounded-lg text-[13px] font-medium transition-all duration-250",
-                          on ? "grow-[2] bg-card text-foreground shadow-[var(--chip-shadow)] dark:bg-accent" : "grow text-faint"
+                          on
+                            ? "grow-[2] bg-card text-foreground shadow-[var(--chip-shadow)] dark:bg-accent"
+                            : "grow text-faint",
                         )}
                       >
                         <th.icon className="size-[15px]" />
@@ -159,7 +187,11 @@ export function MobileMenu({ version }: { version: string | null }) {
               </div>
 
               <div className="fx-rise relative mx-4 mt-2.5" style={{ animationDelay: "0.33s" }}>
-                <div role="radiogroup" aria-label={t("lang.label")} className="flex h-11 rounded-[11px] border border-border bg-surface p-[3px]">
+                <div
+                  role="radiogroup"
+                  aria-label={t("lang.label")}
+                  className="flex h-11 rounded-[11px] border border-border bg-surface p-[3px]"
+                >
                   {(["auto", ...LOCALES] as const).map((c) => {
                     const on = choice === c;
                     return (
@@ -171,7 +203,9 @@ export function MobileMenu({ version }: { version: string | null }) {
                         onClick={() => pick(c)}
                         className={cn(
                           "flex grow items-center justify-center gap-1.5 rounded-lg text-[13px] font-medium transition-colors",
-                          on ? "bg-card text-foreground shadow-[var(--chip-shadow)] dark:bg-accent" : "text-faint"
+                          on
+                            ? "bg-card text-foreground shadow-[var(--chip-shadow)] dark:bg-accent"
+                            : "text-faint",
                         )}
                       >
                         {c !== "auto" && <LocaleFlag locale={c} />}
@@ -182,7 +216,10 @@ export function MobileMenu({ version }: { version: string | null }) {
                 </div>
               </div>
 
-              <div className="fx-rise relative flex flex-col gap-2 px-4 pt-3.5 pb-4" style={{ animationDelay: "0.36s" }}>
+              <div
+                className="fx-rise relative flex flex-col gap-2 px-4 pt-3.5 pb-4"
+                style={{ animationDelay: "0.36s" }}
+              >
                 <Link
                   href={path("/#start")}
                   onClick={close}

@@ -32,7 +32,7 @@ export function ServerConfigProvider({ children }: { children: ReactNode }) {
           // both into index.html, and public/theme-init.js applies them before the first paint.
 
           // Derive every accent shade from the custom color. Without one, index.css
-          // already carries the shades of SkySend green.
+          // already carries the shades of Hajd.Cloud green.
           if (cfg.customColor) {
             const style = document.createElement("style");
             style.textContent = accentCss(deriveAccent(cfg.customColor));

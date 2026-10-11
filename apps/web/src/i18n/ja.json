@@ -538,12 +538,13 @@
       "debug.devtoolsWarningText",
       "debug.started",
       "debug.note",
-      "debug.failed"
+      "debug.failed",
+      "language.auto"
     ],
     "_contributorNote": "このファイルはAIによる初期翻訳です。日本語として自然になるよう確認しています。修正は歓迎します。"
   },
   "common": {
-    "appName": "SkySend",
+    "appName": "Hajd.Cloud",
     "tabSubtitle": "暗号化ファイル・メモ共有",
     "tagline": "エンドツーエンド暗号化によるファイル・メモ共有",
     "loading": "読み込み中...",
@@ -606,7 +607,8 @@
     "moveUp": "上へ移動",
     "moveDown": "下へ移動",
     "removeBlock": "ブロックを削除",
-    "blockTitle": "タイトル（任意）"
+    "blockTitle": "タイトル（任意）",
+    "advanced": "詳細設定"
   },
   "upload": {
     "title": "ファイルをアップロード",
@@ -724,7 +726,7 @@
     "blockCount_one": "{{count}} 個のブロックを含むメモ",
     "blockCount_other": "{{count}} 個のブロックを含むメモ",
     "copyAll": "すべてコピー",
-    "unsupported": "メモのこの部分を表示するには、新しいバージョンの SkySend が必要です。",
+    "unsupported": "メモのこの部分を表示するには、新しいバージョンの Hajd.Cloud が必要です。",
     "unreadable": "このメモは通常どおりに読み込めなかったため、届いたままの状態で表示しています。",
     "showCode": "コードを表示",
     "hideCode": "コードを隠す"
@@ -841,7 +843,8 @@
     "failed": "失敗"
   },
   "language": {
-    "search": "言語を検索..."
+    "search": "言語を検索...",
+    "auto": "自動"
   },
   "errors": {
     "insecureContext": "HTTPSが必要です",
@@ -927,7 +930,7 @@
   "how": {
     "eyebrow": "設計段階からのゼロ知識",
     "title": "あなたの秘密は<a>あなた</a>だけのもの",
-    "lead": "SkySendは、あらゆるデータをデバイスの外に出る前にブラウザ内で暗号化します。鍵はリンクに含まれ、サーバーには届きません。このページでは、その仕組みを紹介します。",
+    "lead": "Hajd.Cloudは、あらゆるデータをデバイスの外に出る前にブラウザ内で暗号化します。鍵はリンクに含まれ、サーバーには届きません。このページでは、その仕組みを紹介します。",
     "flowSender": "あなた",
     "flowSenderText": "ブラウザで暗号化",
     "flowServer": "サーバー",
@@ -937,7 +940,7 @@
     "flowKeyShort": "鍵はリンクの中",
     "flowKey": "鍵はリンクの # より後ろにあります。ブラウザはその部分を送信しないため、サーバーに見えるのは暗号化されたデータだけです。",
     "demoTitle": "実際に試してみる",
-    "demoText": "何か入力してみてください。SkySendがメモに使うのと同じコードで、この場で暗号化されます。どこにも送信されません。",
+    "demoText": "何か入力してみてください。Hajd.Cloudがメモに使うのと同じコードで、この場で暗号化されます。どこにも送信されません。",
     "demoInput": "テキスト",
     "demoSample": "玄関の暗証番号は4711です。8時に会いましょう。",
     "demoLocal": "このタブ内でのみ実行",
@@ -947,12 +950,12 @@
     "demoToken": "サーバーが検証するトークン",
     "demoBytes_one": "暗号文 {{count}} バイト",
     "demoBytes_other": "暗号文 {{count}} バイト",
-    "demoUnavailable": "このブラウザではこのページでWeb Cryptoが使えないため、デモを実行できません。試すにはHTTPS経由でSkySendを開いてください。",
+    "demoUnavailable": "このブラウザではこのページでWeb Cryptoが使えないため、デモを実行できません。試すにはHTTPS経由でHajd.Cloudを開いてください。",
     "badgeLinkOnly": "リンクの中だけ",
     "badgeSent": "サーバーに送信",
     "stepsTitle": "4つのステップ、1つの約束",
     "step1Title": "ブラウザで鍵を作成",
-    "step1Text": "ランダムな256ビットのシークレットがデバイス上で作られます。SkySendに必要なすべての鍵は、ここから導出されます。",
+    "step1Text": "ランダムな256ビットのシークレットがデバイス上で作られます。Hajd.Cloudに必要なすべての鍵は、ここから導出されます。",
     "step2Title": "まずすべてを暗号化",
     "step2Text": "ファイル、ファイル名、メモは、最初の1バイトがデバイスを出る前に暗号化されます。",
     "step3Title": "鍵はリンクで運ばれる",
@@ -981,7 +984,7 @@
     "featureStreamTitle": "大きなファイルもストリーミングで",
     "featureStreamText": "ファイルはサーバーへストリーミングされながら、64 KBのレコード単位で暗号化されます。",
     "featurePrivacyTitle": "アカウントなし、解析なし",
-    "featurePrivacyText": "SkySendにはユーザーアカウントも追跡もありません。アップロード履歴はブラウザ内にだけ保存されます。",
+    "featurePrivacyText": "Hajd.Cloudにはユーザーアカウントも追跡もありません。アップロード履歴はブラウザ内にだけ保存されます。",
     "featureOpenTitle": "オープンソースでセルフホスト",
     "featureOpenText": "誰でもコードを読み、これらの主張を確かめ、自分のインスタンスを運用できます。",
     "specsTitle": "内部の仕組み",
@@ -1318,7 +1321,7 @@
     "imported_other": "{{count}} 件のテンプレートをインポートしました。",
     "importFailed": "テンプレートをインポートできませんでした。",
     "importError": {
-      "invalid": "SkySend のテンプレートが含まれていません。",
+      "invalid": "Hajd.Cloud のテンプレートが含まれていません。",
       "tooLarge": "このエクスポートは大きすぎます。",
       "password": "パスワードが正しくありません。"
     },

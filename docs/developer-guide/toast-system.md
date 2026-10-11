@@ -1,6 +1,6 @@
 # Toast Notification System
 
-SkySend uses [Sonner](https://sonner.emilkowal.ski/) for in-app toast notifications. The `apps/web/src/lib/toast.tsx` module wraps Sonner with two layers:
+Hajd.Cloud uses [Sonner](https://sonner.emilkowal.ski/) for in-app toast notifications. The `apps/web/src/lib/toast.tsx` module wraps Sonner with two layers:
 
 1. **`showToast()`** - general-purpose helper supporting optional Copy and Docs action buttons.
 2. **`showKnownErrorToast()`** - error-specific helper that detects known error patterns and automatically enriches them with a docs link and copy button.
@@ -20,20 +20,20 @@ showToast(t("errors.insecureContext"), {
   type: "error",
   description: rawErrorMessage,
   copyText: rawErrorMessage,
-  docsUrl: "https://docs.skysend.app/user-guide/troubleshooting#...",
+  docsUrl: "https://skysend.hajd.cloud/how",
 });
 ```
 
 ### Options
 
-| Option | Type | Description |
-| --- | --- | --- |
-| `type` | `"error" \| "warning" \| "info" \| "success" \| "default"` | Sets the icon and color. Defaults to `"default"`. |
-| `description` | `string` | Secondary text shown below the title in smaller type. |
-| `copyText` | `string` | If set, a Copy button is shown that copies this text to the clipboard. |
-| `docsUrl` | `string` | If set, a Docs button is shown that opens this URL in a new tab. |
-| `duration` | `number` | Override the auto-dismiss timeout in milliseconds. |
-| `id` | `string` | Deduplication key - a second call with the same ID updates the existing toast instead of opening a new one. |
+| Option        | Type                                                       | Description                                                                                                 |
+| ------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `type`        | `"error" \| "warning" \| "info" \| "success" \| "default"` | Sets the icon and color. Defaults to `"default"`.                                                           |
+| `description` | `string`                                                   | Secondary text shown below the title in smaller type.                                                       |
+| `copyText`    | `string`                                                   | If set, a Copy button is shown that copies this text to the clipboard.                                      |
+| `docsUrl`     | `string`                                                   | If set, a Docs button is shown that opens this URL in a new tab.                                            |
+| `duration`    | `number`                                                   | Override the auto-dismiss timeout in milliseconds.                                                          |
+| `id`          | `string`                                                   | Deduplication key - a second call with the same ID updates the existing toast instead of opening a new one. |
 
 `showToast()` always goes through Sonner's own `toast.error()` (or the matching type variant). When action buttons are needed, it passes a `ToastActionButtons` component as the `description` node, so the toast keeps the same layout, close button and animations as every other one.
 
@@ -55,11 +55,11 @@ For unknown errors it falls back to `toast.error(message)`.
 
 ### Known error patterns
 
-| Pattern | i18n title | Docs link |
-| --- | --- | --- |
-| `importKey` / `crypto.subtle` / `subtle is undefined` | `errors.insecureContext` | [Troubleshooting - HTTPS required](https://docs.skysend.app/user-guide/troubleshooting#crypto-subtle-is-undefined-cannot-read-properties-of-undefined-reading-importkey) |
-| `Origin not allowed` | `errors.originNotAllowed` | [Troubleshooting - Origin not allowed](https://docs.skysend.app/user-guide/troubleshooting#upload-fails-with-origin-not-allowed) |
-| `S3 CORS` / `S3 unreachable` | `errors.s3CorsError` | [Troubleshooting - S3 CORS](https://docs.skysend.app/user-guide/troubleshooting#s3-downloads-fail-with-cors-error) |
+| Pattern                                               | i18n title                | Docs link                            |
+| ----------------------------------------------------- | ------------------------- | ------------------------------------ |
+| `importKey` / `crypto.subtle` / `subtle is undefined` | `errors.insecureContext`  | Troubleshooting - HTTPS required     |
+| `Origin not allowed`                                  | `errors.originNotAllowed` | Troubleshooting - Origin not allowed |
+| `S3 CORS` / `S3 unreachable`                          | `errors.s3CorsError`      | Troubleshooting - S3 CORS            |
 
 ### Adding a new known error
 

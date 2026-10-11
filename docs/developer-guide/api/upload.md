@@ -12,23 +12,23 @@ The request body is the raw encrypted stream (binary). All metadata is passed vi
 
 #### Required Headers
 
-| Header | Type | Description |
-| --- | --- | --- |
-| `X-Auth-Token` | base64url | Authentication token (HMAC-derived) |
-| `X-Owner-Token` | base64url | Ownership token (HKDF-derived) |
-| `X-Salt` | base64url | HKDF salt (must decode to exactly 16 bytes) |
-| `X-Max-Downloads` | integer | Maximum number of downloads (must be a valid option) |
-| `X-Expire-Sec` | integer | Expiry time in seconds (must be a valid option) |
-| `X-File-Count` | integer | Number of files in the upload (1 for single, >1 for archive) |
-| `X-Has-Password` | `"true"` / `"false"` | Whether the upload is password-protected |
-| `Content-Length` | integer | Exact size of the encrypted payload in bytes |
+| Header            | Type                 | Description                                                  |
+| ----------------- | -------------------- | ------------------------------------------------------------ |
+| `X-Auth-Token`    | base64url            | Authentication token (HMAC-derived)                          |
+| `X-Owner-Token`   | base64url            | Ownership token (HKDF-derived)                               |
+| `X-Salt`          | base64url            | HKDF salt (must decode to exactly 16 bytes)                  |
+| `X-Max-Downloads` | integer              | Maximum number of downloads (must be a valid option)         |
+| `X-Expire-Sec`    | integer              | Expiry time in seconds (must be a valid option)              |
+| `X-File-Count`    | integer              | Number of files in the upload (1 for single, >1 for archive) |
+| `X-Has-Password`  | `"true"` / `"false"` | Whether the upload is password-protected                     |
+| `Content-Length`  | integer              | Exact size of the encrypted payload in bytes                 |
 
 #### Password Headers (required if `X-Has-Password: true`)
 
-| Header | Type | Description |
-| --- | --- | --- |
-| `X-Password-Salt` | base64url | Password KDF salt (16 bytes) |
-| `X-Password-Algo` | string | KDF algorithm: `"argon2id-v2"` |
+| Header            | Type      | Description                    |
+| ----------------- | --------- | ------------------------------ |
+| `X-Password-Salt` | base64url | Password KDF salt (16 bytes)   |
+| `X-Password-Algo` | string    | KDF algorithm: `"argon2id-v2"` |
 
 ### Validation
 
@@ -58,12 +58,12 @@ The request body is the raw encrypted stream (binary). All metadata is passed vi
 }
 ```
 
-| Status | Error | Cause |
-| --- | --- | --- |
-| `401` | `Authentication required` | `OIDC_PROTECT_FILES` is on and the request carries no valid session |
-| `413` | `Body size does not match declared content length` | The body grew past `Content-Length` |
-| `413` | `File size exceeds remaining quota.` | `Content-Length` does not fit into what is left of the upload quota |
-| `429` | `Upload quota exceeded. Try again later.` | The upload quota is used up |
+| Status | Error                                              | Cause                                                               |
+| ------ | -------------------------------------------------- | ------------------------------------------------------------------- |
+| `401`  | `Authentication required`                          | `OIDC_PROTECT_FILES` is on and the request carries no valid session |
+| `413`  | `Body size does not match declared content length` | The body grew past `Content-Length`                                 |
+| `413`  | `File size exceeds remaining quota.`               | `Content-Length` does not fit into what is left of the upload quota |
+| `429`  | `Upload quota exceeded. Try again later.`          | The upload quota is used up                                         |
 
 ### Example
 
@@ -96,16 +96,16 @@ The request body is empty. All metadata is passed via headers (same headers as `
 
 #### Required Headers
 
-| Header | Type | Description |
-| --- | --- | --- |
-| `X-Auth-Token` | base64url | Authentication token (HMAC-derived) |
-| `X-Owner-Token` | base64url | Ownership token (HKDF-derived) |
-| `X-Salt` | base64url | HKDF salt (must decode to 16 or 32 bytes) |
-| `X-Max-Downloads` | integer | Maximum number of downloads (must be a valid option) |
-| `X-Expire-Sec` | integer | Expiry time in seconds (must be a valid option) |
-| `X-File-Count` | integer | Number of files in the upload (1 for single, >1 for archive) |
-| `X-Has-Password` | `"true"` / `"false"` | Whether the upload is password-protected |
-| `X-Content-Length` | integer | Exact size of the full encrypted payload in bytes |
+| Header             | Type                 | Description                                                  |
+| ------------------ | -------------------- | ------------------------------------------------------------ |
+| `X-Auth-Token`     | base64url            | Authentication token (HMAC-derived)                          |
+| `X-Owner-Token`    | base64url            | Ownership token (HKDF-derived)                               |
+| `X-Salt`           | base64url            | HKDF salt (must decode to 16 or 32 bytes)                    |
+| `X-Max-Downloads`  | integer              | Maximum number of downloads (must be a valid option)         |
+| `X-Expire-Sec`     | integer              | Expiry time in seconds (must be a valid option)              |
+| `X-File-Count`     | integer              | Number of files in the upload (1 for single, >1 for archive) |
+| `X-Has-Password`   | `"true"` / `"false"` | Whether the upload is password-protected                     |
+| `X-Content-Length` | integer              | Exact size of the full encrypted payload in bytes            |
 
 #### Response
 
@@ -123,9 +123,9 @@ Append a chunk of encrypted data to a pending upload. Chunks may arrive out-of-o
 
 #### Query Parameters
 
-| Parameter | Type | Description |
-| --- | --- | --- |
-| `index` | integer | Zero-based chunk index (required, must be >= 0) |
+| Parameter | Type    | Description                                     |
+| --------- | ------- | ----------------------------------------------- |
+| `index`   | integer | Zero-based chunk index (required, must be >= 0) |
 
 #### Request
 
@@ -152,14 +152,14 @@ The bundled clients send 10 MiB chunks and never more parallel requests than `fi
 }
 ```
 
-| Status | Error | Cause |
-| --- | --- | --- |
-| `400` | `Empty chunk` | The chunk body holds no bytes |
-| `409` | `Chunk already received` | The chunk index arrived before |
-| `413` | `Chunk too large` | Over 16 MiB or over the declared upload size |
-| `413` | `Chunks exceed the declared content length` | The chunks of the session together would pass `X-Content-Length` |
-| `429` | `Too many parallel chunk requests` | More than `FILE_UPLOAD_CONCURRENT_CHUNKS` requests in flight for the session |
-| `429` | `Too many chunks waiting for an earlier one` | 64 chunks already wait for an earlier index |
+| Status | Error                                        | Cause                                                                        |
+| ------ | -------------------------------------------- | ---------------------------------------------------------------------------- |
+| `400`  | `Empty chunk`                                | The chunk body holds no bytes                                                |
+| `409`  | `Chunk already received`                     | The chunk index arrived before                                               |
+| `413`  | `Chunk too large`                            | Over 16 MiB or over the declared upload size                                 |
+| `413`  | `Chunks exceed the declared content length`  | The chunks of the session together would pass `X-Content-Length`             |
+| `429`  | `Too many parallel chunk requests`           | More than `FILE_UPLOAD_CONCURRENT_CHUNKS` requests in flight for the session |
+| `429`  | `Too many chunks waiting for an earlier one` | 64 chunks already wait for an earlier index                                  |
 
 ### POST /api/upload/:id/finalize
 
@@ -169,8 +169,8 @@ Finalize a chunked upload. Verifies total bytes match the declared content lengt
 
 **Headers:**
 
-| Header | Type | Description |
-| --- | --- | --- |
+| Header          | Type      | Description     |
+| --------------- | --------- | --------------- |
 | `X-Owner-Token` | base64url | Ownership token |
 
 #### Response
@@ -199,7 +199,7 @@ POST /api/meta/:id             →  200 { ok }
 
 ## WebSocket /api/upload/ws
 
-Primary upload transport.  Streams the encrypted payload over a single persistent WebSocket connection, avoiding the HTTP/2 multiplexing bottleneck that reverse proxies (Traefik, Nginx) impose on many parallel `POST /api/upload/:id/chunk` requests.
+Primary upload transport. Streams the encrypted payload over a single persistent WebSocket connection, avoiding the HTTP/2 multiplexing bottleneck that reverse proxies (Traefik, Nginx) impose on many parallel `POST /api/upload/:id/chunk` requests.
 
 Controlled by the `FILE_UPLOAD_WS` environment variable (default `true`). When disabled, or when the WebSocket handshake fails for any reason, clients automatically fall back to the HTTP chunked upload flow described above.
 
@@ -212,14 +212,20 @@ Controlled by the `FILE_UPLOAD_WS` environment variable (default `true`). When d
    {
      "type": "init",
      "headers": {
-       "authToken": "…", "ownerToken": "…", "salt": "…",
-       "maxDownloads": "3", "expireSec": "3600", "fileCount": "1",
-       "contentLength": "12345", "hasPassword": "false"
+       "authToken": "…",
+       "ownerToken": "…",
+       "salt": "…",
+       "maxDownloads": "3",
+       "expireSec": "3600",
+       "fileCount": "1",
+       "contentLength": "12345",
+       "hasPassword": "false"
      }
    }
    ```
 
    All header values are strings, matching the HTTP upload headers one-to-one. Password-protected uploads additionally include `passwordSalt` and `passwordAlgo`. The server validates the payload identically to the HTTP `POST /api/upload/init` endpoint.
+
 3. **Server → Client** (text, JSON): `{"type":"ready","id":"<uuid>"}`.
 4. **Client → Server** (binary frames): contiguous slices of ciphertext. WebSocket guarantees frame ordering on a single connection, so no per-frame index is required. Total bytes must equal `contentLength`.
 5. **Client → Server** (text, JSON): `{"type":"finalize"}`.
@@ -227,13 +233,13 @@ Controlled by the `FILE_UPLOAD_WS` environment variable (default `true`). When d
 
 Errors are reported as `{"type":"error","message":"…"}` followed by a non-1000 close code:
 
-| Close code | Cause |
-| --- | --- |
-| `1002` | Protocol violation (e.g. binary frame after finalize) |
-| `1003` | Unsupported data type (e.g. non-JSON control frame) |
-| `1008` | Header validation, size mismatch, or quota violation |
-| `1009` | Server receive buffer exceeded `FILE_UPLOAD_WS_MAX_BUFFER`, or a single message is larger than 1 MiB |
-| `1011` | Internal server error |
+| Close code | Cause                                                                                                |
+| ---------- | ---------------------------------------------------------------------------------------------------- |
+| `1002`     | Protocol violation (e.g. binary frame after finalize)                                                |
+| `1003`     | Unsupported data type (e.g. non-JSON control frame)                                                  |
+| `1008`     | Header validation, size mismatch, or quota violation                                                 |
+| `1009`     | Server receive buffer exceeded `FILE_UPLOAD_WS_MAX_BUFFER`, or a single message is larger than 1 MiB |
+| `1011`     | Internal server error                                                                                |
 
 ### Client Fallback
 
@@ -254,8 +260,8 @@ Save encrypted metadata (file names, types, sizes) for an upload.
 
 **Headers:**
 
-| Header | Type | Description |
-| --- | --- | --- |
+| Header          | Type      | Description     |
+| --------------- | --------- | --------------- |
 | `X-Owner-Token` | base64url | Ownership token |
 
 **Body:**

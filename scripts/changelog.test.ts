@@ -1,5 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
+process.env.HAJD_CLOUD_REPOSITORY = "example/project";
+process.env.HAJD_CLOUD_MAINTAINERS = "ExampleMaintainer";
+
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   CHANGELOG,
@@ -21,7 +24,7 @@ const MEMORY_CHANGELOG = "/repo/docs/changelog.md";
 const RELEASED = [
   "# Changelog",
   "",
-  "All notable changes to SkySend are documented here.",
+  "All notable changes to Hajd.Cloud are documented here.",
   "",
   "## v2.12.1 - Link Preview and Branding Improvements",
   "",
@@ -30,7 +33,7 @@ const RELEASED = [
 ].join("\n");
 
 /** The problems of a fragment, without the line numbers. */
-function problemsOf(text: string, name = "Skyfay-fix.md") {
+function problemsOf(text: string, name = "ExampleMaintainer-fix.md") {
   return parseFragment(text, name).problems.map((problem) => problem.replace(/^line \d+: /, ""));
 }
 
@@ -105,9 +108,9 @@ describe("a changelog fragment", () => {
         "",
         "### ✨ Features",
         "",
-        "- **server**: Uploads can be named ([#67](https://github.com/Skyfay/SkySend/issues/67)).",
+        "- **server**: Uploads can be named ([#67](https://github.com/example/project/issues/67)).",
       ].join("\n"),
-      "Skyfay-safari.md",
+      "ExampleMaintainer-safari.md",
     );
 
     expect(fragment.problems).toEqual([]);
@@ -122,7 +125,7 @@ describe("a changelog fragment", () => {
     expect(problemsOf("### 🚀 Shiny\n\n- **web**: New.")).toEqual([
       '"### 🚀 Shiny" is not one of the changelog sections',
     ]);
-    expect(problemsOf("### 🐳 Docker\n\n- **docker**: `skyfay/skysend:v2`")).toEqual([
+    expect(problemsOf("### 🐳 Docker\n\n- **docker**: `hajd-cloud/skysend:v2`")).toEqual([
       "the release writes the Docker section",
     ]);
   });
@@ -228,7 +231,7 @@ describe("the version block of a release", () => {
         [
           "### 🐳 Docker",
           "",
-          "- **Image**: `skyfay/skysend:v2.13.0`",
+          "- **Image**: `hajd-cloud/skysend:v2.13.0`",
           "- **Also tagged as**: `latest`, `v2`",
           "- **Platforms**: linux/amd64, linux/arm64",
         ].join("\n"),
@@ -243,7 +246,7 @@ describe("the version block of a release", () => {
       [
         "# Changelog",
         "",
-        "All notable changes to SkySend are documented here.",
+        "All notable changes to Hajd.Cloud are documented here.",
         "",
         "## v2.13.0",
         "",
@@ -287,7 +290,7 @@ describe("a release", () => {
     const files = memoryFiles({
       [MEMORY_CHANGELOG]: RELEASED,
       [`${DIR}/README.md`]: "# Unreleased changelog entries",
-      [`${DIR}/Skyfay-fix.md`]: "### 🐛 Bug Fixes\n\n- **web**: Fixed.",
+      [`${DIR}/ExampleMaintainer-fix.md`]: "### 🐛 Bug Fixes\n\n- **web**: Fixed.",
     });
 
     const used = release({
@@ -297,7 +300,7 @@ describe("a release", () => {
       changelog: MEMORY_CHANGELOG,
     });
 
-    expect(used.map((fragment) => fragment.name)).toEqual(["Skyfay-fix.md"]);
+    expect(used.map((fragment) => fragment.name)).toEqual(["ExampleMaintainer-fix.md"]);
     expect(files.get(MEMORY_CHANGELOG)).toContain(
       "## v2.13.0\n\n*Release: In Progress*\n\n### 🐛 Bug Fixes\n\n- **web**: Fixed.",
     );
@@ -307,20 +310,20 @@ describe("a release", () => {
   it("changes nothing while a fragment breaks the format", () => {
     const files = memoryFiles({
       [MEMORY_CHANGELOG]: RELEASED,
-      [`${DIR}/Skyfay-fix.md`]: "### 🐛 Bug Fixes\n\n- **web**: One; two.",
+      [`${DIR}/ExampleMaintainer-fix.md`]: "### 🐛 Bug Fixes\n\n- **web**: One; two.",
     });
 
     expect(() =>
       release({ version: "2.13.0", tags: "`latest`, `v2`", dir: DIR, changelog: MEMORY_CHANGELOG }),
-    ).toThrow(/Skyfay-fix\.md: line 3: a description has no `;`/);
+    ).toThrow(/ExampleMaintainer-fix\.md: line 3: a description has no `;`/);
     expect(files.get(MEMORY_CHANGELOG)).toBe(RELEASED);
-    expect(files.has(`${DIR}/Skyfay-fix.md`)).toBe(true);
+    expect(files.has(`${DIR}/ExampleMaintainer-fix.md`)).toBe(true);
   });
 
   it("tells a version apart from a pre-release of it", () => {
     const files = memoryFiles({
       [MEMORY_CHANGELOG]: RELEASED.replace("## v2.12.1 - ", "## v2.13.0-beta - "),
-      [`${DIR}/Skyfay-fix.md`]: "### 🐛 Bug Fixes\n\n- **web**: Fixed.",
+      [`${DIR}/ExampleMaintainer-fix.md`]: "### 🐛 Bug Fixes\n\n- **web**: Fixed.",
     });
 
     release({ version: "2.13.0", tags: "`latest`, `v2`", dir: DIR, changelog: MEMORY_CHANGELOG });
@@ -331,18 +334,18 @@ describe("a release", () => {
   it("refuses a version the changelog lists already", () => {
     const files = memoryFiles({
       [MEMORY_CHANGELOG]: RELEASED,
-      [`${DIR}/Skyfay-fix.md`]: "### 🐛 Bug Fixes\n\n- **web**: Fixed.",
+      [`${DIR}/ExampleMaintainer-fix.md`]: "### 🐛 Bug Fixes\n\n- **web**: Fixed.",
     });
 
     expect(() =>
       release({ version: "2.12.1", tags: "`latest`, `v2`", dir: DIR, changelog: MEMORY_CHANGELOG }),
     ).toThrow(/already lists v2\.12\.1/);
-    expect(files.has(`${DIR}/Skyfay-fix.md`)).toBe(true);
+    expect(files.has(`${DIR}/ExampleMaintainer-fix.md`)).toBe(true);
   });
 });
 
 describe("the thanks of an outside contribution", () => {
-  const PR_81 = "Thanks @NotAFlightRisk ([#81](https://github.com/Skyfay/SkySend/pull/81))";
+  const PR_81 = "Thanks @NotAFlightRisk ([#81](https://github.com/example/project/pull/81))";
   const contribution = { author: "NotAFlightRisk", number: 81 };
 
   it("goes at the end of every entry of the fragment", () => {
@@ -361,7 +364,7 @@ describe("the thanks of an outside contribution", () => {
 
   it("leaves an entry that thanks someone already, and a fragment without a contribution", () => {
     const advisory =
-      "- **server**: Fixed. Thanks @rajnisht7 ([GHSA-9rmm-v3p2-c26g](https://github.com/Skyfay/SkySend/security/advisories/GHSA-9rmm-v3p2-c26g))";
+      "- **server**: Fixed. Thanks @rajnisht7 ([GHSA-9rmm-v3p2-c26g](https://github.com/example/project/security/advisories/GHSA-9rmm-v3p2-c26g))";
     const fragment = parseFragment(`### 🔒 Security\n\n${advisory}`, "fix.md");
     expect(creditFragment(fragment, contribution).sections.get("### 🔒 Security")).toEqual([
       advisory,
@@ -425,11 +428,13 @@ describe("the pull request behind a fragment", () => {
       "git",
       ["log", "-1", "--diff-filter=A", "--format=%H", "--", `${DIR}/fix.md`],
     ]);
-    expect(calls[1]?.[1]).toContain(`repos/Skyfay/SkySend/commits/${SHA}/pulls`);
+    expect(calls[1]?.[1]).toContain(`repos/example/project/commits/${SHA}/pulls`);
   });
 
   it("thanks nobody for a maintainer's pull request, a bot's, or a fragment without one", () => {
-    expect(findContribution("a.md", { dir: DIR, ...answers(SHA, "80\tSkyfay\tUser") })).toBeNull();
+    expect(
+      findContribution("a.md", { dir: DIR, ...answers(SHA, "80\tExampleMaintainer\tUser") }),
+    ).toBeNull();
     expect(
       findContribution("a.md", { dir: DIR, ...answers(SHA, "90\tdependabot[bot]\tBot") }),
     ).toBeNull();

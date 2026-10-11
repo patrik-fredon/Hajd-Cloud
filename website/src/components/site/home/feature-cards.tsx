@@ -36,10 +36,21 @@ function tint(tone: string, pct: number) {
   return `color-mix(in srgb, var(--tone-${tone}) ${pct}%, transparent)`;
 }
 
-function IconTile({ icon: Icon, tone, className }: { icon: LucideIcon; tone: string; className?: string }) {
+function IconTile({
+  icon: Icon,
+  tone,
+  className,
+}: {
+  icon: LucideIcon;
+  tone: string;
+  className?: string;
+}) {
   return (
     <span
-      className={cn("relative flex size-11 shrink-0 items-center justify-center rounded-xl", className)}
+      className={cn(
+        "relative flex size-11 shrink-0 items-center justify-center rounded-xl",
+        className,
+      )}
       style={{ background: tint(tone, 14), color: `var(--tone-${tone})` }}
     >
       <Icon className="size-5" />
@@ -50,7 +61,9 @@ function IconTile({ icon: Icon, tone, className }: { icon: LucideIcon; tone: str
 function CardHead({ title, text, large }: { title: string; text: string; large?: boolean }) {
   return (
     <div className="relative flex flex-col gap-1.5">
-      <h3 className={cn("font-semibold tracking-[-0.02em]", large ? "text-xl" : "text-lg")}>{title}</h3>
+      <h3 className={cn("font-semibold tracking-[-0.02em]", large ? "text-xl" : "text-lg")}>
+        {title}
+      </h3>
       <p className="leading-[1.55] text-muted-foreground">{text}</p>
     </div>
   );
@@ -61,11 +74,46 @@ function CardHead({ title, text, large }: { title: string; text: string; large?:
 type BlockId = "text" | "password" | "code" | "ssh";
 
 // The code block is titled with its filename, which stays the same in every language.
-const BLOCKS: { id: BlockId; label: MessageKey; sub: MessageKey; title: MessageKey | null; icon: LucideIcon; tone: string }[] = [
-  { id: "text", label: "features.blockText", sub: "features.blockTextSub", title: "features.blockTextTitle", icon: Type, tone: "blue" },
-  { id: "password", label: "features.blockPassword", sub: "features.blockPasswordSub", title: "features.blockPasswordTitle", icon: KeyRound, tone: "amber" },
-  { id: "code", label: "features.blockCode", sub: "features.blockCodeSub", title: null, icon: Code, tone: "violet" },
-  { id: "ssh", label: "features.blockSsh", sub: "features.blockSshSub", title: "features.blockSshTitle", icon: SquareTerminal, tone: "cyan" },
+const BLOCKS: {
+  id: BlockId;
+  label: MessageKey;
+  sub: MessageKey;
+  title: MessageKey | null;
+  icon: LucideIcon;
+  tone: string;
+}[] = [
+  {
+    id: "text",
+    label: "features.blockText",
+    sub: "features.blockTextSub",
+    title: "features.blockTextTitle",
+    icon: Type,
+    tone: "blue",
+  },
+  {
+    id: "password",
+    label: "features.blockPassword",
+    sub: "features.blockPasswordSub",
+    title: "features.blockPasswordTitle",
+    icon: KeyRound,
+    tone: "amber",
+  },
+  {
+    id: "code",
+    label: "features.blockCode",
+    sub: "features.blockCodeSub",
+    title: null,
+    icon: Code,
+    tone: "violet",
+  },
+  {
+    id: "ssh",
+    label: "features.blockSsh",
+    sub: "features.blockSshSub",
+    title: "features.blockSshTitle",
+    icon: SquareTerminal,
+    tone: "cyan",
+  },
 ];
 
 function BlockBody({ id }: { id: BlockId }) {
@@ -83,7 +131,9 @@ function BlockBody({ id }: { id: BlockId }) {
         </div>
         <div className="flex items-center gap-2.5">
           <span className="w-[76px] text-xs text-muted-foreground">{t("features.password")}</span>
-          <span className="font-mono text-[13px]">{shown ? "K7#mq2-vLp9!xR" : "••••••••••••••"}</span>
+          <span className="font-mono text-[13px]">
+            {shown ? "K7#mq2-vLp9!xR" : "••••••••••••••"}
+          </span>
           <button
             type="button"
             aria-label={shown ? t("features.hidePassword") : t("features.showPassword")}
@@ -100,17 +150,23 @@ function BlockBody({ id }: { id: BlockId }) {
     return (
       <pre className="font-mono text-[12.5px] leading-relaxed text-subtle">
         <span className="text-tone-violet">server</span> {"{\n  "}
-        <span className="text-tone-violet">listen</span> <span className="text-tone-amber">443 ssl</span>
+        <span className="text-tone-violet">listen</span>{" "}
+        <span className="text-tone-amber">443 ssl</span>
         {";\n  "}
-        <span className="text-tone-violet">server_name</span> <span className="text-tone-amber">staging.example.com</span>
+        <span className="text-tone-violet">server_name</span>{" "}
+        <span className="text-tone-amber">staging.example.com</span>
         {";\n}"}
       </pre>
     );
   }
   return (
     <div className="flex flex-col gap-1 font-mono text-[12.5px]">
-      <span className="truncate text-subtle">ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOq3mVZf8kT2pLr9xW4nB7cQe1hJ6sYd0uGa deploy@staging</span>
-      <span className="truncate text-faint">SHA256:4kq9Xw2mR7tLp0Zc8vB1nH6yJ3sQe5aFgUd7tKiVo5c</span>
+      <span className="truncate text-subtle">
+        ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOq3mVZf8kT2pLr9xW4nB7cQe1hJ6sYd0uGa deploy@staging
+      </span>
+      <span className="truncate text-faint">
+        SHA256:4kq9Xw2mR7tLp0Zc8vB1nH6yJ3sQe5aFgUd7tKiVo5c
+      </span>
     </div>
   );
 }
@@ -125,11 +181,7 @@ export function BlocksCard({ className }: { className?: string }) {
 
   return (
     <SpotlightCard className={cn("flex flex-col gap-5 rounded-[22px] p-5 sm:p-7", className)}>
-      <CardHead
-        large
-        title={t("features.blocksTitle")}
-        text={t("features.blocksText")}
-      />
+      <CardHead large title={t("features.blocksTitle")} text={t("features.blocksText")} />
       <div className="relative grid min-h-0 grow gap-5 lg:grid-cols-[230px_minmax(0,1fr)]">
         <div className="flex flex-col gap-2">
           <span className="text-[13px] text-muted-foreground">{t("features.blocksPick")}</span>
@@ -145,7 +197,9 @@ export function BlocksCard({ className }: { className?: string }) {
                   className="flex h-[60px] items-center gap-3 rounded-xl border pr-3 pl-2.5 text-left transition-colors"
                   style={{
                     borderColor: on ? tint(b.tone, 40) : "var(--border)",
-                    background: on ? `linear-gradient(90deg, ${tint(b.tone, 14)}, ${tint(b.tone, 3)})` : "transparent",
+                    background: on
+                      ? `linear-gradient(90deg, ${tint(b.tone, 14)}, ${tint(b.tone, 3)})`
+                      : "transparent",
                   }}
                 >
                   <span
@@ -156,16 +210,22 @@ export function BlocksCard({ className }: { className?: string }) {
                   </span>
                   <span className="flex min-w-0 grow flex-col">
                     <span className="font-semibold">{t(b.label)}</span>
-                    <span className="hidden truncate text-xs text-muted-foreground sm:block">{t(b.sub)}</span>
+                    <span className="hidden truncate text-xs text-muted-foreground sm:block">
+                      {t(b.sub)}
+                    </span>
                   </span>
                   <span
                     className={cn(
                       "hidden size-[22px] shrink-0 items-center justify-center rounded-full sm:flex",
-                      on ? "text-tone-ink" : "border border-input text-muted-foreground"
+                      on ? "text-tone-ink" : "border border-input text-muted-foreground",
                     )}
                     style={on ? { background: `var(--tone-${b.tone})` } : undefined}
                   >
-                    {on ? <Check className="size-3" strokeWidth={3} /> : <Plus className="size-3" strokeWidth={3} />}
+                    {on ? (
+                      <Check className="size-3" strokeWidth={3} />
+                    ) : (
+                      <Plus className="size-3" strokeWidth={3} />
+                    )}
                   </span>
                 </button>
               );
@@ -188,9 +248,15 @@ export function BlocksCard({ className }: { className?: string }) {
           {picked.map((id) => {
             const b = BLOCKS.find((x) => x.id === id)!;
             return (
-              <div key={id} className="fx-in flex flex-col gap-2 rounded-xl border border-border bg-card px-3 py-2.5">
+              <div
+                key={id}
+                className="fx-in flex flex-col gap-2 rounded-xl border border-border bg-card px-3 py-2.5"
+              >
                 <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
-                  <span className="size-2 rounded-[3px]" style={{ background: `var(--tone-${b.tone})` }} />
+                  <span
+                    className="size-2 rounded-[3px]"
+                    style={{ background: `var(--tone-${b.tone})` }}
+                  />
                   {b.title ? t(b.title) : "nginx.conf"}
                   <Copy className="ml-auto size-3.5 text-faint" />
                 </div>
@@ -208,13 +274,18 @@ export function BlocksCard({ className }: { className?: string }) {
 
 // A file keeps its name and shows its size, a note gets a translated name and a line about its fields.
 type Arrival = { id: string; icon: LucideIcon; tone: string } & (
-  | { file: string; bytes: number }
-  | { note: MessageKey; detail: MessageKey }
+  { file: string; bytes: number } | { note: MessageKey; detail: MessageKey }
 );
 
 const ARRIVALS: Arrival[] = [
   { id: "contract", file: "contract-signed.pdf", bytes: 2.1 * 1024 ** 2, icon: File, tone: "blue" },
-  { id: "wifi", note: "features.wifiAccess", detail: "features.noteFields", icon: NotebookText, tone: "amber" },
+  {
+    id: "wifi",
+    note: "features.wifiAccess",
+    detail: "features.noteFields",
+    icon: NotebookText,
+    tone: "amber",
+  },
   { id: "id", file: "id-front.jpg", bytes: 840 * 1024, icon: ImageIcon, tone: "violet" },
 ];
 
@@ -225,7 +296,10 @@ export function RequestsCard({ className }: { className?: string }) {
   const full = count >= ARRIVALS.length;
 
   return (
-    <SpotlightCard rgb="34 211 238" className={cn("flex flex-col gap-3.5 rounded-[22px] p-5 sm:p-[26px]", className)}>
+    <SpotlightCard
+      rgb="34 211 238"
+      className={cn("flex flex-col gap-3.5 rounded-[22px] p-5 sm:p-[26px]", className)}
+    >
       <div className="relative flex items-center gap-2.5">
         <IconTile icon={Inbox} tone="cyan" />
         <span className="inline-flex h-6 items-center rounded-full bg-tone-green/16 px-2.5 text-xs font-medium text-tone-green">
@@ -237,7 +311,7 @@ export function RequestsCard({ className }: { className?: string }) {
         <span className="font-semibold">{t("features.requestName")}</span>
         <span className="text-xs text-muted-foreground">{t("features.requestMeta")}</span>
         <span className="truncate font-mono text-xs text-subtle">
-          ch.skysend.app/request/Hx2k9PqL<span className="text-tone-green">#BKz8…</span>
+          skysend.hajd.cloud/request/Hx2k9PqL<span className="text-tone-green">#BKz8…</span>
         </span>
       </div>
       <div className="relative flex flex-wrap items-center gap-x-2 gap-y-1">
@@ -255,7 +329,10 @@ export function RequestsCard({ className }: { className?: string }) {
       </div>
       <div aria-live="polite" className="relative flex grow flex-col gap-1.5">
         {arrived.map((a, i) => (
-          <div key={a.id} className="fx-in flex h-[50px] items-center gap-2.5 rounded-[10px] border border-border bg-surface-2 pr-3 pl-2">
+          <div
+            key={a.id}
+            className="fx-in flex h-[50px] items-center gap-2.5 rounded-[10px] border border-border bg-surface-2 pr-3 pl-2"
+          >
             <span
               className="flex size-8 shrink-0 items-center justify-center rounded-lg"
               style={{ background: tint(a.tone, 14), color: `var(--tone-${a.tone})` }}
@@ -269,7 +346,9 @@ export function RequestsCard({ className }: { className?: string }) {
                 {i === 0 ? t("units.justNow") : t("features.minAgo", { count: i * 4 })}
               </span>
             </span>
-            {i === 0 && <span className="ml-auto size-[7px] shrink-0 rounded-full bg-tone-green shadow-[0_0_8px_var(--tone-green)]" />}
+            {i === 0 && (
+              <span className="ml-auto size-[7px] shrink-0 rounded-full bg-tone-green shadow-[0_0_8px_var(--tone-green)]" />
+            )}
           </div>
         ))}
         {/* The slots still open keep their room, so the button below never jumps. */}
@@ -325,7 +404,10 @@ export function ExpiryCard({ className }: { className?: string }) {
         : t("features.deletedAfter", { time, count: limit });
 
   return (
-    <SpotlightCard rgb="251 191 36" className={cn("flex flex-col gap-6 rounded-[22px] p-5 sm:p-[26px] lg:flex-row", className)}>
+    <SpotlightCard
+      rgb="251 191 36"
+      className={cn("flex flex-col gap-6 rounded-[22px] p-5 sm:p-[26px] lg:flex-row", className)}
+    >
       <div className="relative flex shrink-0 flex-col gap-2 lg:w-[300px]">
         <IconTile icon={Clock} tone="amber" className="mb-2" />
         <CardHead large title={t("features.expiryTitle")} text={t("features.expiryText")} />
@@ -346,7 +428,9 @@ export function ExpiryCard({ className }: { className?: string }) {
             className="btn-chip flex h-[34px] items-center gap-1.5 rounded-full px-3"
           >
             <Download className="size-3.5 text-muted-foreground" />
-            {limit === 0 ? t("features.noDownloadLimit") : t("features.downloads", { count: limit })}
+            {limit === 0
+              ? t("features.noDownloadLimit")
+              : t("features.downloads", { count: limit })}
           </button>
         </div>
         <div aria-hidden="true" className="flex h-2.5 gap-1">
@@ -355,7 +439,7 @@ export function ExpiryCard({ className }: { className?: string }) {
               key={k}
               className={cn(
                 "grow rounded-[3px]",
-                limit === 0 ? "bg-tone-green/18" : k === 0 ? "bg-tone-green" : "bg-border"
+                limit === 0 ? "bg-tone-green/18" : k === 0 ? "bg-tone-green" : "bg-border",
               )}
             />
           ))}
@@ -374,12 +458,17 @@ export function PasswordCard() {
   const { t } = useI18n();
   const [shown, setShown] = useState(false);
   return (
-    <SpotlightCard rgb="167 139 250" className="flex flex-col gap-3.5 rounded-[22px] p-5 sm:p-[26px]">
+    <SpotlightCard
+      rgb="167 139 250"
+      className="flex flex-col gap-3.5 rounded-[22px] p-5 sm:p-[26px]"
+    >
       <IconTile icon={Lock} tone="violet" />
       <CardHead title={t("features.passwordTitle")} text={t("features.passwordText")} />
       <div className="relative mt-auto flex flex-col gap-2">
         <div className="flex h-[42px] items-center gap-2 rounded-[10px] border border-input bg-surface pr-1.5 pl-3">
-          <span className="grow font-mono text-[13px]">{shown ? "sunflower-orbit-42" : "••••••••••••••••••"}</span>
+          <span className="grow font-mono text-[13px]">
+            {shown ? "sunflower-orbit-42" : "••••••••••••••••••"}
+          </span>
           <button
             type="button"
             aria-label={shown ? t("features.hidePassword") : t("features.showPassword")}
@@ -401,8 +490,18 @@ export function PasswordCard() {
 }
 
 const STORES: { id: string; label: MessageKey; path: string; note: MessageKey }[] = [
-  { id: "fs", label: "features.storageFs", path: "/uploads/aB3kQ9xZ.bin", note: "features.storageFsNote" },
-  { id: "s3", label: "features.storageS3", path: "s3://my-bucket/aB3kQ9xZ.bin", note: "features.storageS3Note" },
+  {
+    id: "fs",
+    label: "features.storageFs",
+    path: "/uploads/aB3kQ9xZ.bin",
+    note: "features.storageFsNote",
+  },
+  {
+    id: "s3",
+    label: "features.storageS3",
+    path: "s3://my-bucket/aB3kQ9xZ.bin",
+    note: "features.storageS3Note",
+  },
 ];
 
 export function StorageCard() {
@@ -410,11 +509,18 @@ export function StorageCard() {
   const [store, setStore] = useState("fs");
   const current = STORES.find((s) => s.id === store) ?? STORES[0];
   return (
-    <SpotlightCard rgb="96 165 250" className="flex flex-col gap-3.5 rounded-[22px] p-5 sm:p-[26px]">
+    <SpotlightCard
+      rgb="96 165 250"
+      className="flex flex-col gap-3.5 rounded-[22px] p-5 sm:p-[26px]"
+    >
       <IconTile icon={HardDrive} tone="blue" />
       <CardHead title={t("features.storageTitle")} text={t("features.storageText")} />
       <div className="relative mt-auto flex flex-col gap-2.5">
-        <div role="radiogroup" aria-label={t("features.storage")} className="flex h-10 rounded-[11px] border border-border bg-surface p-[3px]">
+        <div
+          role="radiogroup"
+          aria-label={t("features.storage")}
+          className="flex h-10 rounded-[11px] border border-border bg-surface p-[3px]"
+        >
           {STORES.map((s) => {
             const on = s.id === store;
             return (
@@ -426,7 +532,9 @@ export function StorageCard() {
                 onClick={() => setStore(s.id)}
                 className={cn(
                   "grow rounded-lg text-[13px] font-medium transition-colors",
-                  on ? "bg-card text-foreground shadow-[var(--chip-shadow)] dark:bg-accent" : "text-muted-foreground"
+                  on
+                    ? "bg-card text-foreground shadow-[var(--chip-shadow)] dark:bg-accent"
+                    : "text-muted-foreground",
                 )}
               >
                 {t(s.label)}
@@ -463,11 +571,16 @@ export function AccountsCard() {
             className="flex w-full items-center justify-between gap-2.5 p-3 text-left [&:not(:last-child)]:border-b [&:not(:last-child)]:border-border"
           >
             <span>{t(label)}</span>
-            <span className={cn("relative h-5 w-[34px] shrink-0 rounded-full transition-colors duration-200", on[i] ? "bg-tone-green" : "bg-input")}>
+            <span
+              className={cn(
+                "relative h-5 w-[34px] shrink-0 rounded-full transition-colors duration-200",
+                on[i] ? "bg-tone-green" : "bg-input",
+              )}
+            >
               <span
                 className={cn(
                   "absolute top-0.5 size-4 rounded-full transition-[left] duration-200",
-                  on[i] ? "left-4 bg-tone-ink" : "left-0.5 bg-card dark:bg-muted-foreground"
+                  on[i] ? "left-4 bg-tone-ink" : "left-0.5 bg-card dark:bg-muted-foreground",
                 )}
               />
             </span>
@@ -491,7 +604,12 @@ const THEMES = [
     page: "bg-[#0b0d0f] bg-[radial-gradient(70%_60%_at_15%_0%,rgb(70_200_157/0.45),transparent_70%)]",
     card: "border border-white/12 bg-white/7",
   },
-  { id: "midnight", label: "Midnight", page: "bg-black", card: "border border-[#1f1f1f] bg-[#0a0a0a]" },
+  {
+    id: "midnight",
+    label: "Midnight",
+    page: "bg-black",
+    card: "border border-[#1f1f1f] bg-[#0a0a0a]",
+  },
 ];
 
 export function ThemesCard() {
@@ -512,7 +630,9 @@ export function ThemesCard() {
               onClick={() => setTheme(th.id)}
               className={cn(
                 "flex flex-col gap-[7px] rounded-xl border px-1.5 pt-1.5 pb-2 transition-colors",
-                on ? "border-tone-green/60 shadow-[0_0_0_3px_color-mix(in_srgb,var(--tone-green)_12%,transparent)]" : "border-border"
+                on
+                  ? "border-tone-green/60 shadow-[0_0_0_3px_color-mix(in_srgb,var(--tone-green)_12%,transparent)]"
+                  : "border-border",
               )}
             >
               <span className={cn("flex h-[58px] items-end rounded-lg p-2", th.page)}>

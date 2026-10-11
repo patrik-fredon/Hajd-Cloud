@@ -18,7 +18,15 @@ interface IconButtonProps {
 }
 
 /** An icon-only button with its label as tooltip. An open panel shows in the accent. */
-export function IconButton({ label, onClick, children, disabled, expanded, variant = "outline", className }: IconButtonProps) {
+export function IconButton({
+  label,
+  onClick,
+  children,
+  disabled,
+  expanded,
+  variant = "outline",
+  className,
+}: IconButtonProps) {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
@@ -57,13 +65,29 @@ export function BlockControls({ first, last, disabled, onMove, onRemove }: Block
   const { t } = useTranslation();
   return (
     <span className="flex items-center">
-      <IconButton variant="ghost" label={t("note.moveUp")} onClick={() => onMove(-1)} disabled={disabled || first}>
+      <IconButton
+        variant="ghost"
+        label={t("note.moveUp")}
+        onClick={() => onMove(-1)}
+        disabled={disabled || first}
+      >
         <ChevronUp />
       </IconButton>
-      <IconButton variant="ghost" label={t("note.moveDown")} onClick={() => onMove(1)} disabled={disabled || last}>
+      <IconButton
+        variant="ghost"
+        label={t("note.moveDown")}
+        onClick={() => onMove(1)}
+        disabled={disabled || last}
+      >
         <ChevronDown />
       </IconButton>
-      <IconButton variant="ghost" label={t("note.removeBlock")} onClick={onRemove} disabled={disabled} className="hover:text-destructive-text">
+      <IconButton
+        variant="ghost"
+        label={t("note.removeBlock")}
+        onClick={onRemove}
+        disabled={disabled}
+        className="hover:text-destructive-text"
+      >
         <X />
       </IconButton>
     </span>
@@ -106,24 +130,34 @@ interface BlockEditorFrameProps {
   toolbar?: ReactNode;
   controls: ReactNode;
   children: ReactNode;
+  hideHeader?: boolean;
 }
 
 /** The frame every block editor sits in, with its type, its own switches and the controls. */
-export function BlockEditorFrame({ icon: Icon, title, toolbar, controls, children }: BlockEditorFrameProps) {
+export function BlockEditorFrame({
+  icon: Icon,
+  title,
+  toolbar,
+  controls,
+  children,
+  hideHeader = false,
+}: BlockEditorFrameProps) {
   return (
     <section
       aria-label={title}
       className="overflow-hidden rounded-[20px] border border-border bg-well transition-[border-color,box-shadow] focus-within:border-primary focus-within:ring-3 focus-within:ring-primary-soft"
     >
-      <header className="flex flex-wrap items-center gap-2 border-b border-border py-1.5 pl-3 pr-1.5">
-        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary-text">
-          <Icon className="h-3.5 w-3.5" />
-        </span>
-        <h3 className="mr-1 text-[13px] font-semibold">{title}</h3>
-        {toolbar}
-        <span className="flex-1" />
-        {controls}
-      </header>
+      {!hideHeader && (
+        <header className="flex flex-wrap items-center gap-2 border-b border-border py-1.5 pl-3 pr-1.5">
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary-text">
+            <Icon className="h-3.5 w-3.5" />
+          </span>
+          <h3 className="mr-1 text-[13px] font-semibold">{title}</h3>
+          {toolbar}
+          <span className="flex-1" />
+          {controls}
+        </header>
+      )}
       {children}
     </section>
   );

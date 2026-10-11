@@ -19,7 +19,7 @@ import {
 } from "@/lib/request-templates";
 import { cn } from "@/lib/utils";
 
-/** What the form started from: nothing, a kept template by its ID, or one that comes with SkySend. */
+/** What the form started from: nothing, a kept template by its ID, or one that comes with Hajd.Cloud. */
 export type TemplateStartValue = "blank" | `builtin:${BuiltInKey}` | (string & {});
 
 const BUILT_IN = "builtin:";
@@ -40,7 +40,7 @@ interface TemplateStartProps {
 
 /**
  * Where a new request starts: empty, a template kept in this browser, or one that comes with
- * SkySend. Picking one fills in the form, which stays open to every change.
+ * Hajd.Cloud. Picking one fills in the form, which stays open to every change.
  */
 export function TemplateStart({ templates, value, onPick, disabled }: TemplateStartProps) {
   const { t } = useTranslation();

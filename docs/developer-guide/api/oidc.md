@@ -1,6 +1,6 @@
 # OIDC Authentication
 
-SkySend supports optional OIDC/SSO authentication to restrict who can create uploads and notes. Download and read access always remains public - consistent with the zero-knowledge design.
+Hajd.Cloud supports optional OIDC/SSO authentication to restrict who can create uploads and notes. Download and read access always remains public - consistent with the zero-knowledge design.
 
 ## Design Principles
 
@@ -13,7 +13,7 @@ SkySend supports optional OIDC/SSO authentication to restrict who can create upl
 ## Auth Flow
 
 ```
-Browser / CLI                  SkySend Server              OIDC Provider
+Browser / CLI                  Hajd.Cloud Server              OIDC Provider
      │                               │                            │
      │  GET /auth/login              │                            │
      │ ─────────────────────────────>│                            │
@@ -48,12 +48,12 @@ For CLI clients the flow is identical except the session JWT is delivered as a r
 
 These routes live outside the `/api` prefix to avoid CORS complications during browser redirects.
 
-| Method | Path | Description |
-| --- | --- | --- |
-| `GET` | `/auth/login` | Start PKCE login flow, redirect to provider |
-| `GET` | `/auth/callback` | Handle provider callback, issue session cookie |
-| `GET` | `/auth/logout` | Clear session cookie, redirect to provider end-session if supported |
-| `GET` | `/auth/session` | Return current user info or `401` |
+| Method | Path             | Description                                                         |
+| ------ | ---------------- | ------------------------------------------------------------------- |
+| `GET`  | `/auth/login`    | Start PKCE login flow, redirect to provider                         |
+| `GET`  | `/auth/callback` | Handle provider callback, issue session cookie                      |
+| `GET`  | `/auth/logout`   | Clear session cookie, redirect to provider end-session if supported |
+| `GET`  | `/auth/session`  | Return current user info or `401`                                   |
 
 ### GET /auth/login
 
@@ -61,9 +61,9 @@ Initiates the OIDC authorization code + PKCE flow.
 
 **Query parameters:**
 
-| Parameter | Required | Description |
-| --- | --- | --- |
-| `cli_callback` | No | Local callback URL for CLI login (only `http://localhost` or `http://127.0.0.1` accepted) |
+| Parameter      | Required | Description                                                                               |
+| -------------- | -------- | ----------------------------------------------------------------------------------------- |
+| `cli_callback` | No       | Local callback URL for CLI login (only `http://localhost` or `http://127.0.0.1` accepted) |
 
 **Behavior:**
 
@@ -74,10 +74,10 @@ Initiates the OIDC authorization code + PKCE flow.
 
 **Error responses:**
 
-| Status | Reason |
-| --- | --- |
-| `400` | Invalid `cli_callback` (not localhost/127.0.0.1) |
-| `503` | Provider unreachable during discovery |
+| Status | Reason                                           |
+| ------ | ------------------------------------------------ |
+| `400`  | Invalid `cli_callback` (not localhost/127.0.0.1) |
+| `503`  | Provider unreachable during discovery            |
 
 ### GET /auth/callback
 
@@ -93,10 +93,10 @@ Handles the redirect from the OIDC provider after authentication.
 
 **Error responses:**
 
-| Status | Reason |
-| --- | --- |
-| `400` | Missing/invalid PKCE cookie or token exchange failure |
-| `503` | Provider unreachable |
+| Status | Reason                                                |
+| ------ | ----------------------------------------------------- |
+| `400`  | Missing/invalid PKCE cookie or token exchange failure |
+| `503`  | Provider unreachable                                  |
 
 ### GET /auth/logout
 
@@ -131,17 +131,17 @@ The key design principle: **OIDC only gates creation**. Fetch, info, and downloa
 
 ### Always public (no OIDC check)
 
-| Endpoint | Why |
-| --- | --- |
-| `GET /api/config` | Server limits needed before login |
-| `GET /api/health` | Monitoring |
-| `GET /api/info/:id` | Lets the browser render the download page without login |
-| `GET /api/exists/:id` | Lightweight existence check |
-| `GET /api/download/:id` | Encrypted blob - useless without the key in the URL fragment. Still requires a valid **auth token** derived from the E2EE key. |
-| `POST /api/password/:id` | Password verification for E2EE-password-protected files |
-| `GET /api/note/:id` | Note metadata (type, views, expiry) |
-| `POST /api/note/:id/view` | Returns encrypted note content. Requires **auth token** from E2EE key. |
-| `POST /api/note/:id/password` | Password verification for notes |
+| Endpoint                      | Why                                                                                                                            |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `GET /api/config`             | Server limits needed before login                                                                                              |
+| `GET /api/health`             | Monitoring                                                                                                                     |
+| `GET /api/info/:id`           | Lets the browser render the download page without login                                                                        |
+| `GET /api/exists/:id`         | Lightweight existence check                                                                                                    |
+| `GET /api/download/:id`       | Encrypted blob - useless without the key in the URL fragment. Still requires a valid **auth token** derived from the E2EE key. |
+| `POST /api/password/:id`      | Password verification for E2EE-password-protected files                                                                        |
+| `GET /api/note/:id`           | Note metadata (type, views, expiry)                                                                                            |
+| `POST /api/note/:id/view`     | Returns encrypted note content. Requires **auth token** from E2EE key.                                                         |
+| `POST /api/note/:id/password` | Password verification for notes                                                                                                |
 
 ::: info Auth token vs. OIDC session
 The `X-Auth-Token` header used for downloads and note views is derived from the E2EE secret key in the URL fragment - it is entirely separate from OIDC. A valid auth token proves the requester knows the encryption key, not who they are.
@@ -149,13 +149,13 @@ The `X-Auth-Token` header used for downloads and note views is derived from the 
 
 ### Protected when configured
 
-| Endpoint | Condition |
-| --- | --- |
-| `POST /api/upload` | `OIDC_PROTECT_FILES=true` |
-| `POST /api/upload/init` | `OIDC_PROTECT_FILES=true` |
-| `WS /api/upload/ws` | `OIDC_PROTECT_FILES=true` |
-| `POST /api/note` | `OIDC_PROTECT_NOTES=true` |
-| `POST /api/request` | `OIDC_PROTECT_REQUESTS=true` |
+| Endpoint                 | Condition                    |
+| ------------------------ | ---------------------------- |
+| `POST /api/upload`       | `OIDC_PROTECT_FILES=true`    |
+| `POST /api/upload/init`  | `OIDC_PROTECT_FILES=true`    |
+| `WS /api/upload/ws`      | `OIDC_PROTECT_FILES=true`    |
+| `POST /api/note`         | `OIDC_PROTECT_NOTES=true`    |
+| `POST /api/request`      | `OIDC_PROTECT_REQUESTS=true` |
 | `GET /api/request/limit` | `OIDC_PROTECT_REQUESTS=true` |
 
 Chunk uploads (`POST /api/upload/:id/chunk`) and finalization (`POST /api/upload/:id/finalize`) are **not** individually re-guarded. Once the init step has been authorized, the upload session token acts as the credential for the rest of the sequence.
@@ -164,12 +164,12 @@ Only creating a file request and reading the daily limit of new ones need the lo
 
 ## Provider Adapters
 
-| Adapter key | Provider | Notes |
-| --- | --- | --- |
-| `generic` | Any OIDC-compliant provider | Default. Uses standard `name`/`email` claims. |
-| `pocketid` | PocketID | Same as generic. |
-| `authentik` | Authentik | Maps `name` from `name` claim. |
-| `keycloak` | Keycloak | Maps `name` from `preferred_username` if `name` is absent. |
+| Adapter key | Provider                    | Notes                                                      |
+| ----------- | --------------------------- | ---------------------------------------------------------- |
+| `generic`   | Any OIDC-compliant provider | Default. Uses standard `name`/`email` claims.              |
+| `pocketid`  | PocketID                    | Same as generic.                                           |
+| `authentik` | Authentik                   | Maps `name` from `name` claim.                             |
+| `keycloak`  | Keycloak                    | Maps `name` from `preferred_username` if `name` is absent. |
 
 The active adapter is selected via the `OIDC_PROVIDER` env var. All adapters implement the same `OidcAdapterProfile` interface and can be swapped without changing any route or middleware code.
 

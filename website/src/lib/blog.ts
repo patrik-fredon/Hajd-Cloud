@@ -25,7 +25,6 @@ const FrontmatterSchema = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   excerpt: z.string().min(1),
   tags: z.array(z.string().min(1)),
-  author: z.string().min(1),
   cover: PostCoverSchema.optional(),
 });
 
@@ -63,7 +62,9 @@ export interface Heading {
 }
 
 /** A translation sits beside its post, named `<slug>.<locale>.mdx`. */
-const TRANSLATION_FILE = new RegExp(`\\.(${LOCALES.filter((l) => l !== DEFAULT_LOCALE).join("|")})\\.mdx$`);
+const TRANSLATION_FILE = new RegExp(
+  `\\.(${LOCALES.filter((l) => l !== DEFAULT_LOCALE).join("|")})\\.mdx$`,
+);
 
 function fileOf(slug: string, locale: Locale): string {
   return locale === DEFAULT_LOCALE ? `${slug}.mdx` : `${slug}.${locale}.mdx`;
@@ -95,10 +96,14 @@ function read<T extends z.ZodType>(file: string, schema: T): { data: z.infer<T>;
  */
 export function getPostBySlug(slug: string, locale: Locale = DEFAULT_LOCALE): Post {
   const english = read(fileOf(slug, DEFAULT_LOCALE), FrontmatterSchema);
-  const lang = locale !== DEFAULT_LOCALE && getPostLocales(slug).includes(locale) ? locale : DEFAULT_LOCALE;
+  const lang =
+    locale !== DEFAULT_LOCALE && getPostLocales(slug).includes(locale) ? locale : DEFAULT_LOCALE;
   const translated = lang === DEFAULT_LOCALE ? null : read(fileOf(slug, lang), TranslationSchema);
   const content = translated?.content ?? english.content;
-  const words = content.replace(/```[\s\S]*?```/g, "").split(/\s+/).filter(Boolean).length;
+  const words = content
+    .replace(/```[\s\S]*?```/g, "")
+    .split(/\s+/)
+    .filter(Boolean).length;
   const has = (file: string) => fs.existsSync(path.join(IMAGE_DIR, file));
   return {
     slug,

@@ -238,7 +238,7 @@ export function freeName(name: string, taken: readonly string[]): string {
   }
 }
 
-// ── Templates that come with SkySend ──────────────────
+// ── Templates that come with Hajd.Cloud ──────────────────
 
 export type BuiltInKey = "credentials" | "sshKey" | "wifi" | "apiKey";
 
@@ -282,7 +282,7 @@ const BUILT_INS: Record<BuiltInKey, (label: (field: string) => string) => NoteBl
 
 export const BUILT_IN_KEYS = Object.keys(BUILT_INS) as BuiltInKey[];
 
-/** A template that comes with SkySend, in the language of the page. */
+/** A template that comes with Hajd.Cloud, in the language of the page. */
 export function builtInTemplate(
   key: BuiltInKey,
   translate: (key: string) => string,
@@ -429,7 +429,7 @@ export async function openTemplateExport(
     throw new TemplateExportError("invalid");
   }
   const inner = readTemplateExport(text);
-  // A box inside a box is nothing an export of SkySend makes.
+  // A box inside a box is nothing an export of Hajd.Cloud makes.
   if (inner.sealed) throw new TemplateExportError("invalid");
   return { templates: inner.templates, skipped: inner.skipped };
 }

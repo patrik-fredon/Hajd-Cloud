@@ -1,7 +1,7 @@
 /**
  * @skysend/crypto - Public API
  *
- * End-to-end encryption library for SkySend.
+ * End-to-end encryption library for Hajd.Cloud.
  * Uses only Web Crypto API - works in browsers and Node.js 20+.
  */
 
@@ -124,13 +124,5 @@ export type {
 } from "./request.js";
 
 // Note encryption/decryption
-export {
-  encryptNoteContent,
-  decryptNoteContent,
-  NOTE_NONCE_LENGTH,
-} from "./note.js";
-export type {
-  NoteContentType,
-  NoteMetadata,
-  EncryptedNoteContent,
-} from "./note.js";
+export { encryptNoteContent, decryptNoteContent, NOTE_NONCE_LENGTH } from "./note.js";
+export type { NoteContentType, NoteMetadata, EncryptedNoteContent } from "./note.js";

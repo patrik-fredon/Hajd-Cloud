@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Set up a Mac for SkySend development: fnm with the Node of .node-version, pnpm in the
+# Set up a Mac for Hajd.Cloud development: fnm with the Node of .node-version, pnpm in the
 # version package.json pins, the dependencies and .env.dev.
 # Usage: bash scripts/setup-dev-macos.sh
 
