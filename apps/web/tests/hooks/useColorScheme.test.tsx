@@ -64,14 +64,14 @@ describe("useColorScheme", () => {
   it("updates Crimson browser chrome for explicit and changing system schemes", () => {
     document.documentElement.dataset.theme = "crimson";
     const { result } = render();
-    expect(themeColor()).toBe("#faf5f5");
+    expect(themeColor()).toBe("#f5f6f8");
     osChanges(true);
-    expect(themeColor()).toBe("#0d080a");
+    expect(themeColor()).toBe("#0c0e12");
     act(() => result.current.setColorScheme("light"));
-    expect(themeColor()).toBe("#faf5f5");
+    expect(themeColor()).toBe("#f5f6f8");
     osChanges(false);
     osChanges(true);
-    expect(themeColor()).toBe("#faf5f5");
+    expect(themeColor()).toBe("#f5f6f8");
   });
 
   it("starts with the scheme the visitor picked before", () => {

@@ -12,10 +12,10 @@ Small fixes (language translations, typos, documentation improvements) can be su
 
 | Branch           | What it holds                                                                                |
 | :--------------- | :------------------------------------------------------------------------------------------- |
-| `main`           | The only permanent branch, containing the current application. Releases are tagged `vX.Y.Z`. |
-| Feature branches | Temporary branches for one feature or fix, removed after merging into `main`.                |
+| `master`         | The only permanent branch, containing the current application. Releases are tagged `vX.Y.Z`. |
+| Feature branches | Temporary branches for one feature or fix, removed after merging into `master`.              |
 
-**Pull requests target `main`.** Branch off `main` and remove the temporary feature branch after merging.
+**Pull requests target `master`.** Branch off `master` and remove the temporary feature branch after merging.
 
 ## Development Setup
 
@@ -28,7 +28,7 @@ Small fixes (language translations, typos, documentation improvements) can be su
 
 ```bash
 cd Hajd.Cloud
-git checkout main
+git checkout master
 pnpm install
 cp .env.dev.example .env.dev
 pnpm dev
@@ -39,10 +39,10 @@ This starts both the backend (Hono) and frontend (Vite) in development mode. The
 Start your work on a branch of its own:
 
 ```bash
-git checkout -b fix/short-description main
+git checkout -b fix/short-description master
 ```
 
-Working from a fork, add this repository as `upstream` and branch off `upstream/main`, so your branch starts from the newest state.
+Working from a fork, add this repository as `upstream` and branch off `upstream/master`, so your branch starts from the newest state.
 
 ### Project Structure
 
@@ -85,12 +85,12 @@ pnpm test         # Run unit tests
 
 ### Pull Requests
 
-- Open it against `main`
+- Open it against `master`
 - One feature/fix per PR
 - Include tests for new functionality
 - Update documentation if relevant
 - Write the changelog entry into a file of its own under `changelog/unreleased/`, named after your branch, never into `docs/changelog.md`. The release collects those files, see [changelog/unreleased/README.md](changelog/unreleased/README.md)
-- Ensure all CI checks pass. Every pull request into `main` runs lint, type check, unit tests and the builds of the docs and the website
+- Ensure all CI checks pass. Every pull request into `master` runs lint, type check, unit tests and the builds of the docs and the website
 
 ## Security
 

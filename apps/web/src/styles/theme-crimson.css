@@ -1,24 +1,26 @@
-/* Crimson: burgundy surfaces, terminal typography and restrained red circuit lines. */
+/* Crimson: neutral security surfaces with burgundy reserved for actions and focus. */
 [data-theme="crimson"] {
   color-scheme: light;
-  --color-page: #faf5f5;
-  --color-background: #fffafb;
-  --color-foreground: #281318;
-  --color-card: #fffafb;
-  --color-card-foreground: #281318;
-  --color-well: #f4e8eb;
-  --color-field: #fffafb;
-  --color-popover: #fffafb;
-  --color-popover-foreground: #281318;
-  --color-secondary: #f0dfe4;
-  --color-secondary-foreground: #281318;
-  --color-muted: #f4e8eb;
-  --color-muted-foreground: #75545e;
-  --color-accent: #f0dfe4;
-  --color-accent-foreground: #281318;
-  --color-border: #e2c4cd;
-  --color-input: #bd8797;
-  --lift-shadow: 0 1px 0 rgba(153, 27, 53, 0.05), 0 20px 50px -30px rgba(89, 17, 36, 0.25);
+  --color-page: #f5f6f8;
+  --color-background: #ffffff;
+  --color-foreground: #22252b;
+  --color-card: #ffffff;
+  --color-card-foreground: #22252b;
+  --color-well: #f0f2f5;
+  --color-field: #f8f9fb;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #22252b;
+  --color-secondary: #e9ecf1;
+  --color-secondary-foreground: #22252b;
+  --color-muted: #f0f2f5;
+  --color-muted-foreground: #626977;
+  --color-accent: #e9ecf1;
+  --color-accent-foreground: #22252b;
+  --color-border: #dce0e6;
+  --color-input: #adb4bf;
+  --color-primary-soft: color-mix(in srgb, var(--color-primary) 7%, transparent);
+  --color-primary-line: color-mix(in srgb, var(--color-primary) 28%, transparent);
+  --lift-shadow: 0 1px 2px rgba(20, 27, 40, 0.03), 0 16px 48px -28px rgba(20, 27, 40, 0.18);
   --chip-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
   --radius-2xl: 1rem;
   --radius-3xl: 1.125rem;
@@ -26,46 +28,58 @@
 
 [data-theme="crimson"].dark {
   color-scheme: dark;
-  --color-page: #0d080a;
-  --color-background: #140c10;
-  --color-foreground: #f8e9ed;
-  --color-card: #1b1015;
-  --color-card-foreground: #f8e9ed;
-  --color-well: #110a0e;
-  --color-field: #140c10;
-  --color-popover: #201219;
-  --color-popover-foreground: #f8e9ed;
-  --color-secondary: #301923;
-  --color-secondary-foreground: #f8e9ed;
-  --color-muted: #26151d;
-  --color-muted-foreground: #bd98a5;
-  --color-accent: #301923;
-  --color-accent-foreground: #f8e9ed;
-  --color-border: #4a2734;
-  --color-input: #704050;
+  --color-page: #0c0e12;
+  --color-background: #12151a;
+  --color-foreground: #e9edf3;
+  --color-card: #16191f;
+  --color-card-foreground: #e9edf3;
+  --color-well: #101318;
+  --color-field: #12151a;
+  --color-popover: #1a1e25;
+  --color-popover-foreground: #e9edf3;
+  --color-secondary: #252a33;
+  --color-secondary-foreground: #e9edf3;
+  --color-muted: #20252d;
+  --color-muted-foreground: #a3abb8;
+  --color-accent: #252a33;
+  --color-accent-foreground: #e9edf3;
+  --color-border: #303641;
+  --color-input: #586171;
+  --color-primary-soft: color-mix(in srgb, var(--color-primary) 9%, transparent);
+  --color-primary-line: color-mix(in srgb, var(--color-primary) 32%, transparent);
   --color-action: #991b35;
   --color-action-foreground: #ffffff;
-  --lift-shadow: inset 0 1px 0 rgba(224, 107, 128, 0.08), 0 20px 50px -24px rgba(0, 0, 0, 0.75);
-  --chip-shadow: inset 0 1px 0 rgba(224, 107, 128, 0.08);
+  --lift-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025), 0 16px 48px -24px rgba(0, 0, 0, 0.6);
+  --chip-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
+/* The ambient gradients never tile. A quiet dot lattice stays continuous while scrolling. */
 [data-theme="crimson"] body {
   background-image:
     radial-gradient(
-      ellipse at 50% 0%,
-      color-mix(in srgb, var(--color-primary) 10%, transparent),
+      ellipse at 20% 0%,
+      color-mix(in srgb, var(--color-foreground) 3%, transparent),
       transparent 65%
     ),
-    linear-gradient(color-mix(in srgb, var(--color-primary) 4%, transparent) 1px, transparent 1px),
-    linear-gradient(
-      90deg,
-      color-mix(in srgb, var(--color-primary) 4%, transparent) 1px,
-      transparent 1px
+    radial-gradient(
+      ellipse at 85% 15%,
+      color-mix(in srgb, var(--color-primary) 3%, transparent),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle,
+      color-mix(in srgb, var(--color-foreground) 8%, transparent) 0.6px,
+      transparent 0.8px
     );
   background-size:
-    100% 700px,
-    40px 40px,
-    40px 40px;
+    100% 100vh,
+    100% 100vh,
+    32px 32px;
+  background-repeat: no-repeat, no-repeat, repeat;
+}
+
+[data-theme="crimson"] .glow {
+  display: none;
 }
 
 [data-theme="crimson"] [data-slot="glass"] {
@@ -78,14 +92,9 @@
 }
 
 [data-theme="crimson"] [data-slot="card"][data-emphasis="main"] {
-  border-color: var(--color-primary-line);
-  box-shadow:
-    var(--lift-shadow),
-    0 0 48px -30px var(--color-primary-glow);
+  box-shadow: var(--lift-shadow);
 }
 
 [data-theme="crimson"] [data-slot="button"][data-variant="default"] {
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    0 4px 16px -8px var(--color-action);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }

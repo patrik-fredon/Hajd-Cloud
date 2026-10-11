@@ -14,7 +14,7 @@ export default defineConfig({
   },
   ignoreDeadLinks: [/localhost/],
   head: [
-    ["link", { rel: "icon", type: "image/webp", href: "/hajd-cloud-logo-crimson.webp" }],
+    ["link", { rel: "icon", type: "image/webp", href: "/hajd-cloud-logo-lock.webp" }],
     ["link", { rel: "icon", type: "image/png", href: "/logo.png" }],
     [
       "meta",
@@ -64,7 +64,7 @@ export default defineConfig({
     ],
   ],
   themeConfig: {
-    logo: "/hajd-cloud-logo-crimson.webp",
+    logo: "/hajd-cloud-logo-lock.webp",
 
     lastUpdated: {
       text: "Last updated",

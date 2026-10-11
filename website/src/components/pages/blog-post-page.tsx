@@ -229,7 +229,13 @@ export function BlogPostPage({ locale, slug }: { locale: Locale; slug: string })
               blur={50}
               className="-top-[60px] -right-[60px] size-[180px]"
             />
-            <Image src="/hajd-cloud-logo-crimson.webp" alt="" width={36} height={36} className="relative" />
+            <Image
+              src="/hajd-cloud-logo-lock.webp"
+              alt=""
+              width={36}
+              height={36}
+              className="relative"
+            />
             <div className="relative font-semibold">{t("blog.tryHajd.Cloud")}</div>
             <p className="relative text-[13px] leading-[1.55] text-muted-foreground">
               {t("blog.tryHajd.CloudText")}

@@ -12,7 +12,7 @@ import { useUnseenUploads } from "@/hooks/useUnseenUploads";
 import { cn } from "@/lib/utils";
 
 /** Built-in logo shipped with the frontend build. */
-const DEFAULT_LOGO = "/hajd-cloud-logo-crimson.webp";
+const DEFAULT_LOGO = "/hajd-cloud-logo-lock.webp";
 
 export function Layout() {
   const { t } = useTranslation();
@@ -137,7 +137,7 @@ export function Layout() {
         <div
           data-slot="glass"
           ref={menuRef}
-          className="relative mx-auto flex h-14 max-w-5xl items-center justify-between gap-3 rounded-full border border-border bg-card pl-4 pr-2 shadow-lift"
+          className="relative mx-auto flex h-14 max-w-6xl items-center justify-between gap-3 rounded-full border border-border bg-card pl-4 pr-2 shadow-lift"
         >
           <Link
             to="/"
@@ -272,7 +272,7 @@ export function Layout() {
       </main>
 
       <footer className="px-4 pb-8 pt-4 text-center text-xs text-muted-foreground">
-        <div className="mx-auto flex max-w-5xl flex-col items-center gap-2.5">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-2.5">
           <p>
             {title} · {t("common.tagline")} · v{__APP_VERSION__}
           </p>

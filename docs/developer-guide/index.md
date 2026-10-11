@@ -49,29 +49,29 @@ Hajd.Cloud is a monorepo managed with pnpm Workspaces, consisting of:
 
 | Branch           | What it holds                                                                                |
 | :--------------- | :------------------------------------------------------------------------------------------- |
-| `main`           | The only permanent branch, containing the current application. Releases are tagged `vX.Y.Z`. |
-| Feature branches | Temporary branches for one feature or fix, removed after merging into `main`.                |
+| `master`         | The only permanent branch, containing the current application. Releases are tagged `vX.Y.Z`. |
+| Feature branches | Temporary branches for one feature or fix, removed after merging into `master`.              |
 
-Pull requests target `main`. Remove temporary feature branches after merging.
+Pull requests target `master`. Remove temporary feature branches after merging.
 
 ```bash
-git checkout main
+git checkout master
 git pull
 git checkout -b feat/short-description
 # ... commit your work
 git push -u origin feat/short-description
-# then open the pull request with main as its base
+# then open the pull request with master as its base
 ```
 
-Every pull request into `main` runs lint, type check, unit tests and the builds of the docs and the website.
+Every pull request into `master` runs lint, type check, unit tests and the builds of the docs and the website.
 
 ### PR Guidelines
 
-1. Create a feature branch off `main`
+1. Create a feature branch off `master`
 2. Write tests for new features
 3. Update documentation
 4. Write the changelog entry into a fragment under `changelog/unreleased/`, named after your branch
 5. Run `pnpm validate` before submitting
-6. Open the pull request against `main`
+6. Open the pull request against `master`
 
 Security vulnerabilities are never reported in a pull request or an issue. See SECURITY.md.

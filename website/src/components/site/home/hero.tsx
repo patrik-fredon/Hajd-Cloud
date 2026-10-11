@@ -1,6 +1,14 @@
 import Link from "next/link";
-import { ArrowRight, ChevronRight, Code, File, Folder, KeyRound, SquareTerminal, type LucideIcon } from "lucide-react";
-import { ContributorsPill } from "@/components/site/home/contributors-pill";
+import {
+  ArrowRight,
+  ChevronRight,
+  Code,
+  File,
+  Folder,
+  KeyRound,
+  SquareTerminal,
+  type LucideIcon,
+} from "lucide-react";
 import { Lens } from "@/components/site/home/lens";
 import { Counters, CryptoMarquee } from "@/components/site/home/hero-strips";
 import { CONIC, DotGrid, Floor, Glow, Stars } from "@/components/site/fx";
@@ -51,8 +59,18 @@ export function Hero({ locale }: { locale: Locale }) {
   const t = createTranslator(locale);
   return (
     <section aria-label={t("hero.intro")} className="relative overflow-hidden pb-24">
-      <Glow color="#17a37a" opacity={0.24} drift={1} className="top-[120px] left-[4%] size-[560px]" />
-      <Glow color="#0e7490" opacity={0.26} drift={2} className="top-[40px] right-[3%] size-[540px]" />
+      <Glow
+        color="#17a37a"
+        opacity={0.24}
+        drift={1}
+        className="top-[120px] left-[4%] size-[560px]"
+      />
+      <Glow
+        color="#0e7490"
+        opacity={0.26}
+        drift={2}
+        className="top-[40px] right-[3%] size-[540px]"
+      />
       <Glow
         color="#2563eb"
         opacity={0.14}
@@ -119,7 +137,6 @@ export function Hero({ locale }: { locale: Locale }) {
             {t("hero.getStarted")}
             <ArrowRight className="size-4" />
           </Link>
-          <ContributorsPill />
         </div>
       </div>
 

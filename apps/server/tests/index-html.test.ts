@@ -97,7 +97,7 @@ describe("renderIndexHtml", () => {
     expect(html).toContain(
       '<meta name="twitter:image" content="https://send.example.com/logo.png" />',
     );
-    expect(html).toContain('<link rel="icon" href="/hajd-cloud-logo-crimson.webp" />');
+    expect(html).toContain('<link rel="icon" href="/hajd-cloud-logo-lock.webp" />');
   });
 
   it("uses the custom logo for the browser tab and escapes its URL", () => {

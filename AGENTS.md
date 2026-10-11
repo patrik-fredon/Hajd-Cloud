@@ -2,7 +2,7 @@
 
 Minimalist, self-hostable, end-to-end encrypted file and note sharing. Zero knowledge: the server stores ciphertext and never receives the key.
 
-A pnpm monorepo built on **Hono** (backend), **React 19 + Vite + Shadcn UI** (SPA), **Drizzle + better-sqlite3** (storage), and a shared **Web Crypto** library. Two CLIs, a VitePress docs site, a Next.js marketing site, and two Cloudflare Workers live in the same tree.
+A pnpm monorepo built on **Hono** (backend), **React 19 + Vite + Shadcn UI** (SPA), **Drizzle + better-sqlite3** (storage), and a shared **Web Crypto** library. Two CLIs, a VitePress docs site, a Next.js marketing site live in the same tree.
 
 Read [PHILOSOPHY.md](PHILOSOPHY.md) before proposing a feature. No accounts, no analytics, no persistent storage - features that add those are declined by design.
 
@@ -25,8 +25,7 @@ Claude Code loads the nearest `CLAUDE.md` when you touch files in a directory. R
 | End-user CLI and the Ink TUI                     | [apps/client/CLAUDE.md](apps/client/CLAUDE.md)                   |
 | Admin CLI (runs on the server, direct DB access) | [apps/cli/CLAUDE.md](apps/cli/CLAUDE.md)                         |
 | Docs site and the changelog                      | [docs/CLAUDE.md](docs/CLAUDE.md)                                 |
-| Marketing website (skysend.app)                  | [website/CLAUDE.md](website/CLAUDE.md)                           |
-| Cloudflare Workers                               | [workers/CLAUDE.md](workers/CLAUDE.md)                           |
+| Marketing website                                | [website/CLAUDE.md](website/CLAUDE.md)                           |
 
 ## Non-negotiable rules
 
@@ -38,7 +37,7 @@ Claude Code loads the nearest `CLAUDE.md` when you touch files in a directory. R
 6. **Typography**: no em dashes, no semicolons joining clauses. Use a hyphen where a dash is needed, and end sentences with a period. Applies to code comments, docs, changelog entries, and commit messages.
 7. **Language**: all code, comments, and documentation in English. User-facing strings go through i18n, never inline.
 8. **Never log secrets, keys, tokens, plaintext, or IP addresses.** The request logger records method, path, status, and duration only. Quota tracking uses HMAC-hashed IPs with a daily rotating key.
-9. **`main` is the only permanent branch.** Work and pull requests target `main`. Temporary feature branches are removed after merging. The repository was consolidated at the user's explicit request.
+9. **`master` is the only permanent branch.** Work and pull requests target `master`. Temporary feature branches are removed after merging. The repository was consolidated at the user's explicit request.
 
 ## Architecture
 
@@ -49,9 +48,8 @@ apps/client/     End-user CLI + Ink TUI. Talks to the API the same way a browser
 apps/cli/        Admin CLI. Runs beside the server, reads the DB directly.
 packages/crypto/ Shared Web Crypto library. Imported by web, client, and server.
 packages/note-format/ What a note holds before encryption. Imported by web and client.
-docs/            VitePress docs site (docs.skysend.app).
-website/         Next.js marketing site (skysend.app).
-workers/         Cloudflare Workers: instance registry and abuse reports.
+docs/            VitePress documentation site.
+website/         Next.js marketing site.
 ```
 
 Data flow for an upload:
@@ -74,7 +72,7 @@ The server is single-instance by design. Rate limiting, upload sessions, and pas
 
 ```bash
 bash scripts/setup-dev-macos.sh  # First setup on a Mac: fnm, Node from .node-version, pnpm, dependencies
-pnpm dev                  # All workspaces in parallel, except the two Cloudflare Workers
+pnpm dev                  # All workspaces in parallel
 pnpm build                # Recursive build
 pnpm validate             # Lint + typecheck + tests, same as CI (scripts/validate.sh)
 pnpm lint                 # eslint . (lint:fix to autofix)
@@ -94,7 +92,7 @@ pnpm changelog:preview    # Show the changelog block the next release writes fro
 pnpm changelog:check      # Check every fragment under changelog/unreleased/
 ```
 
-Single workspace: `pnpm --filter @skysend/web build`, `pnpm --filter @skysend/docs dev`, and so on. Package names are `@skysend/server`, `-web`, `-client`, `-cli`, `-crypto`, `-docs`, `@skysend/website`, `@skysend/instances-worker`, `@skysend/report-worker`.
+Single workspace: `pnpm --filter @skysend/web build`, `pnpm --filter @skysend/docs dev`, and so on. Package names are `@skysend/server`, `-web`, `-client`, `-cli`, `-crypto`, `-docs`, `@skysend/website`.
 
 `pnpm dev` runs the server against `.env.dev` at the repo root. Git ignores it, `.env.dev.example` is its tracked template and `scripts/setup-dev-macos.sh` and `scripts/setup-worktree.sh` create it. Vite serves the SPA on `:5173` and proxies `/api`, `/auth`, and `/branding` to the server on `:3000`. `BASE_URL` and `CORS_ORIGINS` in `.env.dev` therefore point at the Vite origin, not the server one.
 

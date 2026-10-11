@@ -1,0 +1,12 @@
+{
+  "tool": "Built-in image_gen",
+  "prompt": "Use case: precise-object-edit. Asset type: Hajd.Cloud header logo and favicon. Input image is the edit target, our previously approved rose-crimson cloud with a padlock on a dark document. Remove ONLY the entire dark document, its folded corner and any backing tile. Keep the existing cloud silhouette and thick rose-crimson outline. Enlarge the existing standalone padlock to sit centered inside the cloud, separated from the cloud outline by generous transparent negative space. Cloud outline and padlock are muted crimson rose, darker burgundy keyhole. Clean flat crisp shapes, no gradients, no glow, no shadows. All empty areas, including inside the cloud and between the lock shackle, must have genuine alpha transparency. Preserve square composition with small even margins and make the standalone lock easy to recognize at 24px. No document, no paper, no black backing, no rectangle behind lock, no text, no watermark.",
+  "source": "hajd-cloud-logo-lock.png",
+  "asset": "hajd-cloud-logo-lock.webp",
+  "export": {
+    "size": "512x512",
+    "format": "WebP",
+    "lossless": true
+  },
+  "iconVersion": "286d2759f424"
+}

@@ -435,30 +435,6 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
 
-  workers/instances:
-    devDependencies:
-      '@cloudflare/workers-types':
-        specifier: ^5.20261007.1
-        version: 5.20261007.1
-      typescript:
-        specifier: ^6.0.3
-        version: 6.0.3
-      wrangler:
-        specifier: ^4.148.0
-        version: 4.148.0(@cloudflare/workers-types@5.20261007.1)(@types/node@26.6.4)
-
-  workers/report:
-    devDependencies:
-      '@cloudflare/workers-types':
-        specifier: ^5.20261007.1
-        version: 5.20261007.1
-      typescript:
-        specifier: ^6.0.3
-        version: 6.0.3
-      wrangler:
-        specifier: ^4.148.0
-        version: 4.148.0(@cloudflare/workers-types@5.20261007.1)(@types/node@26.6.4)
-
 packages:
 
   '@alcalzone/ansi-tokenize@0.3.1':

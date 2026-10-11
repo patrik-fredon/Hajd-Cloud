@@ -1,5 +1,5 @@
 # ─── PR Build ────────────────────────────────────────────────
-# On a pull request into main, builds what the release ships, without
+# On a pull request into master, builds what the release ships, without
 # publishing any of it, so a broken build shows up before the merge instead
 # of after the tag:
 #   - the Docker image for both platforms, started once and checked through
@@ -22,7 +22,7 @@ name: PR Build
 on:
   pull_request:
     branches:
-      - main
+      - master
 
 concurrency:
   group: pr-build-${{ github.ref }}

@@ -45,8 +45,8 @@ function applyScheme(colorScheme: ColorScheme) {
       "content",
       document.documentElement.dataset.theme === "crimson"
         ? resolved === "dark"
-          ? "#0d080a"
-          : "#faf5f5"
+          ? "#0c0e12"
+          : "#f5f6f8"
         : resolved === "dark"
           ? "#09090b"
           : "#ffffff",

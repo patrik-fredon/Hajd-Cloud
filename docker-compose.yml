@@ -4,7 +4,7 @@
 services:
   skysend:
     # Build with deploy/Dockerfile.localized after building the server and frontend.
-    image: hajd-cloud/skysend:v3.0.0-apex.1
+    image: hajd-cloud/skysend:v3.0.0-ui.1
     pull_policy: never
     restart: unless-stopped
     expose:

@@ -98,7 +98,7 @@ function YouLayer() {
     <div className="relative flex flex-col gap-3 bg-background bg-dot-grid p-3 sm:p-5 lg:block lg:h-full lg:p-0">
       <div className="absolute top-5 left-1/2 -ml-[280px] hidden h-[52px] w-[560px] items-center gap-3.5 rounded-[14px] border border-[var(--header-border)] bg-[var(--header-bg)] pr-2 pl-3.5 shadow-[inset_0_1px_0_var(--highlight)] lg:flex">
         <span className="flex items-center gap-2 font-semibold">
-          <Image src="/hajd-cloud-logo-crimson.webp" alt="" width={22} height={22} />
+          <Image src="/hajd-cloud-logo-lock.webp" alt="" width={22} height={22} />
           Hajd.Cloud
         </span>
         <span className="ml-2.5 flex gap-0.5 text-[13px] font-medium text-muted-foreground">

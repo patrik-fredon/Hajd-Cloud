@@ -23,33 +23,25 @@ import { useServerConfig } from "@/hooks/useServerConfig";
 import { useAuth } from "@/hooks/useAuth";
 import { fetchQuota, type QuotaStatus } from "@/lib/api";
 import { fileStart } from "@/lib/defaults";
-import { cn, formatBytes } from "@/lib/utils";
+import { formatBytes } from "@/lib/utils";
 import { meetsPasswordMinimum } from "@skysend/crypto";
 
 type Tab = "file" | "note";
 
-function Hero({ compact = false }: { compact?: boolean }) {
+function Hero() {
   const { t } = useTranslation();
   return (
-    <div className={cn("mx-auto text-center", compact ? "max-w-4xl" : "max-w-2xl")}>
+    <div className="mx-auto max-w-4xl text-center">
       <h1
         data-slot="hero-title"
-        className={cn(
-          "font-semibold leading-[1.06] tracking-[-0.04em]",
-          compact ? "text-2xl sm:text-[32px]" : "text-[34px] sm:text-[44px]",
-        )}
+        className="text-2xl font-semibold leading-[1.15] tracking-[-0.04em] sm:text-[32px]"
       >
         {t("share.heroTitle")}{" "}
         <span data-slot="accent" className="text-primary-text">
           {t("share.heroAccent")}
         </span>
       </h1>
-      <p
-        className={cn(
-          "leading-relaxed text-muted-foreground",
-          compact ? "mt-2 text-[13px]" : "mt-3 text-[15px]",
-        )}
-      >
+      <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground">
         {t("share.heroText")}{" "}
         <Link to="/how" className="font-medium text-primary-text hover:underline">
           {t("header.howItWorks")}
@@ -151,7 +143,7 @@ export function UploadPage() {
 
   if (configLoading || !config) {
     return (
-      <div className="mx-auto w-full max-w-3xl">
+      <div className="mx-auto w-full max-w-6xl">
         <div className="mx-auto flex max-w-2xl flex-col items-center gap-3">
           <Skeleton className="h-10 w-4/5 rounded-xl" />
           <Skeleton className="h-4 w-3/5" />
@@ -342,14 +334,11 @@ export function UploadPage() {
   }
 
   return (
-    <div className={cn("mx-auto w-full", activeTab === "note" ? "max-w-6xl" : "max-w-3xl")}>
-      <Hero compact={activeTab === "note"} />
+    <div className="mx-auto w-full max-w-6xl">
+      <Hero />
       <div className="relative mt-5 sm:mt-6">
         <Glow />
-        <Card
-          data-emphasis="main"
-          className={cn("group/composer relative", activeTab === "note" ? "p-1.5 sm:p-2" : "p-2")}
-        >
+        <Card data-emphasis="main" className="group/composer relative p-1.5 sm:p-2">
           {body}
         </Card>
       </div>

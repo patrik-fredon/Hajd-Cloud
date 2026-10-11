@@ -64,7 +64,7 @@ export function renderIndexHtml(template: string, config: IndexHtmlConfig): stri
   return (
     html
       .replace(/__CUSTOM_TITLE__/g, () => escapeHtml(config.CUSTOM_TITLE))
-      .replace(/__FAVICON__/g, () => escapeHtml(config.CUSTOM_LOGO ?? "/hajd-cloud-logo-crimson.webp"))
+      .replace(/__FAVICON__/g, () => escapeHtml(config.CUSTOM_LOGO ?? "/hajd-cloud-logo-lock.webp"))
       // Both are Zod enums. The theme styles the page through <html data-theme>, and
       // public/theme-init.js reads the color scheme before the first paint.
       .replace(/__DEFAULT_THEME__/g, () => config.DEFAULT_THEME)

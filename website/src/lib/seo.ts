@@ -88,7 +88,7 @@ export function rootMetadata(locale: Locale, siteUrl: string): Metadata {
     metadataBase: new URL(siteUrl),
     title: { default: t("meta.siteTitle"), template: "%s | Hajd.Cloud" },
     description: t("meta.tagline"),
-    icons: { icon: "/hajd-cloud-logo-crimson.webp", apple: "/apple-touch-icon.png" },
+    icons: { icon: "/hajd-cloud-logo-lock.webp", apple: "/apple-touch-icon.png" },
     manifest: "/manifest.webmanifest",
     ...shared,
   };

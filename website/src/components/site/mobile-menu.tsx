@@ -18,7 +18,6 @@ import { Dialog } from "radix-ui";
 import { useTheme } from "next-themes";
 import { DiscordIcon } from "@/components/site/discord-icon";
 import { Glow } from "@/components/site/fx";
-import { GithubStarsWidget } from "@/components/site/github-stars-widget";
 import { NAV_LINKS, useActiveHref, useNavHref } from "@/components/site/nav-links";
 import { LocaleFlag, useLanguageChoice } from "@/components/site/language-switcher";
 import { useI18n } from "@/i18n/provider";
@@ -74,7 +73,7 @@ export function MobileMenu({ version }: { version: string | null }) {
               />
 
               <div className="relative flex h-14 items-center gap-2.5 border-b border-border pr-2 pl-3.5">
-                <Image src="/hajd-cloud-logo-crimson.webp" alt="" width={26} height={26} />
+                <Image src="/hajd-cloud-logo-lock.webp" alt="" width={26} height={26} />
                 <Dialog.Title className="font-semibold">Hajd.Cloud</Dialog.Title>
                 {version && (
                   <span className="ml-0.5 rounded-full bg-tone-green/16 px-2 py-px text-xs font-medium text-tone-green tabular-nums">
@@ -183,7 +182,6 @@ export function MobileMenu({ version }: { version: string | null }) {
                     );
                   })}
                 </div>
-                <GithubStarsWidget className="flex h-11 rounded-[11px]" />
               </div>
 
               <div className="fx-rise relative mx-4 mt-2.5" style={{ animationDelay: "0.33s" }}>

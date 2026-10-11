@@ -1,136 +1,194 @@
 {
-  "date": "2026-10-09",
-  "origin": "https://skysend.hajd.cloud",
-  "image": "hajd-cloud/skysend:v3.0.0-crimson.1",
-  "imageId": "sha256:ccd8ff3a32a769b5cdb9bef237ffbc5bb262087b378d92f1a1a302403c50e223",
-  "passed": true,
+  "verifiedAt": "2026-10-11T06:37:43.289253+00:00",
+  "origin": "https://hajd.cloud",
+  "runtime": {
+    "image": "hajd-cloud/skysend:v3.0.0-ui.1",
+    "healthy": true,
+    "imageLayersMatchLocalBuild": true,
+    "existingDataVolumePreserved": true,
+    "publicConfigChangeOnlyNewLogo": true,
+    "temporaryDeploymentTokensRemaining": 0
+  },
   "validation": {
     "lint": true,
     "typecheck": true,
-    "unitTestsPassed": 1873,
-    "build": true,
-    "changelog": true,
-    "diffWhitespace": true
+    "unitTestsPassed": 1877,
+    "builds": ["server", "web", "docs", "website"],
+    "changelogCheck": true,
+    "frozenLockfileCheck": true
   },
-  "browser": {
-    "engine": "Chromium",
-    "localChecks": 18,
-    "liveChecks": [
-      {
-        "name": "branding-and-themes",
-        "passed": true
-      },
-      {
-        "name": "public-links-and-navigation",
-        "passed": true
-      },
-      {
-        "name": "plain-note-create-and-open",
-        "passed": true
-      },
-      {
-        "name": "markdown-note",
-        "passed": true
-      },
-      {
-        "name": "mixed-note-password-code-ssh",
-        "passed": true
-      },
-      {
-        "name": "protected-note-and-wrong-password",
-        "passed": true
-      },
-      {
-        "name": "multi-file-upload-zip-download",
-        "passed": true
-      },
-      {
-        "name": "protected-file-stream-download",
-        "passed": true
-      },
-      {
-        "name": "http-upload-fallback",
-        "passed": true
-      },
-      {
-        "name": "file-request",
-        "passed": true
-      },
-      {
-        "name": "templates-export-import",
-        "passed": true
-      },
-      {
-        "name": "request-note",
-        "passed": true
-      },
-      {
-        "name": "request-both",
-        "passed": true
-      },
-      {
-        "name": "mobile-navigation",
-        "passed": true
-      },
-      {
-        "name": "no-browser-errors",
-        "passed": true
-      },
-      {
-        "name": "burn-after-reading",
-        "passed": true
-      },
-      {
-        "name": "share-copy-and-qr",
-        "passed": true
-      },
-      {
-        "name": "delete-note-and-test-requests",
-        "passed": true
-      }
-    ],
-    "localeCount": 15,
-    "locales": [
-      "en",
-      "cs",
-      "sk",
-      "de",
-      "es",
-      "fi",
-      "fr",
-      "it",
-      "ja",
-      "nb",
-      "nl",
-      "pl",
-      "pt-BR",
-      "sv",
-      "zh"
-    ],
-    "downloadBytesMatch": true,
-    "testedFileTypes": ["text", "PDF", "PNG", "CSV", "binary", "ZIP"],
-    "protectedStreamSizeBytes": 5242880,
-    "pageErrorsInFinalRun": 0
-  },
-  "brandingAudit": {
-    "origin": "https://skysend.hajd.cloud",
-    "changedPublicConfigKeys": ["customLogo", "customTitle", "defaultTheme"],
-    "assetsMatch": {
-      "logo.svg": true,
-      "logo.png": true,
-      "pwa-192x192.png": true,
-      "pwa-512x512.png": true,
-      "apple-touch-icon.png": true,
-      "manifest.webmanifest": true,
-      "theme-init.js": true
+  "browserFlows": [
+    {
+      "name": "mobile-first-simple-and-advanced-layout",
+      "passed": true
     },
-    "upstreamSecurityContactRemoved": true,
-    "oldProjectDestinationFiles": []
+    {
+      "name": "crimson-logo-and-system-schemes",
+      "passed": true
+    },
+    {
+      "name": "simple-note-create-read-burn-and-reset",
+      "passed": true
+    },
+    {
+      "name": "advanced-markdown-all-blocks-and-preserved-draft",
+      "passed": true
+    },
+    {
+      "name": "simple-note-password-lock-and-unlock",
+      "passed": true
+    },
+    {
+      "name": "file-tab-upload-and-byte-exact-download",
+      "passed": true
+    },
+    {
+      "name": "czech-and-slovak-advanced-label",
+      "passed": true
+    },
+    {
+      "name": "request-both-file-and-note-send-open-download-close-delete",
+      "passed": true
+    }
+  ],
+  "responsiveVisualChecks": [
+    {
+      "scheme": "light",
+      "width": 320,
+      "stableSharingLayout": true,
+      "continuousBackground": true,
+      "noOverflow": true,
+      "noOldLinks": true
+    },
+    {
+      "scheme": "light",
+      "width": 375,
+      "stableSharingLayout": true,
+      "continuousBackground": true,
+      "noOverflow": true,
+      "noOldLinks": true
+    },
+    {
+      "scheme": "light",
+      "width": 768,
+      "stableSharingLayout": true,
+      "continuousBackground": true,
+      "noOverflow": true,
+      "noOldLinks": true
+    },
+    {
+      "scheme": "light",
+      "width": 1280,
+      "stableSharingLayout": true,
+      "continuousBackground": true,
+      "noOverflow": true,
+      "noOldLinks": true
+    },
+    {
+      "scheme": "light",
+      "width": 1920,
+      "stableSharingLayout": true,
+      "continuousBackground": true,
+      "noOverflow": true,
+      "noOldLinks": true
+    },
+    {
+      "scheme": "dark",
+      "width": 320,
+      "stableSharingLayout": true,
+      "continuousBackground": true,
+      "noOverflow": true,
+      "noOldLinks": true
+    },
+    {
+      "scheme": "dark",
+      "width": 375,
+      "stableSharingLayout": true,
+      "continuousBackground": true,
+      "noOverflow": true,
+      "noOldLinks": true
+    },
+    {
+      "scheme": "dark",
+      "width": 768,
+      "stableSharingLayout": true,
+      "continuousBackground": true,
+      "noOverflow": true,
+      "noOldLinks": true
+    },
+    {
+      "scheme": "dark",
+      "width": 1280,
+      "stableSharingLayout": true,
+      "continuousBackground": true,
+      "noOverflow": true,
+      "noOldLinks": true
+    },
+    {
+      "scheme": "dark",
+      "width": 1920,
+      "stableSharingLayout": true,
+      "continuousBackground": true,
+      "noOverflow": true,
+      "noOldLinks": true
+    }
+  ],
+  "colorSchemes": {
+    "light": true,
+    "dark": true,
+    "systemTracksPreference": true,
+    "manualChoicePersistsAfterReload": true
+  },
+  "assets": [
+    {
+      "path": "/assets/index-BWGwZVUG.js",
+      "bytesMatchBuild": true,
+      "sha256": "0fd756236beb2248f232728151c2ae525c61f17e702a294db392ac5a2e4124ee"
+    },
+    {
+      "path": "/assets/index-bznBkxvH.css",
+      "bytesMatchBuild": true,
+      "sha256": "d8c7326cc104fc38e0476cb39f71e9ef465504466c9626be5c1d8a9f36356448"
+    },
+    {
+      "path": "/hajd-cloud-logo-lock.webp",
+      "bytesMatchBuild": true
+    },
+    {
+      "path": "/apple-touch-icon.png?v=286d2759f424",
+      "bytesMatchBuild": true
+    },
+    {
+      "path": "/pwa-192x192.png?v=286d2759f424",
+      "bytesMatchBuild": true
+    },
+    {
+      "path": "/pwa-512x512.png?v=286d2759f424",
+      "bytesMatchBuild": true
+    },
+    {
+      "path": "/manifest.webmanifest?v=286d2759f424",
+      "bytesMatchBuild": true
+    }
+  ],
+  "cdn": {
+    "purgeEverythingAcknowledged": true,
+    "publicAssetsMatchCurrentBuild": true,
+    "newLogoPath": "/hajd-cloud-logo-lock.webp",
+    "iconVersion": "286d2759f424"
   },
   "cleanup": {
-    "deletedTestRequests": 4,
-    "dailyRequestAllowanceRestored": 5,
-    "temporaryDeploymentTokensRemoved": true
+    "obsoleteLogoVariantsRemoved": true,
+    "emptyComponentsRemoved": true,
+    "unusedWorkerWorkspaceReferencesRemoved": true,
+    "supersededReportsReplaced": true,
+    "changelogFragmentsConsolidated": true,
+    "verifiedLocalBackup": true
   },
-  "compatibility": "Package namespaces, crypto derivation labels, persisted storage identifiers and frozen compatibility fixtures are retained. Third-party license texts are preserved."
+  "repository": {
+    "localBranches": ["master"],
+    "remoteBranches": ["master"],
+    "defaultBranch": "master",
+    "historyPreserved": true
+  }
 }

@@ -55,7 +55,7 @@ export function Footer({ locale }: { locale: Locale }) {
             href={localePath(locale, "/")}
             className="flex w-fit items-center gap-2.5 text-sm font-semibold"
           >
-            <Image src="/hajd-cloud-logo-crimson.webp" alt="" width={24} height={24} />
+            <Image src="/hajd-cloud-logo-lock.webp" alt="" width={24} height={24} />
             Hajd.Cloud
           </Link>
           <span className="text-faint">{t("footer.tagline")}</span>
