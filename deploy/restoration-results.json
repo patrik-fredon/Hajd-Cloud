@@ -1,0 +1,33 @@
+{
+  "verifiedAt": "2026-10-11T16:26:57.228953+00:00",
+  "origin": "https://hajd.cloud",
+  "restoredApplication": "Cryptgeon",
+  "httpsStatus": 200,
+  "originalApplicationHealthy": true,
+  "originalRedisHealthy": true,
+  "originalRedisRestartedDuringRestoration": false,
+  "removedCoolifyService": true,
+  "removedCoolifyApplication": true,
+  "removedCoolifyConfiguration": true,
+  "otherServicesPreserved": true,
+  "temporaryManagementTokensRemaining": 0,
+  "configurationAndEncryptedDataBackupChecksumsVerified": true,
+  "cloudflarePurgeEverythingAcknowledged": true,
+  "routingFix": "Explicitly select the original application service in its existing Traefik router.",
+  "browserChecks": [
+    {
+      "name": "original-note-create-and-open",
+      "passed": true
+    },
+    {
+      "name": "original-file-upload-and-byte-exact-download",
+      "passed": true
+    }
+  ],
+  "repositoryValidation": {
+    "lint": "passed",
+    "typecheck": "passed",
+    "tests": "passed"
+  },
+  "retiredDeploymentData": "Private backup retained. Encrypted storage was not erased."
+}

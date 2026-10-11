@@ -33,6 +33,7 @@
 
 ### 🗑️ Removed
 
+- **infra**: Remove the Hajd.Cloud Coolify deployment and restore the original application on the primary domain.
 - **client**: Require a configured release endpoint instead of checking the upstream repository for updates.
 - **infra**: Stop publishing upstream repository and sponsor identities in release helpers.
 - **web**: Remove the upstream security contact asset.

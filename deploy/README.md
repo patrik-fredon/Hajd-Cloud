@@ -1,5 +1,13 @@
 # Hajd.Cloud deployment
 
+## Deployment status
+
+The Hajd.Cloud Coolify service was removed on October 11, 2026 at the operator's request. The primary domain now serves the original Cryptgeon application. Its Redis process was preserved. The removed service configuration and encrypted data have a verified private backup. The sections below describe the archived deployment procedure.
+
+The restoration checks are recorded in [restoration-results.json](restoration-results.json). The existing [verification-results.json](verification-results.json) describes the retired deployment.
+
+## Archived deployment
+
 The Coolify service runs on server 003 behind the host's custom Traefik proxy and Cloudflare Tunnel. Keep the Coolify Domains field empty because the Compose labels define the route. Apply `traefik-tunnel-forwarded-headers.patch` to the host proxy and `r2-cors.json` to the bucket.
 
 ## Localized image
