@@ -10,13 +10,12 @@ Small fixes (language translations, typos, documentation improvements) can be su
 
 ## Branches
 
-| Branch           | What it holds                                                                   |
-| :--------------- | :------------------------------------------------------------------------------ |
-| `main`           | The released code. Each release merges `dev` into `main` and is tagged `vX.Y.Z` |
-| `dev`            | Everything that is finished, waiting for the next release                       |
-| Feature branches | One feature or fix each, branched off `dev`                                     |
+| Branch           | What it holds                                                                                |
+| :--------------- | :------------------------------------------------------------------------------------------- |
+| `main`           | The only permanent branch, containing the current application. Releases are tagged `vX.Y.Z`. |
+| Feature branches | Temporary branches for one feature or fix, removed after merging into `main`.                |
 
-**Pull requests go into `dev`, never into `main`.** Branch off `dev`, and open the pull request against `dev`. Only the maintainer merges `dev` into `main` for a release.
+**Pull requests target `main`.** Branch off `main` and remove the temporary feature branch after merging.
 
 ## Development Setup
 
@@ -29,7 +28,7 @@ Small fixes (language translations, typos, documentation improvements) can be su
 
 ```bash
 cd Hajd.Cloud
-git checkout dev
+git checkout main
 pnpm install
 cp .env.dev.example .env.dev
 pnpm dev
@@ -40,10 +39,10 @@ This starts both the backend (Hono) and frontend (Vite) in development mode. The
 Start your work on a branch of its own:
 
 ```bash
-git checkout -b fix/short-description dev
+git checkout -b fix/short-description main
 ```
 
-Working from a fork, add this repository as `upstream` and branch off `upstream/dev`, so your branch starts from the newest state.
+Working from a fork, add this repository as `upstream` and branch off `upstream/main`, so your branch starts from the newest state.
 
 ### Project Structure
 
@@ -57,7 +56,6 @@ packages/
   crypto/    # Shared encryption library (Web Crypto API)
 docs/        # VitePress documentation
 website/     # Next.js marketing site
-workers/     # Cloudflare Workers for the instance list and abuse reports
 ```
 
 ### Commands
@@ -87,12 +85,12 @@ pnpm test         # Run unit tests
 
 ### Pull Requests
 
-- Open it against `dev`. A pull request against `main` is retargeted or closed
+- Open it against `main`
 - One feature/fix per PR
 - Include tests for new functionality
 - Update documentation if relevant
 - Write the changelog entry into a file of its own under `changelog/unreleased/`, named after your branch, never into `docs/changelog.md`. The release collects those files, see [changelog/unreleased/README.md](changelog/unreleased/README.md)
-- Ensure all CI checks pass. Every pull request into `dev` or `main` runs lint, type check, unit tests and the builds of the docs and the website
+- Ensure all CI checks pass. Every pull request into `main` runs lint, type check, unit tests and the builds of the docs and the website
 
 ## Security
 

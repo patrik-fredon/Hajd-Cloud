@@ -1,6 +1,6 @@
 # Hajd.Cloud CLI installer for Windows.
 # Usage (PowerShell):
-#   irm https://skysend.hajd.cloud/install.ps1 | iex
+#   irm https://hajd.cloud/install.ps1 | iex
 #
 # Options (environment variables):
 #   $env:INSTALL_DIR - installation directory (default: $HOME\.skysend\bin)

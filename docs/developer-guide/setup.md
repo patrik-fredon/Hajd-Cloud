@@ -13,7 +13,7 @@ Set up a local development environment for Hajd.Cloud.
 
 ```bash
 cd Hajd.Cloud
-git checkout dev
+git checkout main
 ```
 
 On macOS, the setup script installs fnm with the Node of `.node-version`, pnpm in the version `package.json` pins and the dependencies. It also offers to add the line to `~/.zshrc` that lets new terminals switch to that Node inside the project.
@@ -30,7 +30,7 @@ cp .env.dev.example .env.dev
 
 The dev server reads `.env.dev`, which git ignores, so local values and secrets like an OIDC client stay out of the repository. `.env.dev.example` holds the defaults for development and is the file to update when a variable is added. `pnpm setup:worktree` copies `.env.dev` of the primary checkout into a new git worktree, or creates it from the template.
 
-New work happens on a branch off `dev`, and its pull request goes back into `dev`, never into `main`. See [Branches and Pull Requests](/developer-guide/#branches-and-pull-requests).
+New work starts from `main`, and its pull request targets `main`. Temporary branches are removed after merging. See [Branches and Pull Requests](/developer-guide/#branches-and-pull-requests).
 
 ## Development
 

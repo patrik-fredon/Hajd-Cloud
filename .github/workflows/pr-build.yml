@@ -8,8 +8,7 @@
 #     each started once with --version where the runner can execute it
 #
 # Its own workflow rather than jobs of Validate, since the release calls
-# Validate and would list these jobs as skipped. Pull requests into dev only
-# run Validate.
+# Validate and would list these jobs as skipped. Other workflows run validation.
 #
 # One job, Approve, waits for an approval through the environment pr-build,
 # whose required reviewers are set in the settings of the repository, and every

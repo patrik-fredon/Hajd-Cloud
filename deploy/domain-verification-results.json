@@ -1,0 +1,79 @@
+{
+  "checkedAtUTC": "2026-10-11T05:10:06.612732+00:00",
+  "origin": "https://hajd.cloud",
+  "legacyOrigin": "https://skysend.hajd.cloud",
+  "image": "hajd-cloud/skysend:v3.0.0-apex.1",
+  "passed": true,
+  "validation": {
+    "lint": true,
+    "typecheck": true,
+    "unitTests": 1877,
+    "serverBuild": true,
+    "webBuild": true,
+    "docsBuild": true,
+    "websiteBuild": true,
+    "changelogCheck": true,
+    "publicConfigUnchanged": true,
+    "temporaryDeploymentTokensRemaining": 0
+  },
+  "checks": [
+    {
+      "name": "pre-migration-note-opens-on-original-host",
+      "passed": true
+    },
+    {
+      "name": "pre-migration-note-opens-on-new-host-with-same-fragment",
+      "passed": true
+    },
+    {
+      "name": "pre-migration-file-download-through-new-origin-r2-cors",
+      "passed": true
+    },
+    {
+      "name": "canonical-preview-assets-and-public-links",
+      "passed": true
+    },
+    {
+      "name": "mobile-first-simple-and-advanced-layout",
+      "passed": true
+    },
+    {
+      "name": "crimson-logo-and-system-schemes",
+      "passed": true
+    },
+    {
+      "name": "simple-note-create-read-burn-and-reset",
+      "passed": true
+    },
+    {
+      "name": "advanced-markdown-all-blocks-and-preserved-draft",
+      "passed": true
+    },
+    {
+      "name": "simple-note-password-lock-and-unlock",
+      "passed": true
+    },
+    {
+      "name": "file-tab-upload-and-byte-exact-download",
+      "passed": true
+    },
+    {
+      "name": "czech-and-slovak-advanced-label",
+      "passed": true
+    },
+    {
+      "name": "request-both-file-and-note-send-open-download-close-delete",
+      "passed": true
+    }
+  ],
+  "pageErrors": 0,
+  "r2Cors": {
+    "allowedOrigins": ["https://hajd.cloud", "https://skysend.hajd.cloud"],
+    "allowedMethods": ["GET", "HEAD"],
+    "apexPreflightStatus": 204
+  },
+  "repository": {
+    "permanentBranch": "main",
+    "otherLocalAndRemoteBranchesArchivedAndRemoved": true
+  }
+}

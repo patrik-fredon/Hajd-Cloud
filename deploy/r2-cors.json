@@ -1,6 +1,6 @@
 [
   {
-    "AllowedOrigins": ["https://skysend.hajd.cloud"],
+    "AllowedOrigins": ["https://hajd.cloud", "https://skysend.hajd.cloud"],
     "AllowedMethods": ["GET", "HEAD"]
   }
 ]

@@ -16,7 +16,7 @@ There are no application accounts, analytics or trackers. OIDC authentication is
 
 ## Deployment
 
-The configured deployment runs at [Hajd.Cloud](https://skysend.hajd.cloud). See [deployment instructions](deploy/README.md), the [configuration reference](docs/user-guide/configuration/environment-variables.md) and the [R2 configuration guide](docs/user-guide/configuration/s3.md).
+The configured deployment runs at [Hajd.Cloud](https://hajd.cloud). See [deployment instructions](deploy/README.md), the [configuration reference](docs/user-guide/configuration/environment-variables.md) and the [R2 configuration guide](docs/user-guide/configuration/s3.md).
 
 Build with Node 24 or newer and pnpm:
 

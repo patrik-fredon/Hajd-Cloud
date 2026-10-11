@@ -10,7 +10,7 @@ import { useI18n } from "@/i18n/provider";
 import type { MessageKey } from "@/i18n/translate";
 
 const COMMAND = "skysend upload ./q3-board-pack.pdf -e 7d -d 5";
-const URL_BASE = "https://skysend.hajd.cloud/file/aB3kQ9xZ";
+const URL_BASE = "https://hajd.cloud/file/aB3kQ9xZ";
 const URL_SECRET = "#Zk3vT0qL8mWc2HxR9bN4yJ6sPa1eFgUd7tKiVo5nC3w";
 /** Ticks of one round of the terminal. The last one shows it finished. */
 const ROUND = 70;

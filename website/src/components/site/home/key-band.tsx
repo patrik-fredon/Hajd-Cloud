@@ -20,7 +20,7 @@ const PARTS: {
 }[] = [
   {
     id: "host",
-    text: "https://skysend.hajd.cloud",
+    text: "https://hajd.cloud",
     title: "key.hostTitle",
     about: "key.hostText",
     sent: true,

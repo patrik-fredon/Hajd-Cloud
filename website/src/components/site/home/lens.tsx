@@ -43,7 +43,7 @@ function hexAt(seed: number, length: number) {
   return out;
 }
 
-const LINK_BASE = "https://skysend.hajd.cloud/file/aB3kQ9xZ";
+const LINK_BASE = "https://hajd.cloud/file/aB3kQ9xZ";
 const LINK_SECRET = "#Zk3vT0qL8mWc2HxR9bN4yJ6sPa1eFgUd7tKiVo5nC3w";
 
 const FILES = [
@@ -374,7 +374,7 @@ export function Lens() {
           </span>
           <span className="flex h-7 w-[min(380px,52vw)] items-center justify-center gap-2 rounded-lg border border-border bg-surface text-[13px] text-muted-foreground">
             <Lock className="size-3" />
-            skysend.hajd.cloud
+            hajd.cloud
           </span>
           <span className="hidden items-center justify-self-end gap-1.5 text-xs text-faint lg:flex [@media(hover:none)]:hidden">
             <ChevronsLeftRight className="size-3.5" />

@@ -364,7 +364,7 @@ export function ReportForm() {
                 spellCheck={false}
                 value={url}
                 onChange={(e) => handleUrlChange(e.target.value)}
-                placeholder="https://skysend.hajd.cloud/file/2d6580e6#…"
+                placeholder="https://hajd.cloud/file/2d6580e6#…"
                 className={cn(FIELD, "h-12 font-mono text-[13px]")}
               />
               <div id="report-url-hint">{linkHint}</div>

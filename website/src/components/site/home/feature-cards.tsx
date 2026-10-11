@@ -311,7 +311,7 @@ export function RequestsCard({ className }: { className?: string }) {
         <span className="font-semibold">{t("features.requestName")}</span>
         <span className="text-xs text-muted-foreground">{t("features.requestMeta")}</span>
         <span className="truncate font-mono text-xs text-subtle">
-          skysend.hajd.cloud/request/Hx2k9PqL<span className="text-tone-green">#BKz8…</span>
+          hajd.cloud/request/Hx2k9PqL<span className="text-tone-green">#BKz8…</span>
         </span>
       </div>
       <div className="relative flex flex-wrap items-center gap-x-2 gap-y-1">

@@ -42,8 +42,8 @@ pnpm client:build
 To install a specific version or to a custom directory:
 
 ```bash
-VERSION=v2.11.3 curl -fsSL https://skysend.hajd.cloud/how | sh
-INSTALL_DIR=$HOME/.local/bin curl -fsSL https://skysend.hajd.cloud/how | sh
+VERSION=v2.11.3 curl -fsSL https://hajd.cloud/how | sh
+INSTALL_DIR=$HOME/.local/bin curl -fsSL https://hajd.cloud/how | sh
 ```
 
 ::: warning macOS on Apple Silicon
@@ -65,7 +65,7 @@ This installs `skysend.exe` to `~/.skysend/bin` and adds it to your user PATH. R
 To install a specific version:
 
 ```powershell
-$env:VERSION="v2.11.3"; irm https://skysend.hajd.cloud/how | iex
+$env:VERSION="v2.11.3"; irm https://hajd.cloud/how | iex
 ```
 
 ### Manual Download

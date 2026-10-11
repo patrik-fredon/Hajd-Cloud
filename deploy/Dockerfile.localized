@@ -9,7 +9,7 @@ COPY --chown=1001:1001 apps/server/dist/lib/config.js /app/apps/server/dist/lib/
 # Keep public image metadata free of source repository and publisher credits.
 LABEL org.opencontainers.image.title="Hajd.Cloud" \
       org.opencontainers.image.vendor="Hajd.Cloud" \
-      org.opencontainers.image.url="https://skysend.hajd.cloud" \
+      org.opencontainers.image.url="https://hajd.cloud" \
       org.opencontainers.image.source="" \
       org.opencontainers.image.documentation="" \
       org.opencontainers.image.authors=""

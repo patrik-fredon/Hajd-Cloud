@@ -35,7 +35,7 @@ const filter = ref<"all" | "file" | "note">("all");
 
 function isOfficial(url: string): boolean {
   try {
-    return new URL(url).hostname.endsWith("skysend.hajd.cloud");
+    return new URL(url).hostname.endsWith("hajd.cloud");
   } catch {
     return false;
   }

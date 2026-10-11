@@ -8,7 +8,7 @@ The deployment image adds the Czech and Slovak frontend and customized footer to
 
 ```bash
 pnpm --filter @skysend/server --filter @skysend/web build
-docker build -f deploy/Dockerfile.localized -t hajd-cloud/skysend:v3.0.0-entry.1 .
+docker build -f deploy/Dockerfile.localized -t hajd-cloud/skysend:v3.0.0-apex.1 .
 ```
 
 Make that image available in the Docker daemon on server 003 before restarting the service. `pull_policy: never` keeps Coolify from replacing the local image. Load the verified runtime image into the local Docker daemon before building. The Dockerfile addresses it by its immutable SHA256 image ID. Update that ID only after verifying a replacement runtime, rebuild the frontend, and repeat the browser download check.
@@ -30,3 +30,9 @@ Set `CUSTOM_TITLE=Hajd.Cloud`, `DEFAULT_THEME=crimson` and `DEFAULT_COLOR_SCHEME
 ## Simple note entry
 
 Text notes start with a wider responsive editor. The Advanced button in the note settings reveals formatting, the optional title and block management. Toggling it preserves every draft value and added block. File uploads, request templates, reading existing notes and specialized block defaults keep their existing controls.
+
+## Public domain
+
+The primary origin is `https://hajd.cloud`. Set `BASE_URL` to this origin and keep `https://skysend.hajd.cloud` in `CORS_ORIGINS` for existing links. The Traefik route accepts both hosts, while new shares and preview metadata use the primary origin. The R2 policy allows GET and HEAD from both origins. Keep the existing data volume and R2 bucket during this domain migration.
+
+Browser history, templates, language and theme choices belong to each origin. Existing browser-local data remains available on the previous hostname.

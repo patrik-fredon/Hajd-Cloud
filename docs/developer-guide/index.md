@@ -47,32 +47,31 @@ Hajd.Cloud is a monorepo managed with pnpm Workspaces, consisting of:
 
 ### Branches and Pull Requests
 
-| Branch           | What it holds                                                                   |
-| :--------------- | :------------------------------------------------------------------------------ |
-| `main`           | The released code. Each release merges `dev` into `main` and is tagged `vX.Y.Z` |
-| `dev`            | Everything that is finished, waiting for the next release                       |
-| Feature branches | One feature or fix each, branched off `dev`                                     |
+| Branch           | What it holds                                                                                |
+| :--------------- | :------------------------------------------------------------------------------------------- |
+| `main`           | The only permanent branch, containing the current application. Releases are tagged `vX.Y.Z`. |
+| Feature branches | Temporary branches for one feature or fix, removed after merging into `main`.                |
 
-Pull requests go into `dev`, never into `main`. Only the maintainer merges `dev` into `main` for a release.
+Pull requests target `main`. Remove temporary feature branches after merging.
 
 ```bash
-git checkout dev
+git checkout main
 git pull
 git checkout -b feat/short-description
 # ... commit your work
 git push -u origin feat/short-description
-# then open the pull request with dev as its base
+# then open the pull request with main as its base
 ```
 
-Every pull request into `dev` or `main` runs lint, type check, unit tests and the builds of the docs and the website.
+Every pull request into `main` runs lint, type check, unit tests and the builds of the docs and the website.
 
 ### PR Guidelines
 
-1. Create a feature branch off `dev`
+1. Create a feature branch off `main`
 2. Write tests for new features
 3. Update documentation
 4. Write the changelog entry into a fragment under `changelog/unreleased/`, named after your branch
 5. Run `pnpm validate` before submitting
-6. Open the pull request against `dev`
+6. Open the pull request against `main`
 
 Security vulnerabilities are never reported in a pull request or an issue. See SECURITY.md.

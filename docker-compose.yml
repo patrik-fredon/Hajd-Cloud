@@ -4,7 +4,7 @@
 services:
   skysend:
     # Build with deploy/Dockerfile.localized after building the server and frontend.
-    image: hajd-cloud/skysend:v3.0.0-entry.1
+    image: hajd-cloud/skysend:v3.0.0-apex.1
     pull_policy: never
     restart: unless-stopped
     expose:
@@ -12,7 +12,7 @@ services:
     volumes:
       - skysend-data:/data
     environment:
-      BASE_URL: https://skysend.hajd.cloud
+      BASE_URL: https://hajd.cloud
       HOST: 0.0.0.0
       PORT: "3000"
       DATA_DIR: /data
@@ -21,7 +21,7 @@ services:
       PUID: ${PUID:-1001}
       PGID: ${PGID:-1001}
       SKIP_CHOWN: ${SKIP_CHOWN:-false}
-      CORS_ORIGINS: ${CORS_ORIGINS:-}
+      CORS_ORIGINS: ${CORS_ORIGINS:-https://skysend.hajd.cloud}
       TRUST_PROXY: "true"
       ENABLED_SERVICES: file,note,request
       FILE_MAX_SIZE: ${FILE_MAX_SIZE:-5GB}
@@ -107,7 +107,7 @@ services:
       # Cloudflare terminates HTTPS and sends HTTP to Traefik on port 80.
       traefik.enable: "true"
       traefik.docker.network: web
-      traefik.http.routers.hajd-skysend.rule: Host(`skysend.hajd.cloud`)
+      traefik.http.routers.hajd-skysend.rule: Host(`hajd.cloud`) || Host(`skysend.hajd.cloud`)
       traefik.http.routers.hajd-skysend.entrypoints: web
       traefik.http.routers.hajd-skysend.service: hajd-skysend
       traefik.http.routers.hajd-skysend.middlewares: hajd-skysend-forwarded-proto

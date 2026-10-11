@@ -57,7 +57,7 @@ export type InstancesResponse = z.infer<typeof InstancesResponseSchema>;
 export function isOfficialInstance(url: string): boolean {
   try {
     const host = new URL(url).hostname;
-    return host === "skysend.hajd.cloud" || host.endsWith(".skysend.hajd.cloud");
+    return host === "hajd.cloud" || host.endsWith(".hajd.cloud");
   } catch {
     return false;
   }

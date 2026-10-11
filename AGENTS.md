@@ -1,4 +1,4 @@
-# SkySend
+# Hajd.Cloud
 
 Minimalist, self-hostable, end-to-end encrypted file and note sharing. Zero knowledge: the server stores ciphertext and never receives the key.
 
@@ -16,17 +16,17 @@ Anything that would send the secret, a derived key, a plaintext filename, or not
 
 Claude Code loads the nearest `CLAUDE.md` when you touch files in a directory. Read the matching guide before working in that area:
 
-| Working on | Guide |
-| :--- | :--- |
-| API routes, middleware, storage, database, OIDC | [apps/server/CLAUDE.md](apps/server/CLAUDE.md) |
-| React SPA, UI components, hooks, i18n, toasts | [apps/web/CLAUDE.md](apps/web/CLAUDE.md) |
-| Encryption, key derivation, ECE streams | [packages/crypto/CLAUDE.md](packages/crypto/CLAUDE.md) |
-| Note content format, legacy notes | [packages/note-format/CLAUDE.md](packages/note-format/CLAUDE.md) |
-| End-user CLI and the Ink TUI | [apps/client/CLAUDE.md](apps/client/CLAUDE.md) |
-| Admin CLI (runs on the server, direct DB access) | [apps/cli/CLAUDE.md](apps/cli/CLAUDE.md) |
-| Docs site and the changelog | [docs/CLAUDE.md](docs/CLAUDE.md) |
-| Marketing website (skysend.app) | [website/CLAUDE.md](website/CLAUDE.md) |
-| Cloudflare Workers | [workers/CLAUDE.md](workers/CLAUDE.md) |
+| Working on                                       | Guide                                                            |
+| :----------------------------------------------- | :--------------------------------------------------------------- |
+| API routes, middleware, storage, database, OIDC  | [apps/server/CLAUDE.md](apps/server/CLAUDE.md)                   |
+| React SPA, UI components, hooks, i18n, toasts    | [apps/web/CLAUDE.md](apps/web/CLAUDE.md)                         |
+| Encryption, key derivation, ECE streams          | [packages/crypto/CLAUDE.md](packages/crypto/CLAUDE.md)           |
+| Note content format, legacy notes                | [packages/note-format/CLAUDE.md](packages/note-format/CLAUDE.md) |
+| End-user CLI and the Ink TUI                     | [apps/client/CLAUDE.md](apps/client/CLAUDE.md)                   |
+| Admin CLI (runs on the server, direct DB access) | [apps/cli/CLAUDE.md](apps/cli/CLAUDE.md)                         |
+| Docs site and the changelog                      | [docs/CLAUDE.md](docs/CLAUDE.md)                                 |
+| Marketing website (skysend.app)                  | [website/CLAUDE.md](website/CLAUDE.md)                           |
+| Cloudflare Workers                               | [workers/CLAUDE.md](workers/CLAUDE.md)                           |
 
 ## Non-negotiable rules
 
@@ -38,7 +38,7 @@ Claude Code loads the nearest `CLAUDE.md` when you touch files in a directory. R
 6. **Typography**: no em dashes, no semicolons joining clauses. Use a hyphen where a dash is needed, and end sentences with a period. Applies to code comments, docs, changelog entries, and commit messages.
 7. **Language**: all code, comments, and documentation in English. User-facing strings go through i18n, never inline.
 8. **Never log secrets, keys, tokens, plaintext, or IP addresses.** The request logger records method, path, status, and duration only. Quota tracking uses HMAC-hashed IPs with a daily rotating key.
-9. **Branches: feature branch, then `dev`, then `main`.** Work happens on a feature branch off `dev`, its pull request goes into `dev`, and a release merges `dev` into `main`. A pull request or a base branch suggested to anyone points at `dev`, never at `main`.
+9. **`main` is the only permanent branch.** Work and pull requests target `main`. Temporary feature branches are removed after merging. The repository was consolidated at the user's explicit request.
 
 ## Architecture
 
@@ -116,18 +116,18 @@ The test is who the line is for. A reader upgrading their instance never needs t
 
 **Section order** (skip sections with no entries, never reorder):
 
-| # | Change type | Section |
-| :--- | :--- | :--- |
-| 1 | New feature or capability | `### ✨ Features` |
-| 2 | Bug fix in an already released version | `### 🐛 Bug Fixes` |
-| 3 | Security fix | `### 🔒 Security` |
-| 4 | Performance, UX, quality | `### 🎨 Improvements` |
-| 5 | Behavior change (non-breaking) | `### 🔄 Changed` |
-| 6 | Removed feature or code | `### 🗑️ Removed` |
-| 7 | Documentation | `### 📝 Documentation` |
-| 8 | Tests added or changed | `### 🧪 Tests` |
-| 9 | GitHub Actions, Dockerfile, scripts | `### 🔧 CI/CD` |
-| 10 | Docker image info (always last, written by the release) | `### 🐳 Docker` |
+| #   | Change type                                             | Section                |
+| :-- | :------------------------------------------------------ | :--------------------- |
+| 1   | New feature or capability                               | `### ✨ Features`      |
+| 2   | Bug fix in an already released version                  | `### 🐛 Bug Fixes`     |
+| 3   | Security fix                                            | `### 🔒 Security`      |
+| 4   | Performance, UX, quality                                | `### 🎨 Improvements`  |
+| 5   | Behavior change (non-breaking)                          | `### 🔄 Changed`       |
+| 6   | Removed feature or code                                 | `### 🗑️ Removed`       |
+| 7   | Documentation                                           | `### 📝 Documentation` |
+| 8   | Tests added or changed                                  | `### 🧪 Tests`         |
+| 9   | GitHub Actions, Dockerfile, scripts                     | `### 🔧 CI/CD`         |
+| 10  | Docker image info (always last, written by the release) | `### 🐳 Docker`        |
 
 **Bug fix policy**: only log fixes for problems in released versions. A bug found and fixed while building an unreleased feature is part of that feature, not a separate entry.
 
@@ -143,21 +143,21 @@ Entry format, scopes, and the remaining rules live in [docs/CLAUDE.md](docs/CLAU
 
 ## Quick reference
 
-| Concern | Location |
-| :--- | :--- |
-| Server config schema (all env vars) | [apps/server/src/lib/config.ts](apps/server/src/lib/config.ts) |
-| Database schema | [apps/server/src/db/schema.ts](apps/server/src/db/schema.ts) |
-| API routes | [apps/server/src/routes/](apps/server/src/routes/) |
-| Storage backends | [apps/server/src/storage/](apps/server/src/storage/) |
-| Crypto public API | [packages/crypto/src/index.ts](packages/crypto/src/index.ts) |
-| Frontend API client | [apps/web/src/lib/api.ts](apps/web/src/lib/api.ts) |
-| Toast helpers | [apps/web/src/lib/toast.tsx](apps/web/src/lib/toast.tsx) |
-| Translations | [apps/web/src/i18n/](apps/web/src/i18n/) |
-| Changelog fragments (unreleased) | [changelog/unreleased/](changelog/unreleased/README.md) |
-| Changelog (released) | [docs/changelog.md](docs/changelog.md) |
-| Published env var reference | [docs/user-guide/configuration/environment-variables.md](docs/user-guide/configuration/environment-variables.md) |
-| Dev environment | [.env.dev.example](.env.dev.example), [.env.example](.env.example) |
-| CI | [.github/workflows/validate.yml](.github/workflows/validate.yml), [pr-build.yml](.github/workflows/pr-build.yml) |
+| Concern                             | Location                                                                                                         |
+| :---------------------------------- | :--------------------------------------------------------------------------------------------------------------- |
+| Server config schema (all env vars) | [apps/server/src/lib/config.ts](apps/server/src/lib/config.ts)                                                   |
+| Database schema                     | [apps/server/src/db/schema.ts](apps/server/src/db/schema.ts)                                                     |
+| API routes                          | [apps/server/src/routes/](apps/server/src/routes/)                                                               |
+| Storage backends                    | [apps/server/src/storage/](apps/server/src/storage/)                                                             |
+| Crypto public API                   | [packages/crypto/src/index.ts](packages/crypto/src/index.ts)                                                     |
+| Frontend API client                 | [apps/web/src/lib/api.ts](apps/web/src/lib/api.ts)                                                               |
+| Toast helpers                       | [apps/web/src/lib/toast.tsx](apps/web/src/lib/toast.tsx)                                                         |
+| Translations                        | [apps/web/src/i18n/](apps/web/src/i18n/)                                                                         |
+| Changelog fragments (unreleased)    | [changelog/unreleased/](changelog/unreleased/README.md)                                                          |
+| Changelog (released)                | [docs/changelog.md](docs/changelog.md)                                                                           |
+| Published env var reference         | [docs/user-guide/configuration/environment-variables.md](docs/user-guide/configuration/environment-variables.md) |
+| Dev environment                     | [.env.dev.example](.env.dev.example), [.env.example](.env.example)                                               |
+| CI                                  | [.github/workflows/validate.yml](.github/workflows/validate.yml), [pr-build.yml](.github/workflows/pr-build.yml) |
 
 ## Before finishing a change
 

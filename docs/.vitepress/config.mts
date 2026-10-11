@@ -10,7 +10,7 @@ export default defineConfig({
   cleanUrls: true,
   lastUpdated: true,
   sitemap: {
-    hostname: "https://skysend.hajd.cloud",
+    hostname: "https://hajd.cloud",
   },
   ignoreDeadLinks: [/localhost/],
   head: [

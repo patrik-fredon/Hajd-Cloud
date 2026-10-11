@@ -20,7 +20,7 @@ showToast(t("errors.insecureContext"), {
   type: "error",
   description: rawErrorMessage,
   copyText: rawErrorMessage,
-  docsUrl: "https://skysend.hajd.cloud/how",
+  docsUrl: "https://hajd.cloud/how",
 });
 ```
 

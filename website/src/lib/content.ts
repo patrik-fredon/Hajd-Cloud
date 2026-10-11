@@ -6,7 +6,7 @@ export const SPONSOR_URL = "/how";
 export const SECURITY_URL = "/how";
 export const DISCORD_URL = "/how";
 
-export const DOCS_URL = "https://skysend.hajd.cloud/how";
+export const DOCS_URL = "https://hajd.cloud/how";
 export const INSTANCES_DOCS_URL = `${DOCS_URL}/instances`;
 export const CHANGELOG_URL = `${DOCS_URL}/changelog`;
 export const CRYPTO_URL = `${DOCS_URL}/developer-guide/crypto/`;
@@ -16,7 +16,7 @@ export const S3_URL = `${DOCS_URL}/user-guide/configuration/s3`;
 export const CLI_URL = `${DOCS_URL}/user-guide/client-cli/`;
 
 /** The page of the official instance that encrypts a sample text step by step. */
-export const HOW_IT_WORKS_URL = "https://skysend.hajd.cloud/how";
+export const HOW_IT_WORKS_URL = "https://hajd.cloud/how";
 
 export const INSTALL_COMMANDS = [
   {

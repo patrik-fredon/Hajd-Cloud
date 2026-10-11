@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 # Hajd.Cloud CLI installer for Linux and macOS.
 # Usage:
-#   curl -fsSL https://skysend.hajd.cloud/install.sh | sh
+#   curl -fsSL https://hajd.cloud/install.sh | sh
 #
 # Options (environment variables):
 #   INSTALL_DIR   - installation directory (default: /usr/local/bin)

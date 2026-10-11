@@ -86,7 +86,7 @@ services:
       - ./uploads:/uploads
     environment:
       - BASE_URL=http://localhost:3000
-      # All environment variables: https://skysend.hajd.cloud/how
+      # All environment variables: https://hajd.cloud/how
       # There are a lot of customization options available, so make sure to check the documentation for more details.
 ```
 
@@ -128,8 +128,8 @@ See the full [CLI Client documentation](/user-guide/client-cli/) for all command
 
 ## 💬 Community & Support
 
-- 💬 **Discord**: Join our community at https://skysend.hajd.cloud/how
-- 📝 **Documentation**: Full guides and API reference at skysend.hajd.cloud/how
+- 💬 **Discord**: Join our community at https://hajd.cloud/how
+- 📝 **Documentation**: Full guides and API reference at hajd.cloud/how
 - 🐛 **Issues**: Report bugs or request features on GitHub Issues
 
 ## 🤖 AI Development Transparency
