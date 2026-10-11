@@ -12,7 +12,10 @@ import {
 import { localePath, type Locale } from "@/i18n/config";
 import { createTranslator, type MessageKey } from "@/i18n/translate";
 
-const FOOTER_COLUMNS: { title: MessageKey; links: { href: string; label: MessageKey; external?: boolean }[] }[] = [
+const FOOTER_COLUMNS: {
+  title: MessageKey;
+  links: { href: string; label: MessageKey; external?: boolean }[];
+}[] = [
   {
     title: "footer.product",
     links: [
@@ -48,9 +51,12 @@ export function Footer({ locale }: { locale: Locale }) {
     <footer className="relative mt-28 border-t border-border/70 text-[13px] sm:mt-36">
       <div className="mx-auto grid max-w-[1200px] grid-cols-2 gap-8 px-6 py-10 sm:grid-cols-3 lg:grid-cols-[2fr_1fr_1fr_1fr]">
         <div className="col-span-2 flex flex-col gap-2.5 sm:col-span-3 lg:col-span-1">
-          <Link href={localePath(locale, "/")} className="flex w-fit items-center gap-2.5 text-sm font-semibold">
-            <Image src="/logo.svg" alt="" width={24} height={24} />
-            SkySend
+          <Link
+            href={localePath(locale, "/")}
+            className="flex w-fit items-center gap-2.5 text-sm font-semibold"
+          >
+            <Image src="/hajd-cloud-logo-crimson.webp" alt="" width={24} height={24} />
+            Hajd.Cloud
           </Link>
           <span className="text-faint">{t("footer.tagline")}</span>
         </div>

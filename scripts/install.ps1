@@ -1,6 +1,6 @@
-# SkySend CLI installer for Windows.
+# Hajd.Cloud CLI installer for Windows.
 # Usage (PowerShell):
-#   irm https://skysend.app/install.ps1 | iex
+#   irm https://skysend.hajd.cloud/install.ps1 | iex
 #
 # Options (environment variables):
 #   $env:INSTALL_DIR - installation directory (default: $HOME\.skysend\bin)
@@ -11,7 +11,8 @@ $ErrorActionPreference = "Stop"
 # Without this, IWR can be 10-100x slower due to progress event overhead.
 $ProgressPreference = "SilentlyContinue"
 
-$Repo = "skyfay/SkySend"
+$Repo = $env:HAJD_CLOUD_REPOSITORY
+if (-not $Repo) { throw "Set HAJD_CLOUD_REPOSITORY to the release source" }
 $BinaryName = "skysend"
 
 # ── Resolve install directory ─────────────────────────────────
@@ -26,7 +27,7 @@ function Resolve-Version {
     }
 
     Write-Host "Fetching latest version..."
-    $release = Invoke-RestMethod -Uri "https://api.github.com/repos/$Repo/releases/latest" -Headers @{ "User-Agent" = "SkySend-Installer" }
+    $release = Invoke-RestMethod -Uri "https://api.github.com/repos/$Repo/releases/latest" -Headers @{ "User-Agent" = "Hajd.Cloud-Installer" }
     return $release.tag_name
 }
 
@@ -37,7 +38,7 @@ function Install-SkySend {
     $DownloadUrl = "https://github.com/$Repo/releases/download/$Version/$AssetName"
     $ChecksumUrl = "https://github.com/$Repo/releases/download/$Version/checksums.txt"
 
-    Write-Host "Installing SkySend CLI $Version (windows-x64)..."
+    Write-Host "Installing Hajd.Cloud CLI $Version (windows-x64)..."
     Write-Host "  From: $DownloadUrl"
 
     # Ensure install directory exists
@@ -97,7 +98,7 @@ function Install-SkySend {
     }
 
     Write-Host ""
-    Write-Host "SkySend CLI $Version installed to $DestPath"
+    Write-Host "Hajd.Cloud CLI $Version installed to $DestPath"
     Write-Host ""
     Write-Host "Get started:"
     Write-Host "  skysend --help"

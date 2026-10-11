@@ -16,6 +16,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 const languages = [
   { code: "en", name: "English", flag: "us" },
   { code: "de", name: "Deutsch", flag: "de" },
+  { code: "cs", name: "Čeština", flag: "cz" },
+  { code: "sk", name: "Slovenčina", flag: "sk" },
   { code: "es", name: "Español", flag: "es" },
   { code: "fr", name: "Français", flag: "fr" },
   { code: "it", name: "Italiano", flag: "it" },
@@ -62,7 +64,7 @@ export function LanguageSwitcher({ mobile }: { mobile?: boolean }) {
     i18n.changeLanguage(browserLang);
   };
 
-  const currentLabel = isAuto ? "Auto" : current.name;
+  const currentLabel = isAuto ? t("language.auto") : current.name;
 
   const [showScrollHint, setShowScrollHint] = useState(true);
   const scrollCleanupRef = useRef<(() => void) | null>(null);
@@ -71,14 +73,10 @@ export function LanguageSwitcher({ mobile }: { mobile?: boolean }) {
     scrollCleanupRef.current?.();
     scrollCleanupRef.current = null;
     if (!node) return;
-    const viewport = node.querySelector<HTMLElement>(
-      "[data-radix-scroll-area-viewport]",
-    );
+    const viewport = node.querySelector<HTMLElement>("[data-radix-scroll-area-viewport]");
     if (!viewport) return;
     const check = () => {
-      setShowScrollHint(
-        viewport.scrollTop + viewport.clientHeight < viewport.scrollHeight - 8,
-      );
+      setShowScrollHint(viewport.scrollTop + viewport.clientHeight < viewport.scrollHeight - 8);
     };
     check();
     viewport.addEventListener("scroll", check);
@@ -90,7 +88,7 @@ export function LanguageSwitcher({ mobile }: { mobile?: boolean }) {
       l.name.toLowerCase().includes(search.toLowerCase()) ||
       l.code.toLowerCase().includes(search.toLowerCase()),
   );
-  const showAuto = search === "" || "auto".includes(search.toLowerCase());
+  const showAuto = search === "" || t("language.auto").toLowerCase().includes(search.toLowerCase());
 
   return (
     <DropdownMenu
@@ -111,7 +109,7 @@ export function LanguageSwitcher({ mobile }: { mobile?: boolean }) {
         >
           <Globe className="h-4 w-4" />
           <span className={cn(mobile ? "flex-1 text-left" : "text-[13px]")}>
-            {mobile ? currentLabel : isAuto ? "Auto" : current.code.toUpperCase()}
+            {mobile ? currentLabel : isAuto ? t("language.auto") : current.code.toUpperCase()}
           </span>
         </button>
       </DropdownMenuTrigger>
@@ -138,7 +136,7 @@ export function LanguageSwitcher({ mobile }: { mobile?: boolean }) {
               {showAuto && (
                 <DropdownMenuItem onSelect={handleAuto} className={cn(isAuto && "font-medium")}>
                   <Globe />
-                  <span className="flex-1">Auto</span>
+                  <span className="flex-1">{t("language.auto")}</span>
                   {isAuto && <Check className="text-primary-text" />}
                 </DropdownMenuItem>
               )}

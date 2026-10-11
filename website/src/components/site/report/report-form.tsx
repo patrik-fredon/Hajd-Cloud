@@ -35,7 +35,7 @@ declare global {
           callback: (token: string) => void;
           "expired-callback"?: () => void;
           "error-callback"?: () => void;
-        }
+        },
       ) => string;
       remove: (widgetId: string) => void;
       reset: (widgetId: string) => void;
@@ -44,9 +44,7 @@ declare global {
 }
 
 type InstancesState =
-  | { status: "loading" }
-  | { status: "ready"; instances: ReportInstance[] }
-  | { status: "error" };
+  { status: "loading" } | { status: "ready"; instances: ReportInstance[] } | { status: "error" };
 
 type SubmitState = "idle" | "submitting" | "error";
 
@@ -61,13 +59,23 @@ const WorkerErrorSchema = z.object({ error: z.string().max(300) });
 const FIELD =
   "w-full rounded-[11px] border border-input bg-surface px-3.5 outline-none transition-[border-color,box-shadow] placeholder:text-faint focus:border-tone-green/55 focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--tone-green)_12%,transparent)]";
 
-function Step({ n, done, children, aside }: { n: number; done: boolean; children: ReactNode; aside?: ReactNode }) {
+function Step({
+  n,
+  done,
+  children,
+  aside,
+}: {
+  n: number;
+  done: boolean;
+  children: ReactNode;
+  aside?: ReactNode;
+}) {
   return (
     <div className="flex items-center gap-2.5">
       <span
         className={cn(
           "flex size-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold transition-colors",
-          done ? "bg-primary text-primary-foreground" : "bg-accent text-subtle"
+          done ? "bg-primary text-primary-foreground" : "bg-accent text-subtle",
         )}
       >
         {done ? <Check className="size-3.5" strokeWidth={3} /> : n}
@@ -86,7 +94,7 @@ function Hint({ tone, children }: { tone: "ok" | "warn" | "bad" | "plain"; child
         tone === "ok" && "text-tone-green",
         tone === "warn" && "text-tone-amber",
         tone === "bad" && "text-tone-red",
-        tone === "plain" && "text-muted-foreground"
+        tone === "plain" && "text-muted-foreground",
       )}
     >
       {tone === "ok" && <Check className="mt-0.5 size-3.5 shrink-0" strokeWidth={2.6} />}
@@ -148,11 +156,11 @@ export function ReportForm() {
 
   const instances = useMemo(
     () => (instancesState.status === "ready" ? instancesState.instances : []),
-    [instancesState]
+    [instancesState],
   );
   const selectedInstance = useMemo(
     () => instances.find((inst) => getHostname(inst.url) === selectedHostname),
-    [instances, selectedHostname]
+    [instances, selectedHostname],
   );
   const abuseSupported = hasAbuseSupport(selectedInstance);
 
@@ -160,7 +168,9 @@ export function ReportForm() {
   const linkKind = getLinkKind(url);
   const linkInstance = instances.find((inst) => getHostname(inst.url) === linkHost);
   const linkOk =
-    !!linkInstance && hasAbuseSupport(linkInstance) && (linkKind === "file" || linkKind === "note" || linkKind === "request");
+    !!linkInstance &&
+    hasAbuseSupport(linkInstance) &&
+    (linkKind === "file" || linkKind === "note" || linkKind === "request");
 
   // The Turnstile widget container only enters the DOM after a reportable
   // instance is selected, well after Cloudflare's script has done its one-time
@@ -198,7 +208,9 @@ export function ReportForm() {
   }
 
   function toggleReason(reason: ReportReason) {
-    setReasons((prev) => (prev.includes(reason) ? prev.filter((r) => r !== reason) : [...prev, reason]));
+    setReasons((prev) =>
+      prev.includes(reason) ? prev.filter((r) => r !== reason) : [...prev, reason],
+    );
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -216,7 +228,10 @@ export function ReportForm() {
       fail(t("report.errInbox"));
       return;
     }
-    if (getHostname(trimmedUrl) !== selectedHostname || (kind !== "file" && kind !== "note" && kind !== "request")) {
+    if (
+      getHostname(trimmedUrl) !== selectedHostname ||
+      (kind !== "file" && kind !== "note" && kind !== "request")
+    ) {
       fail(t("report.errMismatch"));
       return;
     }
@@ -229,7 +244,13 @@ export function ReportForm() {
     });
     if (!parsed.success) {
       const field = parsed.error.issues[0]?.path[0];
-      fail(t(typeof field === "string" && Object.hasOwn(FIELD_ERROR, field) ? FIELD_ERROR[field as keyof typeof FIELD_ERROR] : "report.errGeneric"));
+      fail(
+        t(
+          typeof field === "string" && Object.hasOwn(FIELD_ERROR, field)
+            ? FIELD_ERROR[field as keyof typeof FIELD_ERROR]
+            : "report.errGeneric",
+        ),
+      );
       return;
     }
 
@@ -286,7 +307,12 @@ export function ReportForm() {
   } else if (linkInstance && linkKind === "other") {
     linkHint = <Hint tone="warn">{t("report.hintNotShare")}</Hint>;
   } else if (linkOk) {
-    const kindKey = linkKind === "request" ? "report.hintRequest" : linkKind === "note" ? "report.hintNote" : "report.hintFile";
+    const kindKey =
+      linkKind === "request"
+        ? "report.hintRequest"
+        : linkKind === "note"
+          ? "report.hintNote"
+          : "report.hintFile";
     linkHint = <Hint tone="ok">{t(kindKey, { host: linkHost ?? "" })}</Hint>;
   }
 
@@ -304,8 +330,12 @@ export function ReportForm() {
             <span className="flex size-16 items-center justify-center rounded-full bg-tone-green/16 text-tone-green shadow-[0_0_40px_rgb(70_200_157/0.35)]">
               <Check className="size-7" strokeWidth={2.4} />
             </span>
-            <h2 className="text-[26px] font-semibold tracking-[-0.03em]">{t("report.sentTitle", { host: sentTo })}</h2>
-            <p className="max-w-[440px] leading-relaxed text-muted-foreground">{t("report.sentText")}</p>
+            <h2 className="text-[26px] font-semibold tracking-[-0.03em]">
+              {t("report.sentTitle", { host: sentTo })}
+            </h2>
+            <p className="max-w-[440px] leading-relaxed text-muted-foreground">
+              {t("report.sentText")}
+            </p>
             <button
               type="button"
               onClick={() => setSentTo(null)}
@@ -334,14 +364,20 @@ export function ReportForm() {
                 spellCheck={false}
                 value={url}
                 onChange={(e) => handleUrlChange(e.target.value)}
-                placeholder="https://ch.skysend.app/file/2d6580e6#…"
+                placeholder="https://skysend.hajd.cloud/file/2d6580e6#…"
                 className={cn(FIELD, "h-12 font-mono text-[13px]")}
               />
               <div id="report-url-hint">{linkHint}</div>
             </div>
 
             <div className="flex flex-col gap-2.5">
-              <Step n={2} done={!!selectedInstance && abuseSupported} aside={linkOk && selectedHostname === linkHost ? t("report.pickedFromLink") : undefined}>
+              <Step
+                n={2}
+                done={!!selectedInstance && abuseSupported}
+                aside={
+                  linkOk && selectedHostname === linkHost ? t("report.pickedFromLink") : undefined
+                }
+              >
                 {t("report.stepInstance")}
               </Step>
               {instancesState.status === "loading" && (
@@ -354,7 +390,12 @@ export function ReportForm() {
                 <Hint tone="bad">
                   {t.rich("report.instancesError", {
                     link: (c) => (
-                      <a href={INSTANCES_DOCS_URL} target="_blank" rel="noreferrer" className="underline underline-offset-4">
+                      <a
+                        href={INSTANCES_DOCS_URL}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline underline-offset-4"
+                      >
                         {c}
                       </a>
                     ),
@@ -362,7 +403,11 @@ export function ReportForm() {
                 </Hint>
               )}
               {instancesState.status === "ready" && (
-                <InstancePicker instances={instances} selectedHostname={selectedHostname} onSelect={setSelectedHostname} />
+                <InstancePicker
+                  instances={instances}
+                  selectedHostname={selectedHostname}
+                  onSelect={setSelectedHostname}
+                />
               )}
             </div>
 
@@ -381,7 +426,7 @@ export function ReportForm() {
                       onClick={() => toggleReason(reason)}
                       className={cn(
                         "flex min-h-9 items-center gap-1.5 rounded-full border px-3 text-[13px] font-medium transition-colors",
-                        on ? "border-tone-red/50 bg-tone-red/14 text-tone-red" : "btn-chip"
+                        on ? "border-tone-red/50 bg-tone-red/14 text-tone-red" : "btn-chip",
                       )}
                     >
                       {on && <Check className="size-3.5" strokeWidth={2.6} />}
@@ -432,7 +477,11 @@ export function ReportForm() {
                 </p>
               )}
               {formError && (
-                <p key={formError.n} role="alert" className="flex items-start gap-2 text-[13px] text-tone-red">
+                <p
+                  key={formError.n}
+                  role="alert"
+                  className="flex items-start gap-2 text-[13px] text-tone-red"
+                >
                   <AlertCircle className="mt-px size-4 shrink-0" />
                   {formError.text}
                 </p>

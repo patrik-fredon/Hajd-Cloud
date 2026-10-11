@@ -64,7 +64,7 @@ async function getFileKey(): Promise<CryptoKey> {
 describe("ECE streaming encryption/decryption", () => {
   it("should encrypt and decrypt a small payload", async () => {
     const fileKey = await getFileKey();
-    const plaintext = new TextEncoder().encode("Hello, SkySend!");
+    const plaintext = new TextEncoder().encode("Hello, Hajd.Cloud!");
 
     const encrypted = await collectStream(
       createReadableStream(plaintext).pipeThrough(createEncryptStream(fileKey)),
@@ -77,7 +77,7 @@ describe("ECE streaming encryption/decryption", () => {
       createReadableStream(encrypted, 1024).pipeThrough(createDecryptStream(fileKey)),
     );
 
-    expect(new TextDecoder().decode(decrypted)).toBe("Hello, SkySend!");
+    expect(new TextDecoder().decode(decrypted)).toBe("Hello, Hajd.Cloud!");
   });
 
   it("should encrypt and decrypt an empty payload", async () => {
@@ -155,15 +155,11 @@ describe("ECE streaming encryption/decryption", () => {
 
     // Feed all data at once
     const encrypted = await collectStream(
-      createReadableStream(plaintext, plaintext.length).pipeThrough(
-        createEncryptStream(fileKey),
-      ),
+      createReadableStream(plaintext, plaintext.length).pipeThrough(createEncryptStream(fileKey)),
     );
 
     const decrypted = await collectStream(
-      createReadableStream(encrypted, encrypted.length).pipeThrough(
-        createDecryptStream(fileKey),
-      ),
+      createReadableStream(encrypted, encrypted.length).pipeThrough(createDecryptStream(fileKey)),
     );
 
     expect(constantTimeEqual(decrypted, plaintext)).toBe(true);
@@ -226,9 +222,7 @@ describe("ECE streaming encryption/decryption", () => {
     const tampered = flipped(encrypted, NONCE_LENGTH + 5);
 
     await expect(
-      collectStream(
-        createReadableStream(tampered, 1024).pipeThrough(createDecryptStream(fileKey)),
-      ),
+      collectStream(createReadableStream(tampered, 1024).pipeThrough(createDecryptStream(fileKey))),
     ).rejects.toThrow("corrupted or tampered");
   });
 
@@ -250,9 +244,7 @@ describe("ECE streaming encryption/decryption", () => {
     crypto.getRandomValues(tooShort);
 
     await expect(
-      collectStream(
-        createReadableStream(tooShort).pipeThrough(createDecryptStream(fileKey)),
-      ),
+      collectStream(createReadableStream(tooShort).pipeThrough(createDecryptStream(fileKey))),
     ).rejects.toThrow("too short to contain auth tag");
   });
 
@@ -352,9 +344,7 @@ describe("calculateEncryptedSize", () => {
 
   it("should calculate correctly for multiple exact records", () => {
     const n = 5;
-    expect(calculateEncryptedSize(RECORD_SIZE * n)).toBe(
-      NONCE_LENGTH + ENCRYPTED_RECORD_SIZE * n,
-    );
+    expect(calculateEncryptedSize(RECORD_SIZE * n)).toBe(NONCE_LENGTH + ENCRYPTED_RECORD_SIZE * n);
   });
 });
 

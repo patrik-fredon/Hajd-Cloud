@@ -1,6 +1,6 @@
 # Screenshots
 
-A visual overview of the SkySend interface.
+A visual overview of the Hajd.Cloud interface.
 
 ## Overview
 

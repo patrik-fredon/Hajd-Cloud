@@ -1,14 +1,127 @@
+# In Coolify, leave Domains empty. The custom Traefik labels define the route.
+# Coolify credentials are required before deployment. Do not store them in Git.
+# Apply deploy/traefik-tunnel-forwarded-headers.patch to the host proxy before launch.
 services:
   skysend:
-    image: skyfay/skysend:latest
-    container_name: skysend
-    restart: always
-    ports:
-      - "3000:3000"
+    # Build with deploy/Dockerfile.localized after building the server and frontend.
+    image: hajd-cloud/skysend:v3.0.0-entry.1
+    pull_policy: never
+    restart: unless-stopped
+    expose:
+      - "3000"
     volumes:
-      - ./data:/data
-      - ./uploads:/uploads
+      - skysend-data:/data
     environment:
-      - BASE_URL=http://localhost:3000
-      # All environment variables: https://docs.skysend.app/user-guide/configuration/environment-variables
-      # There are a lot of customization options available, so make sure to check the documentation for more details.
+      BASE_URL: https://skysend.hajd.cloud
+      HOST: 0.0.0.0
+      PORT: "3000"
+      DATA_DIR: /data
+      UPLOADS_DIR: /uploads
+      BRANDING_DIR: /data/branding
+      PUID: ${PUID:-1001}
+      PGID: ${PGID:-1001}
+      SKIP_CHOWN: ${SKIP_CHOWN:-false}
+      CORS_ORIGINS: ${CORS_ORIGINS:-}
+      TRUST_PROXY: "true"
+      ENABLED_SERVICES: file,note,request
+      FILE_MAX_SIZE: ${FILE_MAX_SIZE:-5GB}
+      FILE_MAX_FILES_PER_UPLOAD: ${FILE_MAX_FILES_PER_UPLOAD:-10}
+      FILE_EXPIRE_OPTIONS_SEC: ${FILE_EXPIRE_OPTIONS_SEC:-300,3600,86400,604800}
+      FILE_DEFAULT_EXPIRE_SEC: ${FILE_DEFAULT_EXPIRE_SEC:-604800}
+      FILE_DOWNLOAD_OPTIONS: ${FILE_DOWNLOAD_OPTIONS:-1,2,3,4,5,10,20,50,100}
+      FILE_DEFAULT_DOWNLOAD: ${FILE_DEFAULT_DOWNLOAD:-1}
+      FILE_UPLOAD_QUOTA_BYTES: ${FILE_UPLOAD_QUOTA_BYTES:-20GB}
+      FILE_UPLOAD_QUOTA_WINDOW: ${FILE_UPLOAD_QUOTA_WINDOW:-86400}
+      FILE_UPLOAD_WS: ${FILE_UPLOAD_WS:-true}
+      FILE_UPLOAD_CONCURRENT_CHUNKS: ${FILE_UPLOAD_CONCURRENT_CHUNKS:-3}
+      FILE_UPLOAD_SPEED_LIMIT: ${FILE_UPLOAD_SPEED_LIMIT:-0}
+      FILE_UPLOAD_WS_MAX_BUFFER: ${FILE_UPLOAD_WS_MAX_BUFFER:-16MB}
+      NOTE_MAX_SIZE: ${NOTE_MAX_SIZE:-5MB}
+      NOTE_EXPIRE_OPTIONS_SEC: ${NOTE_EXPIRE_OPTIONS_SEC:-300,3600,86400,604800}
+      NOTE_DEFAULT_EXPIRE_SEC: ${NOTE_DEFAULT_EXPIRE_SEC:-604800}
+      NOTE_VIEW_OPTIONS: ${NOTE_VIEW_OPTIONS:-0,1,2,3,5,10,20,50,100}
+      NOTE_DEFAULT_VIEWS: ${NOTE_DEFAULT_VIEWS:-1}
+      FILE_REQUEST_EXPIRE_OPTIONS_SEC: ${FILE_REQUEST_EXPIRE_OPTIONS_SEC:-86400,259200,604800}
+      FILE_REQUEST_DEFAULT_EXPIRE_SEC: ${FILE_REQUEST_DEFAULT_EXPIRE_SEC:-604800}
+      FILE_REQUEST_RETENTION_SEC: ${FILE_REQUEST_RETENTION_SEC:-604800}
+      FILE_REQUEST_UPLOAD_OPTIONS: ${FILE_REQUEST_UPLOAD_OPTIONS:-1,2,3,5,10}
+      FILE_REQUEST_DEFAULT_UPLOADS: ${FILE_REQUEST_DEFAULT_UPLOADS:-10}
+      FILE_REQUEST_MAX_SIZE: ${FILE_REQUEST_MAX_SIZE:-5GB}
+      FILE_REQUEST_DOWNLOAD_OPTIONS: ${FILE_REQUEST_DOWNLOAD_OPTIONS:-1,2,3,5,10,20}
+      FILE_REQUEST_DEFAULT_DOWNLOADS: ${FILE_REQUEST_DEFAULT_DOWNLOADS:-1}
+      FILE_REQUEST_DAILY_LIMIT: ${FILE_REQUEST_DAILY_LIMIT:-5}
+      RATE_LIMIT_MAX: ${RATE_LIMIT_MAX:-60}
+      RATE_LIMIT_WINDOW: ${RATE_LIMIT_WINDOW:-60000}
+      PASSWORD_MAX_ATTEMPTS: ${PASSWORD_MAX_ATTEMPTS:-10}
+      PASSWORD_LOCKOUT_MS: ${PASSWORD_LOCKOUT_MS:-900000}
+      CLEANUP_INTERVAL: ${CLEANUP_INTERVAL:-60}
+      FORCE_FILE_PASSWORD: ${FORCE_FILE_PASSWORD:-false}
+      FORCE_NOTE_PASSWORD: ${FORCE_NOTE_PASSWORD:-false}
+      FORCE_REQUEST_PASSWORD: ${FORCE_REQUEST_PASSWORD:-false}
+      CUSTOM_TITLE: ${CUSTOM_TITLE:-Hajd.Cloud}
+      CUSTOM_COLOR: ${CUSTOM_COLOR:-}
+      DEFAULT_THEME: ${DEFAULT_THEME:-crimson}
+      DEFAULT_COLOR_SCHEME: ${DEFAULT_COLOR_SCHEME:-system}
+      DEFAULT_TAB: ${DEFAULT_TAB:-text}
+      # The brand mark is shipped with the web app.
+      CUSTOM_LOGO: ${CUSTOM_LOGO:-/logo.svg}
+      CUSTOM_OG_IMAGE: ${CUSTOM_OG_IMAGE:-/logo.png}
+      CUSTOM_OG_IMAGE_STYLE: ${CUSTOM_OG_IMAGE_STYLE:-logo}
+      CUSTOM_PRIVACY: ${CUSTOM_PRIVACY:-}
+      CUSTOM_LEGAL: ${CUSTOM_LEGAL:-}
+      CUSTOM_LINK_URL: ${CUSTOM_LINK_URL:-}
+      CUSTOM_LINK_NAME: ${CUSTOM_LINK_NAME:-}
+      CUSTOM_REPORT_URL: ${CUSTOM_REPORT_URL:-}
+      # Public uploads. OIDC credentials are intentionally unset.
+      STORAGE_BACKEND: s3
+      # Apply deploy/r2-cors.json in the R2 bucket's Settings > CORS Policy.
+      # Enter S3 credentials in Coolify, never in this file.
+      S3_BUCKET: ${S3_BUCKET:-hajd-cloud-skysend}
+      # R2 uses "auto" for its S3 region. EEUR is the data location.
+      S3_REGION: ${S3_REGION:-auto}
+      S3_ENDPOINT: ${S3_ENDPOINT:-https://90d169683e2869d672bfed9598d33822.r2.cloudflarestorage.com}
+      # Keep presigned downloads on the endpoint origin allowed by the app CSP.
+      S3_FORCE_PATH_STYLE: ${S3_FORCE_PATH_STYLE:-true}
+      # This temporary download URL is generated on demand.
+      # Share link lifetime is controlled by FILE_DEFAULT_EXPIRE_SEC above.
+      S3_PRESIGNED_EXPIRY: ${S3_PRESIGNED_EXPIRY:-300}
+      # Upload multipart parts concurrently without buffering the full file.
+      S3_PART_SIZE: ${S3_PART_SIZE:-25MB}
+      S3_CONCURRENCY: ${S3_CONCURRENCY:-4}
+      S3_ACCESS_KEY: ${S3_ACCESS_KEY:?}
+      S3_SECRET_KEY: ${S3_SECRET_KEY:?}
+      # Reference: docs/user-guide/configuration/environment-variables.md
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3000/api/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 3
+    networks:
+      - web
+    labels:
+      # Cloudflare terminates HTTPS and sends HTTP to Traefik on port 80.
+      traefik.enable: "true"
+      traefik.docker.network: web
+      traefik.http.routers.hajd-skysend.rule: Host(`skysend.hajd.cloud`)
+      traefik.http.routers.hajd-skysend.entrypoints: web
+      traefik.http.routers.hajd-skysend.service: hajd-skysend
+      traefik.http.routers.hajd-skysend.middlewares: hajd-skysend-forwarded-proto
+      # Keep client addresses and rewritten share links out of proxy logs.
+      traefik.http.routers.hajd-skysend.observability.accesslogs: "false"
+      traefik.http.routers.hajd-skysend.observability.tracing: "false"
+      traefik.http.routers.hajd-skysend.observability.metrics: "false"
+      traefik.http.middlewares.hajd-skysend-forwarded-proto.headers.customrequestheaders.X-Forwarded-Proto: https
+      traefik.http.services.hajd-skysend.loadbalancer.server.port: "3000"
+
+networks:
+  web:
+    external: true
+    name: web
+
+volumes:
+  skysend-data:

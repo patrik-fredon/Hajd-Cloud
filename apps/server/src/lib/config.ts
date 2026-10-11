@@ -125,7 +125,9 @@ const configSchema = z.object({
     .string()
     .default("3")
     .transform((v) => parseInt(v, 10))
-    .pipe(z.number().int().min(1).max(20, "FILE_UPLOAD_CONCURRENT_CHUNKS must be between 1 and 20")),
+    .pipe(
+      z.number().int().min(1).max(20, "FILE_UPLOAD_CONCURRENT_CHUNKS must be between 1 and 20"),
+    ),
 
   FILE_UPLOAD_SPEED_LIMIT: z
     .string()
@@ -147,7 +149,12 @@ const configSchema = z.object({
     .string()
     .default("16MB")
     .transform((v) => parseByteSize(v))
-    .pipe(z.number().int().min(1024 * 1024, "FILE_UPLOAD_WS_MAX_BUFFER must be at least 1MB")),
+    .pipe(
+      z
+        .number()
+        .int()
+        .min(1024 * 1024, "FILE_UPLOAD_WS_MAX_BUFFER must be at least 1MB"),
+    ),
 
   // --- Note-specific configuration ---
 
@@ -257,7 +264,7 @@ const configSchema = z.object({
     .transform((v) => parseInt(v, 10))
     .pipe(z.number().int().positive()),
 
-  CUSTOM_TITLE: z.string().default("SkySend"),
+  CUSTOM_TITLE: z.string().default("Hajd.Cloud"),
 
   RATE_LIMIT_WINDOW: z
     .string()
@@ -307,55 +314,37 @@ const configSchema = z.object({
   CUSTOM_OG_IMAGE: imageUrlOrPath.optional(),
 
   /** "banner" shows the preview image large above the text on X and Discord. */
-  CUSTOM_OG_IMAGE_STYLE: z
-    .enum(["logo", "banner"])
-    .default("logo"),
+  CUSTOM_OG_IMAGE_STYLE: z.enum(["logo", "banner"]).default("logo"),
 
-  CUSTOM_PRIVACY: z
-    .string()
-    .url("Must be a valid URL (https://...)")
-    .optional(),
+  CUSTOM_PRIVACY: z.string().url("Must be a valid URL (https://...)").optional(),
 
-  CUSTOM_LEGAL: z
-    .string()
-    .url("Must be a valid URL (https://...)")
-    .optional(),
+  CUSTOM_LEGAL: z.string().url("Must be a valid URL (https://...)").optional(),
 
-  CUSTOM_LINK_URL: z
-    .string()
-    .url("Must be a valid URL (https://...)")
-    .optional(),
+  CUSTOM_LINK_URL: z.string().url("Must be a valid URL (https://...)").optional(),
 
   CUSTOM_LINK_NAME: z.string().max(50).optional(),
 
-  CUSTOM_REPORT_URL: z
-    .string()
-    .url("Must be a valid URL (https://...)")
-    .optional(),
+  CUSTOM_REPORT_URL: z.string().url("Must be a valid URL (https://...)").optional(),
 
   // --- UI defaults ---
 
   // Since v3 DEFAULT_THEME picks the visual theme. Its old values moved to
   // DEFAULT_COLOR_SCHEME, so an instance that still sets one of them is told where to.
   DEFAULT_THEME: z
-    .enum(["aurora", "midnight", "graphite"], {
+    .enum(["crimson", "aurora", "midnight", "graphite"], {
       error: (issue) =>
         typeof issue.input === "string" && ["dark", "light", "system"].includes(issue.input)
-          ? `DEFAULT_THEME=${issue.input} is a color scheme. Since v3 DEFAULT_THEME picks the theme `
-            + `(aurora, midnight or graphite). Set DEFAULT_COLOR_SCHEME=${issue.input} instead.`
+          ? `DEFAULT_THEME=${issue.input} is a color scheme. Since v3 DEFAULT_THEME picks the theme ` +
+            `(crimson, aurora, midnight or graphite). Set DEFAULT_COLOR_SCHEME=${issue.input} instead.`
           : undefined,
     })
-    .default("graphite"),
+    .default("crimson"),
 
-  DEFAULT_COLOR_SCHEME: z
-    .enum(["dark", "light", "system"])
-    .default("system"),
+  DEFAULT_COLOR_SCHEME: z.enum(["dark", "light", "system"]).default("system"),
 
   // "note" opens the note tab on its block cards. A block type opens it with that block
   // already added, which also keeps the values from before v3 working.
-  DEFAULT_TAB: z
-    .enum(["file", "note", "text", "password", "code", "sshkey"])
-    .default("file"),
+  DEFAULT_TAB: z.enum(["file", "note", "text", "password", "code", "sshkey"]).default("file"),
 
   FORCE_FILE_PASSWORD: z
     .string()
@@ -374,9 +363,7 @@ const configSchema = z.object({
 
   // --- Storage backend configuration ---
 
-  STORAGE_BACKEND: z
-    .enum(["filesystem", "s3"])
-    .default("filesystem"),
+  STORAGE_BACKEND: z.enum(["filesystem", "s3"]).default("filesystem"),
 
   // --- S3 configuration (only when STORAGE_BACKEND=s3) ---
 
@@ -401,7 +388,13 @@ const configSchema = z.object({
     .string()
     .default("25MB")
     .transform((v) => parseByteSize(v))
-    .pipe(z.number().int().min(5 * 1024 * 1024, "S3_PART_SIZE must be at least 5MB (S3 minimum)").max(5 * 1024 * 1024 * 1024, "S3_PART_SIZE must be at most 5GB")),
+    .pipe(
+      z
+        .number()
+        .int()
+        .min(5 * 1024 * 1024, "S3_PART_SIZE must be at least 5MB (S3 minimum)")
+        .max(5 * 1024 * 1024 * 1024, "S3_PART_SIZE must be at most 5GB"),
+    ),
 
   S3_CONCURRENCY: z
     .string()
@@ -412,9 +405,7 @@ const configSchema = z.object({
   // --- OIDC authentication (optional) ---
 
   /** Which provider preset to use. Defaults to "generic" when OIDC is active. */
-  OIDC_PROVIDER: z
-    .enum(["generic", "pocketid", "authentik", "keycloak"])
-    .default("generic"),
+  OIDC_PROVIDER: z.enum(["generic", "pocketid", "authentik", "keycloak"]).default("generic"),
 
   /** OIDC issuer URL (e.g. https://auth.example.com/realms/myrealm). Required when OIDC is active. */
   OIDC_ISSUER: z.string().url("OIDC_ISSUER must be a valid URL").optional(),
@@ -512,12 +503,12 @@ export function loadConfig(): Config {
   if (_config.ENABLED_SERVICES.includes("file")) {
     if (!_config.FILE_EXPIRE_OPTIONS_SEC.includes(_config.FILE_DEFAULT_EXPIRE_SEC)) {
       throw new Error(
-        `FILE_DEFAULT_EXPIRE_SEC (${_config.FILE_DEFAULT_EXPIRE_SEC}) must be one of FILE_EXPIRE_OPTIONS_SEC (${_config.FILE_EXPIRE_OPTIONS_SEC.join(", ")})`
+        `FILE_DEFAULT_EXPIRE_SEC (${_config.FILE_DEFAULT_EXPIRE_SEC}) must be one of FILE_EXPIRE_OPTIONS_SEC (${_config.FILE_EXPIRE_OPTIONS_SEC.join(", ")})`,
       );
     }
     if (!_config.FILE_DOWNLOAD_OPTIONS.includes(_config.FILE_DEFAULT_DOWNLOAD)) {
       throw new Error(
-        `FILE_DEFAULT_DOWNLOAD (${_config.FILE_DEFAULT_DOWNLOAD}) must be one of FILE_DOWNLOAD_OPTIONS (${_config.FILE_DOWNLOAD_OPTIONS.join(", ")})`
+        `FILE_DEFAULT_DOWNLOAD (${_config.FILE_DEFAULT_DOWNLOAD}) must be one of FILE_DOWNLOAD_OPTIONS (${_config.FILE_DOWNLOAD_OPTIONS.join(", ")})`,
       );
     }
   }
@@ -526,19 +517,21 @@ export function loadConfig(): Config {
   if (_config.ENABLED_SERVICES.includes("note")) {
     if (!_config.NOTE_EXPIRE_OPTIONS_SEC.includes(_config.NOTE_DEFAULT_EXPIRE_SEC)) {
       throw new Error(
-      `NOTE_DEFAULT_EXPIRE_SEC (${_config.NOTE_DEFAULT_EXPIRE_SEC}) must be one of NOTE_EXPIRE_OPTIONS_SEC (${_config.NOTE_EXPIRE_OPTIONS_SEC.join(", ")})`
-    );
-  }
+        `NOTE_DEFAULT_EXPIRE_SEC (${_config.NOTE_DEFAULT_EXPIRE_SEC}) must be one of NOTE_EXPIRE_OPTIONS_SEC (${_config.NOTE_EXPIRE_OPTIONS_SEC.join(", ")})`,
+      );
+    }
     if (!_config.NOTE_VIEW_OPTIONS.includes(_config.NOTE_DEFAULT_VIEWS)) {
       throw new Error(
-        `NOTE_DEFAULT_VIEWS (${_config.NOTE_DEFAULT_VIEWS}) must be one of NOTE_VIEW_OPTIONS (${_config.NOTE_VIEW_OPTIONS.join(", ")})`
+        `NOTE_DEFAULT_VIEWS (${_config.NOTE_DEFAULT_VIEWS}) must be one of NOTE_VIEW_OPTIONS (${_config.NOTE_VIEW_OPTIONS.join(", ")})`,
       );
     }
   }
 
   // Cross-field validation - File requests
   if (_config.ENABLED_SERVICES.includes("request")) {
-    if (!_config.FILE_REQUEST_EXPIRE_OPTIONS_SEC.includes(_config.FILE_REQUEST_DEFAULT_EXPIRE_SEC)) {
+    if (
+      !_config.FILE_REQUEST_EXPIRE_OPTIONS_SEC.includes(_config.FILE_REQUEST_DEFAULT_EXPIRE_SEC)
+    ) {
       throw new Error(
         `FILE_REQUEST_DEFAULT_EXPIRE_SEC (${_config.FILE_REQUEST_DEFAULT_EXPIRE_SEC}) must be one of FILE_REQUEST_EXPIRE_OPTIONS_SEC (${_config.FILE_REQUEST_EXPIRE_OPTIONS_SEC.join(", ")})`,
       );
@@ -571,17 +564,13 @@ export function loadConfig(): Config {
     ];
     const missing = required.filter(([, v]) => !v).map(([k]) => k);
     if (missing.length > 0) {
-      throw new Error(
-        `STORAGE_BACKEND=s3 requires: ${missing.join(", ")}`,
-      );
+      throw new Error(`STORAGE_BACKEND=s3 requires: ${missing.join(", ")}`);
     }
   }
 
   // Cross-field validation - OIDC
   const oidcPartiallyConfigured =
-    _config.OIDC_ISSUER ||
-    _config.OIDC_CLIENT_ID ||
-    _config.OIDC_CLIENT_SECRET;
+    _config.OIDC_ISSUER || _config.OIDC_CLIENT_ID || _config.OIDC_CLIENT_SECRET;
 
   if (oidcPartiallyConfigured) {
     const missing: string[] = [];
@@ -594,20 +583,22 @@ export function loadConfig(): Config {
     if (!_config.OIDC_SESSION_SECRET) {
       _config.OIDC_SESSION_SECRET = randomBytes(48).toString("base64");
       console.warn(
-        "[oidc] WARNING: OIDC_SESSION_SECRET is not set - a random secret was generated at startup. "
-        + "All active sessions will be invalidated on every server restart. "
-        + "Set OIDC_SESSION_SECRET in your environment to persist sessions across restarts.",
+        "[oidc] WARNING: OIDC_SESSION_SECRET is not set - a random secret was generated at startup. " +
+          "All active sessions will be invalidated on every server restart. " +
+          "Set OIDC_SESSION_SECRET in your environment to persist sessions across restarts.",
       );
     } else if (_config.OIDC_SESSION_SECRET.length < 32) {
       throw new Error("OIDC_SESSION_SECRET must be at least 32 characters long");
     }
     if (!_config.OIDC_ISSUER!.startsWith("https://")) {
-      console.warn("[oidc] WARNING: OIDC_ISSUER is using HTTP instead of HTTPS. This exposes OAuth tokens to network interception and is insecure in production.");
+      console.warn(
+        "[oidc] WARNING: OIDC_ISSUER is using HTTP instead of HTTPS. This exposes OAuth tokens to network interception and is insecure in production.",
+      );
     }
     if (
-      !_config.OIDC_PROTECT_FILES
-      && !_config.OIDC_PROTECT_NOTES
-      && !_config.OIDC_PROTECT_REQUESTS
+      !_config.OIDC_PROTECT_FILES &&
+      !_config.OIDC_PROTECT_NOTES &&
+      !_config.OIDC_PROTECT_REQUESTS
     ) {
       console.warn(
         "[oidc] WARNING: OIDC_PROTECT_FILES, OIDC_PROTECT_NOTES and OIDC_PROTECT_REQUESTS are false - OIDC is enabled but no upload routes are protected.",
@@ -619,26 +610,26 @@ export function loadConfig(): Config {
   // Cross-field validation - Branding
   if (_config.CUSTOM_LOGO && /^https?:\/\//.test(_config.CUSTOM_LOGO)) {
     console.warn(
-      `[branding] NOTE: CUSTOM_LOGO points at an external host (${new URL(_config.CUSTOM_LOGO).origin}). `
-      + "Every visitor's browser loads the image from there, so that host sees their IP address, "
-      + "and its origin is added to the Content Security Policy. "
-      + `To serve the logo from this instance instead, put the file into ${_config.BRANDING_DIR} `
-      + "and set CUSTOM_LOGO=/branding/<filename>.",
+      `[branding] NOTE: CUSTOM_LOGO points at an external host (${new URL(_config.CUSTOM_LOGO).origin}). ` +
+        "Every visitor's browser loads the image from there, so that host sees their IP address, " +
+        "and its origin is added to the Content Security Policy. " +
+        `To serve the logo from this instance instead, put the file into ${_config.BRANDING_DIR} ` +
+        "and set CUSTOM_LOGO=/branding/<filename>.",
     );
   }
   if (_config.CUSTOM_OG_IMAGE && !isPreviewImage(_config.CUSTOM_OG_IMAGE)) {
     console.warn(
-      "[branding] WARNING: CUSTOM_OG_IMAGE is not a PNG, JPEG, WebP, or GIF file. "
-      + "Most messengers and social networks show no image in link previews for other formats.",
+      "[branding] WARNING: CUSTOM_OG_IMAGE is not a PNG, JPEG, WebP, or GIF file. " +
+        "Most messengers and social networks show no image in link previews for other formats.",
     );
   } else if (
-    !_config.CUSTOM_OG_IMAGE
-    && _config.CUSTOM_LOGO
-    && !isPreviewImage(_config.CUSTOM_LOGO)
+    !_config.CUSTOM_OG_IMAGE &&
+    _config.CUSTOM_LOGO &&
+    !isPreviewImage(_config.CUSTOM_LOGO)
   ) {
     console.log(
-      "[branding] Link previews show no image because CUSTOM_LOGO is not a PNG, JPEG, WebP, or GIF file. "
-      + "Set CUSTOM_OG_IMAGE to a separate preview image.",
+      "[branding] Link previews show no image because CUSTOM_LOGO is not a PNG, JPEG, WebP, or GIF file. " +
+        "Set CUSTOM_OG_IMAGE to a separate preview image.",
     );
   }
 

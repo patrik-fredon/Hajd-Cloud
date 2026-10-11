@@ -6,7 +6,7 @@ Common issues and how to resolve them.
 
 **Symptom:** A file upload or WebSocket connection attempt fails immediately with the message "Origin not allowed".
 
-**Cause:** The SkySend server automatically allows the origin that matches `BASE_URL`. If the frontend is accessed from a different URL - for example a different port, hostname, or protocol - the server rejects the WebSocket connection because that origin is not in the allowed list.
+**Cause:** The Hajd.Cloud server automatically allows the origin that matches `BASE_URL`. If the frontend is accessed from a different URL - for example a different port, hostname, or protocol - the server rejects the WebSocket connection because that origin is not in the allowed list.
 
 This typically happens in development or when `BASE_URL` is set to a different address than the one the browser is using to access the app.
 
@@ -31,9 +31,9 @@ See the [Environment Variables reference](/user-guide/configuration/environment-
 - Firefox: `can't access property "importKey", crypto.subtle is undefined`
 - Chrome / Edge: `Cannot read properties of undefined (reading 'importKey')`
 
-**Cause:** SkySend uses the [Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API) (`crypto.subtle`) to perform client-side encryption. Browsers only expose this API in [secure contexts](https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts) - meaning the page must be served over **HTTPS** or from **`localhost`**. Plain HTTP URLs (e.g. `http://192.168.1.10:3000` or `http://server:3000`) are not considered secure and the API is unavailable.
+**Cause:** Hajd.Cloud uses the [Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API) (`crypto.subtle`) to perform client-side encryption. Browsers only expose this API in [secure contexts](https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts) - meaning the page must be served over **HTTPS** or from **`localhost`**. Plain HTTP URLs (e.g. `http://192.168.1.10:3000` or `http://server:3000`) are not considered secure and the API is unavailable.
 
-**Fix:** Place SkySend behind a reverse proxy that terminates TLS. See the [Reverse Proxy guide](/user-guide/self-hosting/reverse-proxy) for setup examples with Caddy, Nginx, and Traefik.
+**Fix:** Place Hajd.Cloud behind a reverse proxy that terminates TLS. See the [Reverse Proxy guide](/user-guide/self-hosting/reverse-proxy) for setup examples with Caddy, Nginx, and Traefik.
 
 ::: tip Local testing
 If you are only testing locally on the same machine, `http://localhost:3000` works without HTTPS because `localhost` is treated as a secure context by browsers.
@@ -43,7 +43,7 @@ If you are only testing locally on the same machine, `http://localhost:3000` wor
 
 **Symptom:** File uploads stall, disconnect mid-way, or the progress bar freezes.
 
-**Cause:** Nginx's default request buffering interferes with SkySend's streaming upload transport. Missing or incorrect WebSocket headers also break the WebSocket upload mode.
+**Cause:** Nginx's default request buffering interferes with Hajd.Cloud's streaming upload transport. Missing or incorrect WebSocket headers also break the WebSocket upload mode.
 
 **Fix:** Make sure your Nginx config includes all required directives. See the [Reverse Proxy guide](/user-guide/self-hosting/reverse-proxy#nginx) for the full reference config, in particular:
 
@@ -57,9 +57,9 @@ If you are only testing locally on the same machine, `http://localhost:3000` wor
 
 **Symptom:** A download stalls immediately after clicking the download button and shows the error: "S3 CORS error: The bucket must allow cross-origin GET requests from this origin."
 
-**Cause:** SkySend uses presigned URLs for S3/R2 downloads so the file stream goes directly from the bucket to the browser without passing through SkySend. The browser enforces CORS for these cross-origin requests, so the bucket must explicitly allow GET requests from SkySend's origin.
+**Cause:** Hajd.Cloud uses presigned URLs for S3/R2 downloads so the file stream goes directly from the bucket to the browser without passing through Hajd.Cloud. The browser enforces CORS for these cross-origin requests, so the bucket must explicitly allow GET requests from Hajd.Cloud's origin.
 
-**Fix:** Open your bucket's CORS settings and add a rule that allows GET and HEAD requests from your SkySend origin:
+**Fix:** Open your bucket's CORS settings and add a rule that allows GET and HEAD requests from your Hajd.Cloud origin:
 
 ```json
 [
@@ -73,6 +73,8 @@ If you are only testing locally on the same machine, `http://localhost:3000` wor
 ```
 
 For Cloudflare R2, set the allowed origin in the R2 bucket settings under **CORS policy**.
+
+If CORS is already correct, check the browser console for a Content Security Policy error. With custom S3 endpoints, set `S3_FORCE_PATH_STYLE=true` so the presigned URL uses the configured endpoint origin instead of a bucket subdomain. A failed download may already have used the download limit. Create a new share after fixing the configuration.
 
 ::: warning No trailing slash
 The origin value must not end with a slash. `https://send.example.com` is correct. `https://send.example.com/` will not match and CORS will still fail.
@@ -90,10 +92,10 @@ https://send.example.com/file/c9c9c3a2-...-8b001a8051c7%23Xy1wbZmb0OePQ...
 
 Proofpoint URL Defense, Mimecast, and similar products rewrite links the same way. Some of them drop the fragment entirely.
 
-**Fix:** Nothing to configure. SkySend detects this exact shape and moves the key back into the fragment before the page loads, so the link works on the second hop. A warning is shown because the rewrite has a real consequence: the key travelled to the server inside the request path, which a normal share link never does.
+**Fix:** Nothing to configure. Hajd.Cloud detects this exact shape and moves the key back into the fragment before the page loads, so the link works on the second hop. A warning is shown because the rewrite has a real consequence: the key travelled to the server inside the request path, which a normal share link never does.
 
 ::: warning The key was exposed
-A rewritten link is no longer a zero-knowledge link. The server, the reverse proxy, and any CDN in front of them saw the key in the request path. SkySend truncates its own request log at the resource ID, but logs outside the application are the operator's responsibility.
+A rewritten link is no longer a zero-knowledge link. The server, the reverse proxy, and any CDN in front of them saw the key in the request path. Hajd.Cloud truncates its own request log at the resource ID, but logs outside the application are the operator's responsibility.
 
 Asking for a new link does not help, because the old key is already out. What helps is removing what that key unlocks: **download or view the content, then ask the sender to delete the upload.** Once the ciphertext is gone, a key sitting in a log line is worthless. A one-time download link that has already been used is deleted for you.
 

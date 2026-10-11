@@ -69,7 +69,7 @@ export function ServerSelect({ onSelect, onExit }: ServerSelectProps): React.Rea
   return (
     <Box flexDirection="column">
       <Box marginY={1} marginX={2}>
-        <Text bold color={accent}>SkySend</Text>
+        <Text bold color={accent}>Hajd.Cloud</Text>
         <Text dimColor> - Select a server</Text>
       </Box>
       <SelectList

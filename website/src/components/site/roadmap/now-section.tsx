@@ -43,7 +43,7 @@ export function NowSection({
     <section aria-label={t("roadmap.now")} className="relative z-[2] mx-auto mt-16 flex max-w-[1248px] flex-col items-center px-4 sm:px-6">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-[90px] left-1/2 -ml-[430px] h-[440px] w-[860px] rounded-full"
+        className="fx-haze pointer-events-none absolute -top-[90px] left-1/2 -ml-[430px] h-[440px] w-[860px] rounded-full"
         style={{
           background: "radial-gradient(closest-side, rgb(70 200 157 / 0.4), rgb(34 211 238 / 0.16), transparent)",
           filter: "blur(30px)",
@@ -51,7 +51,7 @@ export function NowSection({
         }}
       />
       <span className="relative flex size-14 items-center justify-center rounded-full border border-[#7ee6c1]/55 bg-[radial-gradient(circle_at_50%_30%,#c6f3e2,#ffffff_70%)] shadow-[0_0_0_6px_rgb(70_200_157/0.12),0_0_40px_rgb(70_200_157/0.5)] dark:bg-[radial-gradient(circle_at_50%_30%,#0f5a46,#0c0d0e_70%)]">
-        <Image src="/logo.svg" alt="" width={30} height={30} />
+        <Image src="/hajd-cloud-logo-crimson.webp" alt="" width={30} height={30} />
       </span>
       <span className="relative mt-2.5 rounded-full bg-tone-green/16 px-2.5 py-0.5 text-xs font-semibold text-tone-green">{t("roadmap.now")}</span>
       <span

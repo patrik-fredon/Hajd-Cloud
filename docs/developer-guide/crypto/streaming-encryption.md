@@ -1,6 +1,6 @@
 # Streaming Encryption
 
-SkySend uses a custom Encrypted Content-Encoding (ECE) scheme based on AES-256-GCM for streaming file encryption.
+Hajd.Cloud uses a custom Encrypted Content-Encoding (ECE) scheme based on AES-256-GCM for streaming file encryption.
 
 ## Stream Format
 
@@ -18,23 +18,23 @@ Each record consists of:
 [ciphertext (up to 65,536 bytes)] [GCM auth tag (16 bytes)]
 ```
 
-| Component | Size |
-| --- | --- |
-| Plaintext chunk | Up to 65,536 bytes (64 KB) |
-| GCM auth tag | 16 bytes |
-| Encrypted record | Up to 65,552 bytes |
+| Component        | Size                       |
+| ---------------- | -------------------------- |
+| Plaintext chunk  | Up to 65,536 bytes (64 KB) |
+| GCM auth tag     | 16 bytes                   |
+| Encrypted record | Up to 65,552 bytes         |
 
 The last record may be smaller than 65,536 bytes.
 
 ## Constants
 
-| Constant | Value | Description |
-| --- | --- | --- |
-| `RECORD_SIZE` | 65,536 | Plaintext chunk size (64 KB) |
-| `TAG_LENGTH` | 16 | GCM authentication tag size |
-| `NONCE_LENGTH` | 12 | AES-GCM nonce size |
-| `ENCRYPTED_RECORD_SIZE` | 65,552 | `RECORD_SIZE + TAG_LENGTH` |
-| `MAX_RECORDS` | 2^32 - 1 | Maximum records per stream |
+| Constant                | Value    | Description                  |
+| ----------------------- | -------- | ---------------------------- |
+| `RECORD_SIZE`           | 65,536   | Plaintext chunk size (64 KB) |
+| `TAG_LENGTH`            | 16       | GCM authentication tag size  |
+| `NONCE_LENGTH`          | 12       | AES-GCM nonce size           |
+| `ENCRYPTED_RECORD_SIZE` | 65,552   | `RECORD_SIZE + TAG_LENGTH`   |
+| `MAX_RECORDS`           | 2^32 - 1 | Maximum records per stream   |
 
 ## Nonce Construction
 
@@ -48,11 +48,11 @@ The counter is encoded as big-endian 32-bit integer, XOR'd into the last 4 bytes
 
 ```typescript
 function nonceXorCounter(baseNonce: Uint8Array, counter: number): Uint8Array {
-  const nonce = new Uint8Array(baseNonce)
-  const view = new DataView(nonce.buffer)
-  const offset = nonce.byteLength - 4  // last 4 bytes
-  view.setUint32(offset, view.getUint32(offset) ^ counter)
-  return nonce
+  const nonce = new Uint8Array(baseNonce);
+  const view = new DataView(nonce.buffer);
+  const offset = nonce.byteLength - 4; // last 4 bytes
+  view.setUint32(offset, view.getUint32(offset) ^ counter);
+  return nonce;
 }
 ```
 
@@ -61,8 +61,8 @@ This guarantees unique nonces for up to 2^32 - 1 records, which allows encryptin
 ## Encryption
 
 ```typescript
-const encryptStream = createEncryptStream(fileKey)
-const encryptedStream = plaintextStream.pipeThrough(encryptStream)
+const encryptStream = createEncryptStream(fileKey);
+const encryptedStream = plaintextStream.pipeThrough(encryptStream);
 ```
 
 The `createEncryptStream` function returns a `TransformStream` that:
@@ -76,8 +76,8 @@ The `createEncryptStream` function returns a `TransformStream` that:
 ## Decryption
 
 ```typescript
-const decryptStream = createDecryptStream(fileKey, expectedPlaintextSize)
-const plaintextStream = encryptedStream.pipeThrough(decryptStream)
+const decryptStream = createDecryptStream(fileKey, expectedPlaintextSize);
+const plaintextStream = encryptedStream.pipeThrough(decryptStream);
 ```
 
 The `createDecryptStream` function returns a `TransformStream` that:
@@ -89,7 +89,7 @@ The `createDecryptStream` function returns a `TransformStream` that:
 5. Throws an error if any record fails authentication
 6. If `expectedPlaintextSize` is provided, throws `"Stream truncation detected"` when the total decrypted byte count does not match
 
-Every record carries its own auth tag, so a stream that a server cuts at a record boundary still decrypts cleanly. The size check is the only thing that catches it, so every SkySend client passes `expectedPlaintextSize`. The value comes from the authenticated metadata via `expectedPlaintextSize(metadata)`: the file size for a single file, and `archiveSize` for an archive, see [Metadata Encryption](./metadata-encryption.md). The download Service Worker runs the same check in its own decrypt loop.
+Every record carries its own auth tag, so a stream that a server cuts at a record boundary still decrypts cleanly. The size check is the only thing that catches it, so every Hajd.Cloud client passes `expectedPlaintextSize`. The value comes from the authenticated metadata via `expectedPlaintextSize(metadata)`: the file size for a single file, and `archiveSize` for an archive, see [Metadata Encryption](./metadata-encryption.md). The download Service Worker runs the same check in its own decrypt loop.
 
 A download without metadata fails instead of skipping the check. Archives uploaded by older clients carry no `archiveSize`, so their downloads cannot be checked this way.
 
@@ -97,11 +97,11 @@ A download without metadata fails instead of skipping the check. Archives upload
 
 ```typescript
 // Plaintext -> Encrypted size
-const encryptedSize = calculateEncryptedSize(plaintextSize)
+const encryptedSize = calculateEncryptedSize(plaintextSize);
 // Includes: 12-byte nonce header + (number of records * TAG_LENGTH)
 
 // Encrypted -> Plaintext size
-const plaintextSize = calculatePlaintextSize(encryptedSize)
+const plaintextSize = calculatePlaintextSize(encryptedSize);
 ```
 
 ## Security Properties

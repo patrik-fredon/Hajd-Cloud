@@ -7,18 +7,18 @@ Complete reference of all environment variables, their types, defaults, and vali
 All environment variables are validated on startup using Zod. Invalid values cause the server to fail with a descriptive error message. None of the variables are strictly required - all have sensible defaults for local development. For Docker deployments, `DATA_DIR` and `UPLOADS_DIR` are set automatically in the image.
 
 ::: warning v3.0.0 Breaking Change
-`DEFAULT_THEME` now selects the visual theme (`graphite`, `aurora`, `midnight`). The color scheme moved to `DEFAULT_COLOR_SCHEME`. The old values `dark`, `light` and `system` in `DEFAULT_THEME` stop the server on startup with a message that names the replacement. See the migration table below.
+`DEFAULT_THEME` now selects the visual theme (`crimson`, `graphite`, `aurora`, `midnight`). The color scheme moved to `DEFAULT_COLOR_SCHEME`. The old values `dark`, `light` and `system` in `DEFAULT_THEME` stop the server on startup with a message that names the replacement. See the migration table below.
 :::
 
 ### Migration from v2.x
 
-| Before (v2) | Since v3 |
-| --- | --- |
-| `DEFAULT_THEME=dark` | `DEFAULT_COLOR_SCHEME=dark` |
-| `DEFAULT_THEME=light` | `DEFAULT_COLOR_SCHEME=light` |
+| Before (v2)            | Since v3                                           |
+| ---------------------- | -------------------------------------------------- |
+| `DEFAULT_THEME=dark`   | `DEFAULT_COLOR_SCHEME=dark`                        |
+| `DEFAULT_THEME=light`  | `DEFAULT_COLOR_SCHEME=light`                       |
 | `DEFAULT_THEME=system` | `DEFAULT_COLOR_SCHEME=system`, or leave both unset |
 
-`DEFAULT_THEME` can then be left unset for the default `graphite`, or set to `aurora` or `midnight`.
+`DEFAULT_THEME` can then be left unset for the default `crimson`, or set to `aurora` or `midnight`.
 
 ::: warning v2.0.0 Breaking Change
 All file-related variables have been renamed with a `FILE_` prefix (e.g. `MAX_FILE_SIZE` -> `FILE_MAX_SIZE`). Old names are no longer supported. See the migration table below.
@@ -26,596 +26,596 @@ All file-related variables have been renamed with a `FILE_` prefix (e.g. `MAX_FI
 
 ### Migration from v1.x
 
-| Old Name (v1) | New Name (v2) |
-| --- | --- |
-| `MAX_FILE_SIZE` | `FILE_MAX_SIZE` |
+| Old Name (v1)          | New Name (v2)               |
+| ---------------------- | --------------------------- |
+| `MAX_FILE_SIZE`        | `FILE_MAX_SIZE`             |
 | `MAX_FILES_PER_UPLOAD` | `FILE_MAX_FILES_PER_UPLOAD` |
-| `EXPIRE_OPTIONS_SEC` | `FILE_EXPIRE_OPTIONS_SEC` |
-| `DEFAULT_EXPIRE_SEC` | `FILE_DEFAULT_EXPIRE_SEC` |
-| `DOWNLOAD_OPTIONS` | `FILE_DOWNLOAD_OPTIONS` |
-| `DEFAULT_DOWNLOAD` | `FILE_DEFAULT_DOWNLOAD` |
-| `UPLOAD_QUOTA_BYTES` | `FILE_UPLOAD_QUOTA_BYTES` |
-| `UPLOAD_QUOTA_WINDOW` | `FILE_UPLOAD_QUOTA_WINDOW` |
+| `EXPIRE_OPTIONS_SEC`   | `FILE_EXPIRE_OPTIONS_SEC`   |
+| `DEFAULT_EXPIRE_SEC`   | `FILE_DEFAULT_EXPIRE_SEC`   |
+| `DOWNLOAD_OPTIONS`     | `FILE_DOWNLOAD_OPTIONS`     |
+| `DEFAULT_DOWNLOAD`     | `FILE_DEFAULT_DOWNLOAD`     |
+| `UPLOAD_QUOTA_BYTES`   | `FILE_UPLOAD_QUOTA_BYTES`   |
+| `UPLOAD_QUOTA_WINDOW`  | `FILE_UPLOAD_QUOTA_WINDOW`  |
 
 ## Variables
 
 ### PORT
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Integer |
-| Default | `3000` |
-| Range | 1 - 65535 |
+| Property    | Value                 |
+| ----------- | --------------------- |
+| Required    | No                    |
+| Type        | Integer               |
+| Default     | `3000`                |
+| Range       | 1 - 65535             |
 | Description | Server listening port |
 
 ### HOST
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | String |
-| Default | `0.0.0.0` |
+| Property    | Value               |
+| ----------- | ------------------- |
+| Required    | No                  |
+| Type        | String              |
+| Default     | `0.0.0.0`           |
 | Description | Server bind address |
 
 ### BASE_URL
 
-| Property | Value |
-| --- | --- |
-| Required | **Yes** |
-| Type | URL |
-| Default | - |
+| Property    | Value                                                                    |
+| ----------- | ------------------------------------------------------------------------ |
+| Required    | **Yes**                                                                  |
+| Type        | URL                                                                      |
+| Default     | -                                                                        |
 | Description | Public URL of the instance. Trailing slashes are stripped automatically. |
 
 ### DATA_DIR
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | String (path) |
-| Default | `./data` |
+| Property    | Value                                                                            |
+| ----------- | -------------------------------------------------------------------------------- |
+| Required    | No                                                                               |
+| Type        | String (path)                                                                    |
+| Default     | `./data`                                                                         |
 | Description | Directory for the database. The SQLite DB is stored at `DATA_DIR/db/skysend.db`. |
 
 ### UPLOADS_DIR
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | String (path) |
-| Default | `DATA_DIR/uploads` |
+| Property    | Value                                                                                                                                              |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Required    | No                                                                                                                                                 |
+| Type        | String (path)                                                                                                                                      |
+| Default     | `DATA_DIR/uploads`                                                                                                                                 |
 | Description | Directory for encrypted upload files. Falls back to `DATA_DIR/uploads` if not set. In Docker, defaults to `/uploads` for separate volume mounting. |
 
 ### BRANDING_DIR
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | String (path) |
-| Default | `DATA_DIR/branding` |
+| Property    | Value                                                                                                                                                                                                                                                                                |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Required    | No                                                                                                                                                                                                                                                                                   |
+| Type        | String (path)                                                                                                                                                                                                                                                                        |
+| Default     | `DATA_DIR/branding`                                                                                                                                                                                                                                                                  |
 | Description | Directory for operator-supplied branding assets. Its contents are served under `/branding/`, restricted to image extensions (`.svg`, `.png`, `.jpg`, `.jpeg`, `.webp`, `.gif`, `.ico`, `.avif`). The directory is created on startup. Symlinks pointing outside it are not followed. |
 
 ### FILE_MAX_SIZE
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Byte size string |
-| Default | `2GB` |
+| Property    | Value                                                |
+| ----------- | ---------------------------------------------------- |
+| Required    | No                                                   |
+| Type        | Byte size string                                     |
+| Default     | `2GB`                                                |
 | Description | Maximum upload size. Supports: `B`, `KB`, `MB`, `GB` |
 
 ### FILE_MAX_FILES_PER_UPLOAD
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Integer |
-| Default | `32` |
-| Range | >= 1 |
+| Property    | Value                               |
+| ----------- | ----------------------------------- |
+| Required    | No                                  |
+| Type        | Integer                             |
+| Default     | `32`                                |
+| Range       | >= 1                                |
 | Description | Maximum files per multi-file upload |
 
 ### FILE_EXPIRE_OPTIONS_SEC
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Comma-separated integers |
-| Default | `300,3600,86400,604800` |
+| Property    | Value                                               |
+| ----------- | --------------------------------------------------- |
+| Required    | No                                                  |
+| Type        | Comma-separated integers                            |
+| Default     | `300,3600,86400,604800`                             |
 | Description | Selectable expiry times in seconds for file uploads |
 
 ### FILE_DEFAULT_EXPIRE_SEC
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Integer |
-| Default | `86400` |
-| Validation | Must be one of `FILE_EXPIRE_OPTIONS_SEC` |
-| Description | Default expiry time for file uploads |
+| Property    | Value                                    |
+| ----------- | ---------------------------------------- |
+| Required    | No                                       |
+| Type        | Integer                                  |
+| Default     | `86400`                                  |
+| Validation  | Must be one of `FILE_EXPIRE_OPTIONS_SEC` |
+| Description | Default expiry time for file uploads     |
 
 ### FILE_DOWNLOAD_OPTIONS
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Comma-separated integers |
-| Default | `1,2,3,4,5,10,20,50,100` |
+| Property    | Value                                       |
+| ----------- | ------------------------------------------- |
+| Required    | No                                          |
+| Type        | Comma-separated integers                    |
+| Default     | `1,2,3,4,5,10,20,50,100`                    |
 | Description | Selectable download limits for file uploads |
 
 ### FILE_DEFAULT_DOWNLOAD
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Integer |
-| Default | `1` |
-| Validation | Must be one of `FILE_DOWNLOAD_OPTIONS` |
+| Property    | Value                                   |
+| ----------- | --------------------------------------- |
+| Required    | No                                      |
+| Type        | Integer                                 |
+| Default     | `1`                                     |
+| Validation  | Must be one of `FILE_DOWNLOAD_OPTIONS`  |
 | Description | Default download limit for file uploads |
 
 ### FILE_UPLOAD_QUOTA_BYTES
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Integer (bytes) or byte size string |
-| Default | `0` (disabled) |
+| Property    | Value                                                                                                              |
+| ----------- | ------------------------------------------------------------------------------------------------------------------ |
+| Required    | No                                                                                                                 |
+| Type        | Integer (bytes) or byte size string                                                                                |
+| Default     | `0` (disabled)                                                                                                     |
 | Description | Maximum upload volume per user per window. `0` disables quotas. Supports raw bytes or units: `B`, `KB`, `MB`, `GB` |
 
 ### FILE_UPLOAD_QUOTA_WINDOW
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Integer (seconds) |
-| Default | `86400` |
+| Property    | Value                                    |
+| ----------- | ---------------------------------------- |
+| Required    | No                                       |
+| Type        | Integer (seconds)                        |
+| Default     | `86400`                                  |
 | Description | Quota time window for file upload quotas |
 
 ### FILE_UPLOAD_CONCURRENT_CHUNKS
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Integer |
-| Default | `3` |
-| Range | 1 - 20 |
+| Property    | Value                                                                                                                                                                                                           |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Required    | No                                                                                                                                                                                                              |
+| Type        | Integer                                                                                                                                                                                                         |
+| Default     | `3`                                                                                                                                                                                                             |
+| Range       | 1 - 20                                                                                                                                                                                                          |
 | Description | Number of parallel chunk uploads per session. Increase to improve upload speed in Chromium browsers through HTTP/2 reverse proxies. The value is exposed via `/api/config` and read by the client upload worker |
 
 ### FILE_UPLOAD_SPEED_LIMIT
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Integer (bytes/s) or byte size string |
-| Default | `0` (unlimited) |
+| Property    | Value                                                                                                                                                                                                 |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Required    | No                                                                                                                                                                                                    |
+| Type        | Integer (bytes/s) or byte size string                                                                                                                                                                 |
+| Default     | `0` (unlimited)                                                                                                                                                                                       |
 | Description | Maximum upload throughput per session. `0` disables the limit. Supports raw bytes or units: `B`, `KB`, `MB`, `GB` (e.g. `100MB` for 100 MB/s). The server delays chunk responses to enforce the limit |
 
 ### FILE_UPLOAD_WS
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Boolean |
-| Default | `true` |
+| Property    | Value                                                                                                                                                                                                           |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Required    | No                                                                                                                                                                                                              |
+| Type        | Boolean                                                                                                                                                                                                         |
+| Default     | `true`                                                                                                                                                                                                          |
 | Description | Enable the WebSocket upload transport at `/api/upload/ws`. Clients prefer WebSocket and fall back to HTTP chunked uploads automatically if the handshake fails. Set to `false` to disable the endpoint entirely |
 
 ### FILE_UPLOAD_WS_MAX_BUFFER
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Byte size string |
-| Default | `16MB` |
-| Minimum | `1MB` |
+| Property    | Value                                                                                                                                                                                          |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Required    | No                                                                                                                                                                                             |
+| Type        | Byte size string                                                                                                                                                                               |
+| Default     | `16MB`                                                                                                                                                                                         |
+| Minimum     | `1MB`                                                                                                                                                                                          |
 | Description | Maximum bytes the server buffers in memory per WebSocket upload session before aborting it with close code `1009`. Only relevant when the storage backend falls behind the incoming frame rate |
 
 ### NOTE_MAX_SIZE
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Byte size string |
-| Default | `1MB` |
+| Property    | Value                                                                          |
+| ----------- | ------------------------------------------------------------------------------ |
+| Required    | No                                                                             |
+| Type        | Byte size string                                                               |
+| Default     | `1MB`                                                                          |
 | Description | Maximum plaintext note size before encryption. Supports: `B`, `KB`, `MB`, `GB` |
 
 ### NOTE_EXPIRE_OPTIONS_SEC
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Comma-separated integers |
-| Default | `300,3600,86400,604800` |
+| Property    | Value                                        |
+| ----------- | -------------------------------------------- |
+| Required    | No                                           |
+| Type        | Comma-separated integers                     |
+| Default     | `300,3600,86400,604800`                      |
 | Description | Selectable expiry times in seconds for notes |
 
 ### NOTE_DEFAULT_EXPIRE_SEC
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Integer |
-| Default | `86400` |
-| Validation | Must be one of `NOTE_EXPIRE_OPTIONS_SEC` |
-| Description | Default expiry time for notes |
+| Property    | Value                                    |
+| ----------- | ---------------------------------------- |
+| Required    | No                                       |
+| Type        | Integer                                  |
+| Default     | `86400`                                  |
+| Validation  | Must be one of `NOTE_EXPIRE_OPTIONS_SEC` |
+| Description | Default expiry time for notes            |
 
 ### NOTE_VIEW_OPTIONS
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Comma-separated integers |
-| Default | `0,1,2,3,5,10,20,50,100` |
+| Property    | Value                                                                                        |
+| ----------- | -------------------------------------------------------------------------------------------- |
+| Required    | No                                                                                           |
+| Type        | Comma-separated integers                                                                     |
+| Default     | `0,1,2,3,5,10,20,50,100`                                                                     |
 | Description | Selectable view limits for notes. `0` means unlimited views (the note expires only by time). |
 
 ### NOTE_DEFAULT_VIEWS
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Integer |
-| Default | `0` |
-| Validation | Must be one of `NOTE_VIEW_OPTIONS` |
+| Property    | Value                                                                                                         |
+| ----------- | ------------------------------------------------------------------------------------------------------------- |
+| Required    | No                                                                                                            |
+| Type        | Integer                                                                                                       |
+| Default     | `0`                                                                                                           |
+| Validation  | Must be one of `NOTE_VIEW_OPTIONS`                                                                            |
 | Description | Default view limit for notes. `0` means unlimited views (expires only by time). `1` means burn-after-reading. |
 
 ### FILE_REQUEST_EXPIRE_OPTIONS_SEC
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Comma-separated integers |
-| Default | `86400,259200,604800` |
+| Property    | Value                                                                |
+| ----------- | -------------------------------------------------------------------- |
+| Required    | No                                                                   |
+| Type        | Comma-separated integers                                             |
+| Default     | `86400,259200,604800`                                                |
 | Description | How long a file request takes uploads, as options for the requester. |
 
 ### FILE_REQUEST_DEFAULT_EXPIRE_SEC
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Integer |
-| Default | `259200` |
+| Property    | Value                                                                            |
+| ----------- | -------------------------------------------------------------------------------- |
+| Required    | No                                                                               |
+| Type        | Integer                                                                          |
+| Default     | `259200`                                                                         |
 | Description | Default for new file requests. Must be one of `FILE_REQUEST_EXPIRE_OPTIONS_SEC`. |
 
 ### FILE_REQUEST_UPLOAD_OPTIONS
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Comma-separated integers |
-| Default | `1,2,3,5,10,20,50,100` |
-| Range | Each `1` to `1000` |
+| Property    | Value                                                                                                                                                                                                              |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Required    | No                                                                                                                                                                                                                 |
+| Type        | Comma-separated integers                                                                                                                                                                                           |
+| Default     | `1,2,3,5,10,20,50,100`                                                                                                                                                                                             |
+| Range       | Each `1` to `1000`                                                                                                                                                                                                 |
 | Description | How many uploads a file request takes, as options for the requester. A request for files and a note counts submissions with them, which take two uploads each, so the server accepts an option or twice an option. |
 
 ### FILE_REQUEST_DEFAULT_UPLOADS
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Integer |
-| Default | `10` |
+| Property    | Value                                                                        |
+| ----------- | ---------------------------------------------------------------------------- |
+| Required    | No                                                                           |
+| Type        | Integer                                                                      |
+| Default     | `10`                                                                         |
 | Description | Default for new file requests. Must be one of `FILE_REQUEST_UPLOAD_OPTIONS`. |
 
 ### FILE_REQUEST_MAX_SIZE
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Byte size |
-| Default | `FILE_MAX_SIZE` |
+| Property    | Value                                                                                                                       |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Required    | No                                                                                                                          |
+| Type        | Byte size                                                                                                                   |
+| Default     | `FILE_MAX_SIZE`                                                                                                             |
 | Description | Most bytes one upload into a file request may have. Supports units: `B`, `KB`, `MB`, `GB`. Must not exceed `FILE_MAX_SIZE`. |
 
 ### FILE_REQUEST_RETENTION_SEC
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Integer |
-| Default | `604800` |
+| Property    | Value                                                          |
+| ----------- | -------------------------------------------------------------- |
+| Required    | No                                                             |
+| Type        | Integer                                                        |
+| Default     | `604800`                                                       |
 | Description | How long an uploaded file stays in the inbox after it arrived. |
 
 ### FILE_REQUEST_DOWNLOAD_OPTIONS
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Comma-separated integers |
-| Default | `1,2,3,5,10,20` |
-| Range | Each `1` to `100` |
+| Property    | Value                                                                                              |
+| ----------- | -------------------------------------------------------------------------------------------------- |
+| Required    | No                                                                                                 |
+| Type        | Comma-separated integers                                                                           |
+| Default     | `1,2,3,5,10,20`                                                                                    |
+| Range       | Each `1` to `100`                                                                                  |
 | Description | How often the requester can download each upload of a file request, as options chosen per request. |
 
 ### FILE_REQUEST_DEFAULT_DOWNLOADS
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Integer |
-| Default | `5` |
+| Property    | Value                                                                          |
+| ----------- | ------------------------------------------------------------------------------ |
+| Required    | No                                                                             |
+| Type        | Integer                                                                        |
+| Default     | `5`                                                                            |
 | Description | Default for new file requests. Must be one of `FILE_REQUEST_DOWNLOAD_OPTIONS`. |
 
 ### FILE_REQUEST_DAILY_LIMIT
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Integer |
-| Default | `0` |
+| Property    | Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Required    | No                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| Type        | Integer                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| Default     | `0`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | Description | New file requests per day and person, counted by OIDC user when `OIDC_PROTECT_REQUESTS` puts creating behind the login, and by HMAC-hashed IP otherwise. The day starts with the first request of that user or IP. `0`, the default, turns the limit off. In memory, a restart resets it. Behind a reverse proxy, `TRUST_PROXY` has to be on, or every user counts as the proxy's IP. A public instance should set it, for example to `100`, together with `FILE_UPLOAD_QUOTA_BYTES`. |
 
 ### ENABLED_SERVICES
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Comma-separated list |
-| Default | `file,note,request` |
-| Allowed values | `file`, `note`, `request` |
-| Validation | At least one service must be enabled |
-| Description | Controls which services are available: `file` for file sharing, `note` for notes, `request` for file requests. Disabled services return HTTP 403 and their UI is hidden. `/api/config` lists `file` and `note` in `enabledServices` and reports file requests as `fileRequestsEnabled`, since older CLI clients accept only the first two in that list. |
+| Property       | Value                                                                                                                                                                                                                                                                                                                                                   |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Required       | No                                                                                                                                                                                                                                                                                                                                                      |
+| Type           | Comma-separated list                                                                                                                                                                                                                                                                                                                                    |
+| Default        | `file,note,request`                                                                                                                                                                                                                                                                                                                                     |
+| Allowed values | `file`, `note`, `request`                                                                                                                                                                                                                                                                                                                               |
+| Validation     | At least one service must be enabled                                                                                                                                                                                                                                                                                                                    |
+| Description    | Controls which services are available: `file` for file sharing, `note` for notes, `request` for file requests. Disabled services return HTTP 403 and their UI is hidden. `/api/config` lists `file` and `note` in `enabledServices` and reports file requests as `fileRequestsEnabled`, since older CLI clients accept only the first two in that list. |
 
 ### CLEANUP_INTERVAL
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Integer (seconds) |
-| Default | `60` |
+| Property    | Value                                  |
+| ----------- | -------------------------------------- |
+| Required    | No                                     |
+| Type        | Integer (seconds)                      |
+| Default     | `60`                                   |
 | Description | Interval for the automatic cleanup job |
 
 ### CUSTOM_TITLE
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | String |
-| Default | `SkySend` |
+| Property    | Value                |
+| ----------- | -------------------- |
+| Required    | No                   |
+| Type        | String               |
+| Default     | `Hajd.Cloud`         |
 | Description | Displayed site title |
 
 ### RATE_LIMIT_WINDOW
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Integer (milliseconds) |
-| Default | `60000` |
+| Property    | Value                          |
+| ----------- | ------------------------------ |
+| Required    | No                             |
+| Type        | Integer (milliseconds)         |
+| Default     | `60000`                        |
 | Description | Rate limit sliding window size |
 
 ### RATE_LIMIT_MAX
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Integer |
-| Default | `60` |
+| Property    | Value                              |
+| ----------- | ---------------------------------- |
+| Required    | No                                 |
+| Type        | Integer                            |
+| Default     | `60`                               |
 | Description | Maximum requests per window per IP |
 
 ### TRUST_PROXY
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Boolean |
-| Default | `false` |
+| Property    | Value                                                            |
+| ----------- | ---------------------------------------------------------------- |
+| Required    | No                                                               |
+| Type        | Boolean                                                          |
+| Default     | `false`                                                          |
 | Description | Trust `X-Forwarded-For` / `X-Real-IP` headers from reverse proxy |
 
 ### CUSTOM_COLOR
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Hex color code |
-| Default | - (uses default theme) |
-| Validation | Must match 6 hex digits, e.g. `46c89d` (the `#` prefix is optional) |
+| Property    | Value                                                                                                                          |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| Required    | No                                                                                                                             |
+| Type        | Hex color code                                                                                                                 |
+| Default     | - (uses default theme)                                                                                                         |
+| Validation  | Must match 6 hex digits, e.g. `46c89d` (the `#` prefix is optional)                                                            |
 | Description | Primary brand color for the web UI. Overrides the default primary color on buttons, links, icons, and other accented elements. |
 
 ### CUSTOM_LOGO
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | URL or absolute path |
-| Default | - (uses built-in SkySend logo) |
-| Validation | Must be an `http(s)` URL or an absolute path starting with a single `/`. Protocol-relative URLs (`//host/logo.png`) are rejected because they point at a foreign origin without being covered by the CSP origin check. |
+| Property    | Value                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Required    | No                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| Type        | URL or absolute path                                                                                                                                                                                                                                                                                                                                                                                                     |
+| Default     | - (uses built-in Hajd.Cloud logo)                                                                                                                                                                                                                                                                                                                                                                                        |
+| Validation  | Must be an `http(s)` URL or an absolute path starting with a single `/`. Protocol-relative URLs (`//host/logo.png`) are rejected because they point at a foreign origin without being covered by the CSP origin check.                                                                                                                                                                                                   |
 | Description | Path or URL to a custom logo image displayed in the web app header and as favicon. Place local files in `BRANDING_DIR` (e.g. `<DATA_DIR>/branding/custom-logo.svg`) and reference them as `/branding/custom-logo.svg`. External URLs remain supported: the host then sees each visitor's IP address (but not the opened link, since `Referrer-Policy: no-referrer` is set) and its origin is added to the CSP `img-src`. |
 
 ### CUSTOM_OG_IMAGE
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | URL or absolute path |
-| Default | - (uses `CUSTOM_LOGO` if it is PNG, JPEG, WebP, or GIF, otherwise the built-in logo) |
-| Validation | Same rules as `CUSTOM_LOGO`. A startup warning is logged when the file is not PNG, JPEG, WebP, or GIF. |
+| Property    | Value                                                                                                                                                                                                                                                    |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Required    | No                                                                                                                                                                                                                                                       |
+| Type        | URL or absolute path                                                                                                                                                                                                                                     |
+| Default     | - (uses `CUSTOM_LOGO` if it is PNG, JPEG, WebP, or GIF, otherwise the built-in logo)                                                                                                                                                                     |
+| Validation  | Same rules as `CUSTOM_LOGO`. A startup warning is logged when the file is not PNG, JPEG, WebP, or GIF.                                                                                                                                                   |
 | Description | Image used for `og:image` and `twitter:image` in link previews. Injected into `index.html` at runtime as an absolute URL resolved against `BASE_URL`. When unset and `CUSTOM_LOGO` is an SVG or another unsupported format, both image tags are omitted. |
 
 ### CUSTOM_OG_IMAGE_STYLE
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Enum |
-| Default | `logo` |
-| Validation | One of `logo`, `banner` |
+| Property    | Value                                                                                                                                                                      |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Required    | No                                                                                                                                                                         |
+| Type        | Enum                                                                                                                                                                       |
+| Default     | `logo`                                                                                                                                                                     |
+| Validation  | One of `logo`, `banner`                                                                                                                                                    |
 | Description | Sets `twitter:card`. `logo` renders `summary` (small square image), `banner` renders `summary_large_image` (large image above the text). Only X and Discord read this tag. |
 
 ### CUSTOM_PRIVACY
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | URL |
-| Default | - (not shown in footer) |
-| Validation | Must be a valid URL (`https://...`) |
+| Property    | Value                                                                                          |
+| ----------- | ---------------------------------------------------------------------------------------------- |
+| Required    | No                                                                                             |
+| Type        | URL                                                                                            |
+| Default     | - (not shown in footer)                                                                        |
+| Validation  | Must be a valid URL (`https://...`)                                                            |
 | Description | URL to your privacy policy page. When set, a "Privacy Policy" link is displayed in the footer. |
 
 ### CUSTOM_LEGAL
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | URL |
-| Default | - (not shown in footer) |
-| Validation | Must be a valid URL (`https://...`) |
+| Property    | Value                                                                                                  |
+| ----------- | ------------------------------------------------------------------------------------------------------ |
+| Required    | No                                                                                                     |
+| Type        | URL                                                                                                    |
+| Default     | - (not shown in footer)                                                                                |
+| Validation  | Must be a valid URL (`https://...`)                                                                    |
 | Description | URL to your legal notice / impressum page. When set, a "Legal Notice" link is displayed in the footer. |
 
 ### CUSTOM_LINK_URL
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | URL |
-| Default | - (not shown in footer) |
-| Validation | Must be a valid URL (`https://...`) |
+| Property    | Value                                                                        |
+| ----------- | ---------------------------------------------------------------------------- |
+| Required    | No                                                                           |
+| Type        | URL                                                                          |
+| Default     | - (not shown in footer)                                                      |
+| Validation  | Must be a valid URL (`https://...`)                                          |
 | Description | URL for a custom footer link. Must be used together with `CUSTOM_LINK_NAME`. |
 
 ### CUSTOM_LINK_NAME
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | String |
-| Default | - |
-| Validation | Max 50 characters |
+| Property    | Value                                                                                                                    |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Required    | No                                                                                                                       |
+| Type        | String                                                                                                                   |
+| Default     | -                                                                                                                        |
+| Validation  | Max 50 characters                                                                                                        |
 | Description | Display text for the custom footer link defined by `CUSTOM_LINK_URL`. Both variables must be set for the link to appear. |
 
 ### CUSTOM_REPORT_URL
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | URL |
-| Default | - (not shown in footer) |
-| Validation | Must be a valid URL (`https://...`) |
+| Property    | Value                                                                                |
+| ----------- | ------------------------------------------------------------------------------------ |
+| Required    | No                                                                                   |
+| Type        | URL                                                                                  |
+| Default     | - (not shown in footer)                                                              |
+| Validation  | Must be a valid URL (`https://...`)                                                  |
 | Description | URL to a report or abuse page. When set, a "Report" link is displayed in the footer. |
 
 ### DEFAULT_THEME
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Enum |
-| Default | `graphite` |
-| Validation | One of `graphite`, `aurora`, `midnight`. Before v3 this variable held the color scheme, so `dark`, `light` and `system` fail with a message that points to `DEFAULT_COLOR_SCHEME`. |
-| Description | Visual theme of the web UI. The server writes it into `index.html` as `data-theme`, so it applies before the first paint. |
+| Property    | Value                                                                                                                                                                              |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Required    | No                                                                                                                                                                                 |
+| Type        | Enum                                                                                                                                                                               |
+| Default     | `graphite`                                                                                                                                                                         |
+| Validation  | One of `crimson`, `graphite`, `aurora`, `midnight`. Before v3 this variable held the color scheme, so `dark`, `light` and `system` fail with a message that points to `DEFAULT_COLOR_SCHEME`. |
+| Description | Visual theme of the web UI. The server writes it into `index.html` as `data-theme`, so it applies before the first paint.                                                          |
 
 ### DEFAULT_COLOR_SCHEME
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Enum |
-| Default | `system` |
-| Validation | One of `dark`, `light`, `system` |
+| Property    | Value                                                                                                                           |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Required    | No                                                                                                                              |
+| Type        | Enum                                                                                                                            |
+| Default     | `system`                                                                                                                        |
+| Validation  | One of `dark`, `light`, `system`                                                                                                |
 | Description | Color scheme for visitors who have not picked one. A choice made in the UI is stored in the browser and wins over this default. |
 
 ### STORAGE_BACKEND
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Enum |
-| Default | `filesystem` |
-| Allowed values | `filesystem`, `s3` |
-| Description | Storage backend for encrypted upload files. `filesystem` stores files on the local disk. `s3` uses S3-compatible object storage with presigned download URLs. |
+| Property       | Value                                                                                                                                                         |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Required       | No                                                                                                                                                            |
+| Type           | Enum                                                                                                                                                          |
+| Default        | `filesystem`                                                                                                                                                  |
+| Allowed values | `filesystem`, `s3`                                                                                                                                            |
+| Description    | Storage backend for encrypted upload files. `filesystem` stores files on the local disk. `s3` uses S3-compatible object storage with presigned download URLs. |
 
 ### S3_BUCKET
 
-| Property | Value |
-| --- | --- |
-| Required | When `STORAGE_BACKEND=s3` |
-| Type | String |
-| Default | - |
+| Property    | Value                             |
+| ----------- | --------------------------------- |
+| Required    | When `STORAGE_BACKEND=s3`         |
+| Type        | String                            |
+| Default     | -                                 |
 | Description | S3 bucket name for upload storage |
 
 ### S3_REGION
 
-| Property | Value |
-| --- | --- |
-| Required | When `STORAGE_BACKEND=s3` |
-| Type | String |
-| Default | - |
+| Property    | Value                                          |
+| ----------- | ---------------------------------------------- |
+| Required    | When `STORAGE_BACKEND=s3`                      |
+| Type        | String                                         |
+| Default     | -                                              |
 | Description | S3 region (e.g. `eu-central-1`, `auto` for R2) |
 
 ### S3_ENDPOINT
 
-| Property | Value |
-| --- | --- |
-| Required | No (required for non-AWS providers) |
-| Type | URL |
-| Default | - (uses AWS S3 default) |
-| Validation | Must be a valid URL |
+| Property    | Value                                                                                                                                                                                       |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Required    | No (required for non-AWS providers)                                                                                                                                                         |
+| Type        | URL                                                                                                                                                                                         |
+| Default     | - (uses AWS S3 default)                                                                                                                                                                     |
+| Validation  | Must be a valid URL                                                                                                                                                                         |
 | Description | Custom S3 endpoint for non-AWS providers. Examples: `https://<id>.r2.cloudflarestorage.com` (R2), `https://fsn1.your-objectstorage.com` (Hetzner), `https://minio.example.com:9000` (MinIO) |
 
 ### S3_ACCESS_KEY
 
-| Property | Value |
-| --- | --- |
-| Required | When `STORAGE_BACKEND=s3` |
-| Type | String |
-| Default | - |
-| Description | S3 access key ID |
+| Property    | Value                     |
+| ----------- | ------------------------- |
+| Required    | When `STORAGE_BACKEND=s3` |
+| Type        | String                    |
+| Default     | -                         |
+| Description | S3 access key ID          |
 
 ### S3_SECRET_KEY
 
-| Property | Value |
-| --- | --- |
-| Required | When `STORAGE_BACKEND=s3` |
-| Type | String |
-| Default | - |
-| Description | S3 secret access key |
+| Property    | Value                     |
+| ----------- | ------------------------- |
+| Required    | When `STORAGE_BACKEND=s3` |
+| Type        | String                    |
+| Default     | -                         |
+| Description | S3 secret access key      |
 
 ### S3_FORCE_PATH_STYLE
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Boolean |
-| Default | `false` |
+| Property    | Value                                                                                                                                                                               |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Required    | No                                                                                                                                                                                  |
+| Type        | Boolean                                                                                                                                                                             |
+| Default     | `false`                                                                                                                                                                             |
 | Description | Use path-style URLs (`https://endpoint/bucket/key`) instead of virtual-hosted-style (`https://bucket.endpoint/key`). Required for MinIO, Garage, and some self-hosted S3 providers. |
 
 ### S3_PRESIGNED_EXPIRY
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Integer (seconds) |
-| Default | `300` |
+| Property    | Value                                                                                                                                                                        |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Required    | No                                                                                                                                                                           |
+| Type        | Integer (seconds)                                                                                                                                                            |
+| Default     | `300`                                                                                                                                                                        |
 | Description | TTL for presigned download URLs. S3 validates the signature only at the start of the download - a download that starts within the TTL will complete even if it takes longer. |
 
 ### S3_PART_SIZE
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Byte size (e.g. `25MB`, `50MB`) |
-| Default | `25MB` |
-| Minimum | `5MB` |
-| Maximum | `5GB` |
+| Property    | Value                                                                                                                                                                                                                                                                     |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Required    | No                                                                                                                                                                                                                                                                        |
+| Type        | Byte size (e.g. `25MB`, `50MB`)                                                                                                                                                                                                                                           |
+| Default     | `25MB`                                                                                                                                                                                                                                                                    |
+| Minimum     | `5MB`                                                                                                                                                                                                                                                                     |
+| Maximum     | `5GB`                                                                                                                                                                                                                                                                     |
 | Description | Size of each S3 multipart upload part. Larger values reduce the number of API round-trips but increase memory usage per upload. The S3 protocol requires at least 5MB per part (except the final part). Increase this if you have high bandwidth and want faster uploads. |
 
 ### S3_CONCURRENCY
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Integer |
-| Default | `4` |
-| Range | 1-16 |
+| Property    | Value                                                                                                                                                                                                                                                |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Required    | No                                                                                                                                                                                                                                                   |
+| Type        | Integer                                                                                                                                                                                                                                              |
+| Default     | `4`                                                                                                                                                                                                                                                  |
+| Range       | 1-16                                                                                                                                                                                                                                                 |
 | Description | Number of S3 multipart upload parts uploaded in parallel. Higher values improve throughput by overlapping network transfers, but increase memory and bandwidth usage. Good starting values: `4` for most setups, `8` for high-bandwidth connections. |
 
 ### PUID
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Integer |
-| Default | `1001` |
-| Docker only | Yes |
+| Property    | Value                                                                    |
+| ----------- | ------------------------------------------------------------------------ |
+| Required    | No                                                                       |
+| Type        | Integer                                                                  |
+| Default     | `1001`                                                                   |
+| Docker only | Yes                                                                      |
 | Description | User ID the container process runs as. Handled by the entrypoint script. |
 
 ### PGID
 
-| Property | Value |
-| --- | --- |
-| Required | No |
-| Type | Integer |
-| Default | `1001` |
-| Docker only | Yes |
+| Property    | Value                                                                     |
+| ----------- | ------------------------------------------------------------------------- |
+| Required    | No                                                                        |
+| Type        | Integer                                                                   |
+| Default     | `1001`                                                                    |
+| Docker only | Yes                                                                       |
 | Description | Group ID the container process runs as. Handled by the entrypoint script. |
 
 ## Validation Rules

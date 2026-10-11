@@ -48,10 +48,14 @@ export function createUploadQuota(config: Config) {
   // Try to restore HMAC key from DB
   const db = getDb();
   const storedKey = db.select().from(quotaState).where(eq(quotaState.key, "hmac_key")).get();
-  const storedKeyTime = db.select().from(quotaState).where(eq(quotaState.key, "key_created_at")).get();
+  const storedKeyTime = db
+    .select()
+    .from(quotaState)
+    .where(eq(quotaState.key, "key_created_at"))
+    .get();
   const now = Date.now();
 
-  if (storedKey && storedKeyTime && (now - Number(storedKeyTime.value)) < keyRotationMs) {
+  if (storedKey && storedKeyTime && now - Number(storedKeyTime.value) < keyRotationMs) {
     hmacKey = Buffer.from(storedKey.value, "hex");
     keyCreatedAt = Number(storedKeyTime.value);
     // Clean up expired entries
@@ -69,7 +73,7 @@ export function createUploadQuota(config: Config) {
   function persistKey(): void {
     // L-2 (Security Audit): The HMAC key is persisted to SQLite so that quota
     // entries survive server restarts. This is an intentional trade-off.
-    // In SkySend's threat model, the server owner is a TRUSTED PARTY:
+    // In Hajd.Cloud's threat model, the server owner is a TRUSTED PARTY:
     // anyone who can read the SQLite DB already has full access to all upload
     // metadata and could observe connections via the reverse proxy anyway.
     // Storing the key in RAM-only would provide no meaningful privacy improvement

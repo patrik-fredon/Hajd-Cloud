@@ -8,8 +8,8 @@ Download the encrypted file stream.
 
 **Headers:**
 
-| Header | Type | Description |
-| --- | --- | --- |
+| Header         | Type      | Description          |
+| -------------- | --------- | -------------------- |
 | `X-Auth-Token` | base64url | Authentication token |
 
 ### Response
@@ -20,12 +20,12 @@ The response body is the raw encrypted stream (`application/octet-stream`).
 
 Response headers:
 
-| Header | Value |
-| --- | --- |
-| `Content-Type` | `application/octet-stream` |
-| `Content-Length` | Size in bytes |
-| `Cache-Control` | `no-store` |
-| `X-File-Count` | Number of files in the upload |
+| Header           | Value                         |
+| ---------------- | ----------------------------- |
+| `Content-Type`   | `application/octet-stream`    |
+| `Content-Length` | Size in bytes                 |
+| `Cache-Control`  | `no-store`                    |
+| `X-File-Count`   | Number of files in the upload |
 
 **401 Unauthorized:**
 

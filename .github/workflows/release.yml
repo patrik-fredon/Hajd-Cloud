@@ -17,8 +17,8 @@ permissions:
   deployments: write
 
 env:
-  GHCR_IMAGE: ghcr.io/skyfay/skysend
-  DOCKERHUB_IMAGE: skyfay/skysend
+  GHCR_IMAGE: ghcr.io/${{ github.repository_owner }}/hajd-cloud
+  DOCKERHUB_IMAGE: hajd-cloud/skysend
 
 jobs:
   # ── Validate first ──────────────────────────────────────────
@@ -69,7 +69,7 @@ jobs:
             ${{ env.DOCKERHUB_IMAGE }}
           labels: |
             org.opencontainers.image.description=Minimalist, end-to-end encrypted, self-hostable file sharing service
-            org.opencontainers.image.vendor=Skyfay
+            org.opencontainers.image.vendor=Hajd.Cloud
             org.opencontainers.image.licenses=AGPL-3.0
 
       - name: Build and push (${{ matrix.suffix }})
@@ -131,7 +131,7 @@ jobs:
     needs: [build-verification, cli-assets]
     environment:
       name: ${{ contains(github.ref_name, '-dev') && 'dev' || contains(github.ref_name, '-beta') && 'beta' || 'production' }}
-      url: https://github.com/skyfay/skysend/pkgs/container/skysend
+      url: https://skysend.hajd.cloud
     steps:
       - uses: docker/setup-buildx-action@v4
 
@@ -226,7 +226,7 @@ jobs:
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          repository: skyfay/skysend
+          repository: hajd-cloud/skysend
           readme-filepath: README.md
 
   # ── Build CLI binaries ───────────────────────────────────────

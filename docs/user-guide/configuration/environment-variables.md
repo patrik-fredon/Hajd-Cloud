@@ -1,38 +1,39 @@
 # Environment Variables
 
-Complete reference of all environment variables supported by SkySend.
+Complete reference of all environment variables supported by Hajd.Cloud.
 
 ## Server
 
-| Variable | Required | Default | Description |
-| :--- | :---: | :--- | :--- |
-| `PORT` | ❌ | `3000` | Server port (1-65535). |
-| `HOST` | ❌ | `0.0.0.0` | Server bind address. |
-| `BASE_URL` | ✅ | - | Public URL of the instance (used for CORS and generated links). |
-| `DATA_DIR` | ❌ | `./data` | Directory for the database (`DATA_DIR/db/skysend.db`). |
-| `UPLOADS_DIR` | ❌ | `{DATA_DIR}/uploads` | Directory for encrypted upload files. In Docker, defaults to `/uploads`. |
-| `BRANDING_DIR` | ❌ | `{DATA_DIR}/branding` | Directory for your own branding assets. Its contents are served under `/branding/`. Created automatically on startup. |
-| `TRUST_PROXY` | ❌ | `false` | Trust `X-Forwarded-For` and `X-Real-IP` headers. Enable when behind a reverse proxy. |
-| `CORS_ORIGINS` | ❌ | _(empty)_ | Additional CORS origins, comma-separated. |
+| Variable       | Required | Default               | Description                                                                                                           |
+| :------------- | :------: | :-------------------- | :-------------------------------------------------------------------------------------------------------------------- |
+| `PORT`         |    ❌    | `3000`                | Server port (1-65535).                                                                                                |
+| `HOST`         |    ❌    | `0.0.0.0`             | Server bind address.                                                                                                  |
+| `BASE_URL`     |    ✅    | -                     | Public URL of the instance (used for CORS and generated links).                                                       |
+| `DATA_DIR`     |    ❌    | `./data`              | Directory for the database (`DATA_DIR/db/skysend.db`).                                                                |
+| `UPLOADS_DIR`  |    ❌    | `{DATA_DIR}/uploads`  | Directory for encrypted upload files. In Docker, defaults to `/uploads`.                                              |
+| `BRANDING_DIR` |    ❌    | `{DATA_DIR}/branding` | Directory for your own branding assets. Its contents are served under `/branding/`. Created automatically on startup. |
+| `TRUST_PROXY`  |    ❌    | `false`               | Trust `X-Forwarded-For` and `X-Real-IP` headers. Enable when behind a reverse proxy.                                  |
+| `CORS_ORIGINS` |    ❌    | _(empty)_             | Additional CORS origins, comma-separated.                                                                             |
 
 ## File
 
-| Variable | Required | Default | Description |
-| :--- | :---: | :--- | :--- |
-| `FILE_MAX_SIZE` | ❌ | `2GB` | Maximum file upload size. Supports units: `B`, `KB`, `MB`, `GB`. |
-| `FILE_MAX_FILES_PER_UPLOAD` | ❌ | `32` | Maximum number of files per multi-file upload. |
-| `FILE_EXPIRE_OPTIONS_SEC` | ❌ | `300,3600,86400,604800` | Comma-separated list of selectable expiry times in seconds. |
-| `FILE_DEFAULT_EXPIRE_SEC` | ❌ | `86400` | Default expiry time (must be one of `FILE_EXPIRE_OPTIONS_SEC`). |
-| `FILE_DOWNLOAD_OPTIONS` | ❌ | `1,2,3,4,5,10,20,50,100` | Comma-separated list of selectable download limits. |
-| `FILE_DEFAULT_DOWNLOAD` | ❌ | `1` | Default download limit (must be one of `FILE_DOWNLOAD_OPTIONS`). |
-| `FILE_UPLOAD_QUOTA_BYTES` | ❌ | `0` (unlimited) | Maximum file upload volume per user per window. `0` disables the quota. Supports units: `B`, `KB`, `MB`, `GB`. |
-| `FILE_UPLOAD_QUOTA_WINDOW` | ❌ | `86400` | Quota time window in seconds (default: 24 hours). |
-| `FILE_UPLOAD_CONCURRENT_CHUNKS` | ❌ | `3` | Number of parallel chunk uploads per session (1-20). Increase to improve upload speed in Chromium browsers (Chrome, Edge, Brave) through HTTP/2 reverse proxies. |
-| `FILE_UPLOAD_SPEED_LIMIT` | ❌ | `0` (unlimited) | Maximum upload speed per session in bytes per second. `0` disables the limit. Supports units: `B`, `KB`, `MB`, `GB` (e.g. `100MB` for 100 MB/s). |
-| `FILE_UPLOAD_WS` | ❌ | `true` | Enable the WebSocket upload transport. Uploads are streamed over a single persistent connection, bypassing HTTP/2 multiplexing bottlenecks in reverse proxies (Traefik, Nginx) and significantly improving upload speed in Chromium browsers. Clients automatically fall back to HTTP chunked uploads when the WebSocket handshake fails. Set to `false` in environments where WebSockets are blocked or terminated. |
-| `FILE_UPLOAD_WS_MAX_BUFFER` | ❌ | `16MB` | Maximum bytes the server may buffer per WebSocket upload session before aborting it. Only relevant when the storage backend cannot keep up with the incoming frame rate. Supports units: `B`, `KB`, `MB`, `GB`. Minimum `1MB`. |
+| Variable                        | Required | Default                  | Description                                                                                                                                                                                                                                                                                                                                                                                                          |
+| :------------------------------ | :------: | :----------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `FILE_MAX_SIZE`                 |    ❌    | `2GB`                    | Maximum file upload size. Supports units: `B`, `KB`, `MB`, `GB`.                                                                                                                                                                                                                                                                                                                                                     |
+| `FILE_MAX_FILES_PER_UPLOAD`     |    ❌    | `32`                     | Maximum number of files per multi-file upload.                                                                                                                                                                                                                                                                                                                                                                       |
+| `FILE_EXPIRE_OPTIONS_SEC`       |    ❌    | `300,3600,86400,604800`  | Comma-separated list of selectable expiry times in seconds.                                                                                                                                                                                                                                                                                                                                                          |
+| `FILE_DEFAULT_EXPIRE_SEC`       |    ❌    | `86400`                  | Default expiry time (must be one of `FILE_EXPIRE_OPTIONS_SEC`).                                                                                                                                                                                                                                                                                                                                                      |
+| `FILE_DOWNLOAD_OPTIONS`         |    ❌    | `1,2,3,4,5,10,20,50,100` | Comma-separated list of selectable download limits.                                                                                                                                                                                                                                                                                                                                                                  |
+| `FILE_DEFAULT_DOWNLOAD`         |    ❌    | `1`                      | Default download limit (must be one of `FILE_DOWNLOAD_OPTIONS`).                                                                                                                                                                                                                                                                                                                                                     |
+| `FILE_UPLOAD_QUOTA_BYTES`       |    ❌    | `0` (unlimited)          | Maximum file upload volume per user per window. `0` disables the quota. Supports units: `B`, `KB`, `MB`, `GB`.                                                                                                                                                                                                                                                                                                       |
+| `FILE_UPLOAD_QUOTA_WINDOW`      |    ❌    | `86400`                  | Quota time window in seconds (default: 24 hours).                                                                                                                                                                                                                                                                                                                                                                    |
+| `FILE_UPLOAD_CONCURRENT_CHUNKS` |    ❌    | `3`                      | Number of parallel chunk uploads per session (1-20). Increase to improve upload speed in Chromium browsers (Chrome, Edge, Brave) through HTTP/2 reverse proxies.                                                                                                                                                                                                                                                     |
+| `FILE_UPLOAD_SPEED_LIMIT`       |    ❌    | `0` (unlimited)          | Maximum upload speed per session in bytes per second. `0` disables the limit. Supports units: `B`, `KB`, `MB`, `GB` (e.g. `100MB` for 100 MB/s).                                                                                                                                                                                                                                                                     |
+| `FILE_UPLOAD_WS`                |    ❌    | `true`                   | Enable the WebSocket upload transport. Uploads are streamed over a single persistent connection, bypassing HTTP/2 multiplexing bottlenecks in reverse proxies (Traefik, Nginx) and significantly improving upload speed in Chromium browsers. Clients automatically fall back to HTTP chunked uploads when the WebSocket handshake fails. Set to `false` in environments where WebSockets are blocked or terminated. |
+| `FILE_UPLOAD_WS_MAX_BUFFER`     |    ❌    | `16MB`                   | Maximum bytes the server may buffer per WebSocket upload session before aborting it. Only relevant when the storage backend cannot keep up with the incoming frame rate. Supports units: `B`, `KB`, `MB`, `GB`. Minimum `1MB`.                                                                                                                                                                                       |
 
 The default expiry options translate to:
+
 - 5 minutes (`300`)
 - 1 hour (`3600`)
 - 1 day (`86400`) - default
@@ -44,95 +45,96 @@ Upload quotas use HMAC-SHA256 hashed IPs with a daily rotating key. No plaintext
 
 ## Notes
 
-| Variable | Required | Default | Description |
-| :--- | :---: | :--- | :--- |
-| `NOTE_MAX_SIZE` | ❌ | `1MB` | Maximum note content size. Supports units: `B`, `KB`, `MB`, `GB`. |
-| `NOTE_EXPIRE_OPTIONS_SEC` | ❌ | `300,3600,86400,604800` | Comma-separated list of selectable expiry times for notes in seconds. |
-| `NOTE_DEFAULT_EXPIRE_SEC` | ❌ | `86400` | Default note expiry time (must be one of `NOTE_EXPIRE_OPTIONS_SEC`). |
-| `NOTE_VIEW_OPTIONS` | ❌ | `0,1,2,3,5,10,20,50,100` | Comma-separated list of selectable view limits for notes. Include `0` for an "Unlimited" option. |
-| `NOTE_DEFAULT_VIEWS` | ❌ | `0` | Default view limit for notes (must be one of `NOTE_VIEW_OPTIONS`). `0` means unlimited (the default). `1` means burn-after-reading. |
+| Variable                  | Required | Default                  | Description                                                                                                                         |
+| :------------------------ | :------: | :----------------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
+| `NOTE_MAX_SIZE`           |    ❌    | `1MB`                    | Maximum note content size. Supports units: `B`, `KB`, `MB`, `GB`.                                                                   |
+| `NOTE_EXPIRE_OPTIONS_SEC` |    ❌    | `300,3600,86400,604800`  | Comma-separated list of selectable expiry times for notes in seconds.                                                               |
+| `NOTE_DEFAULT_EXPIRE_SEC` |    ❌    | `86400`                  | Default note expiry time (must be one of `NOTE_EXPIRE_OPTIONS_SEC`).                                                                |
+| `NOTE_VIEW_OPTIONS`       |    ❌    | `0,1,2,3,5,10,20,50,100` | Comma-separated list of selectable view limits for notes. Include `0` for an "Unlimited" option.                                    |
+| `NOTE_DEFAULT_VIEWS`      |    ❌    | `0`                      | Default view limit for notes (must be one of `NOTE_VIEW_OPTIONS`). `0` means unlimited (the default). `1` means burn-after-reading. |
 
 ## File Requests
 
 A file request is a link you send to someone so they can upload files to you, encrypted for you alone. These variables set what a requester can choose.
 
-| Variable | Required | Default | Description |
-| :--- | :---: | :--- | :--- |
-| `FILE_REQUEST_EXPIRE_OPTIONS_SEC` | ❌ | `86400,259200,604800` | Comma-separated list of how long a request accepts uploads, in seconds. |
-| `FILE_REQUEST_DEFAULT_EXPIRE_SEC` | ❌ | `259200` | Default for new requests (must be one of `FILE_REQUEST_EXPIRE_OPTIONS_SEC`). |
-| `FILE_REQUEST_UPLOAD_OPTIONS` | ❌ | `1,2,3,5,10,20,50,100` | How many uploads a request takes, as options for the requester, each from `1` to `1000`. A request for files and a note counts submissions with them, which take two uploads each. What a request asks for is encrypted and the server does not check it, so any request may take up to twice the largest option. |
-| `FILE_REQUEST_DEFAULT_UPLOADS` | ❌ | `10` | Default for new requests. Must be one of `FILE_REQUEST_UPLOAD_OPTIONS`. |
-| `FILE_REQUEST_MAX_SIZE` | ❌ | `FILE_MAX_SIZE` | Most bytes one upload into a request may have. The requester picks a size up to this. Supports units: `B`, `KB`, `MB`, `GB`. |
-| `FILE_REQUEST_RETENTION_SEC` | ❌ | `604800` | How long an uploaded file stays in the inbox, in seconds. |
-| `FILE_REQUEST_DOWNLOAD_OPTIONS` | ❌ | `1,2,3,5,10,20` | How often the requester can download each upload, as options chosen per request, each from `1` to `100`. |
-| `FILE_REQUEST_DEFAULT_DOWNLOADS` | ❌ | `5` | Default for new requests. Must be one of `FILE_REQUEST_DOWNLOAD_OPTIONS`. |
-| `FILE_REQUEST_DAILY_LIMIT` | ❌ | `0` | New requests per day and person, counted by OIDC user when `OIDC_PROTECT_REQUESTS` puts creating behind the login, and by IP otherwise. The day starts with the first request. `0`, the default, turns the limit off. The count lives in memory and resets on restart. The request form shows how many are left. Behind a reverse proxy, set `TRUST_PROXY`, or everyone shares the count of the proxy's IP. A public instance should set it, for example to `100`, together with `FILE_UPLOAD_QUOTA_BYTES`. |
+| Variable                          | Required | Default                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| :-------------------------------- | :------: | :--------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `FILE_REQUEST_EXPIRE_OPTIONS_SEC` |    ❌    | `86400,259200,604800`  | Comma-separated list of how long a request accepts uploads, in seconds.                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| `FILE_REQUEST_DEFAULT_EXPIRE_SEC` |    ❌    | `259200`               | Default for new requests (must be one of `FILE_REQUEST_EXPIRE_OPTIONS_SEC`).                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `FILE_REQUEST_UPLOAD_OPTIONS`     |    ❌    | `1,2,3,5,10,20,50,100` | How many uploads a request takes, as options for the requester, each from `1` to `1000`. A request for files and a note counts submissions with them, which take two uploads each. What a request asks for is encrypted and the server does not check it, so any request may take up to twice the largest option.                                                                                                                                                                                           |
+| `FILE_REQUEST_DEFAULT_UPLOADS`    |    ❌    | `10`                   | Default for new requests. Must be one of `FILE_REQUEST_UPLOAD_OPTIONS`.                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| `FILE_REQUEST_MAX_SIZE`           |    ❌    | `FILE_MAX_SIZE`        | Most bytes one upload into a request may have. The requester picks a size up to this. Supports units: `B`, `KB`, `MB`, `GB`.                                                                                                                                                                                                                                                                                                                                                                                |
+| `FILE_REQUEST_RETENTION_SEC`      |    ❌    | `604800`               | How long an uploaded file stays in the inbox, in seconds.                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| `FILE_REQUEST_DOWNLOAD_OPTIONS`   |    ❌    | `1,2,3,5,10,20`        | How often the requester can download each upload, as options chosen per request, each from `1` to `100`.                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `FILE_REQUEST_DEFAULT_DOWNLOADS`  |    ❌    | `5`                    | Default for new requests. Must be one of `FILE_REQUEST_DOWNLOAD_OPTIONS`.                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| `FILE_REQUEST_DAILY_LIMIT`        |    ❌    | `0`                    | New requests per day and person, counted by OIDC user when `OIDC_PROTECT_REQUESTS` puts creating behind the login, and by IP otherwise. The day starts with the first request. `0`, the default, turns the limit off. The count lives in memory and resets on restart. The request form shows how many are left. Behind a reverse proxy, set `TRUST_PROXY`, or everyone shares the count of the proxy's IP. A public instance should set it, for example to `100`, together with `FILE_UPLOAD_QUOTA_BYTES`. |
 
 ## Services
 
-| Variable | Required | Default | Description |
-| :--- | :---: | :--- | :--- |
-| `ENABLED_SERVICES` | ❌ | `file,note,request` | Comma-separated list of enabled services: `file` for file sharing, `note` for notes, `request` for file requests. Leave one out to turn it off. Disabled services return HTTP 403 and their UI is hidden. An instance that sets this variable explicitly has to add `request` to offer file requests. |
+| Variable           | Required | Default             | Description                                                                                                                                                                                                                                                                                           |
+| :----------------- | :------: | :------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ENABLED_SERVICES` |    ❌    | `file,note,request` | Comma-separated list of enabled services: `file` for file sharing, `note` for notes, `request` for file requests. Leave one out to turn it off. Disabled services return HTTP 403 and their UI is hidden. An instance that sets this variable explicitly has to add `request` to offer file requests. |
 
 ## Cleanup
 
-| Variable | Required | Default | Description |
-| :--- | :---: | :--- | :--- |
-| `CLEANUP_INTERVAL` | ❌ | `60` | Interval for the automatic cleanup job in seconds. |
+| Variable           | Required | Default | Description                                        |
+| :----------------- | :------: | :------ | :------------------------------------------------- |
+| `CLEANUP_INTERVAL` |    ❌    | `60`    | Interval for the automatic cleanup job in seconds. |
 
 ## Rate Limiting
 
-| Variable | Required | Default | Description |
-| :--- | :---: | :--- | :--- |
-| `RATE_LIMIT_WINDOW` | ❌ | `60000` | Rate limit window in milliseconds. |
-| `RATE_LIMIT_MAX` | ❌ | `60` | Maximum requests per window per IP. |
+| Variable            | Required | Default | Description                         |
+| :------------------ | :------: | :------ | :---------------------------------- |
+| `RATE_LIMIT_WINDOW` |    ❌    | `60000` | Rate limit window in milliseconds.  |
+| `RATE_LIMIT_MAX`    |    ❌    | `60`    | Maximum requests per window per IP. |
 
 ## Password Lockout
 
-| Variable | Required | Default | Description |
-| :--- | :---: | :--- | :--- |
-| `PASSWORD_MAX_ATTEMPTS` | ❌ | `10` | Failed password attempts before a specific IP is locked out from a specific upload, note or file request inbox. For an upload, a wrong token at the download counts as well. Failed attempts that led to no lockout are forgotten after `PASSWORD_LOCKOUT_MS`. |
-| `PASSWORD_LOCKOUT_MS` | ❌ | `900000` | Lockout duration in milliseconds (default: 15 minutes). |
+| Variable                | Required | Default  | Description                                                                                                                                                                                                                                                    |
+| :---------------------- | :------: | :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `PASSWORD_MAX_ATTEMPTS` |    ❌    | `10`     | Failed password attempts before a specific IP is locked out from a specific upload, note or file request inbox. For an upload, a wrong token at the download counts as well. Failed attempts that led to no lockout are forgotten after `PASSWORD_LOCKOUT_MS`. |
+| `PASSWORD_LOCKOUT_MS`   |    ❌    | `900000` | Lockout duration in milliseconds (default: 15 minutes).                                                                                                                                                                                                        |
 
 ## Storage Backend
 
-| Variable | Required | Default | Description |
-| :--- | :---: | :--- | :--- |
-| `STORAGE_BACKEND` | ❌ | `filesystem` | Storage backend to use. `filesystem` stores files locally, `s3` uses S3-compatible object storage. |
-| `S3_BUCKET` | ⚠️ | - | S3 bucket name. Required when `STORAGE_BACKEND=s3`. |
-| `S3_REGION` | ⚠️ | - | S3 region (e.g. `eu-central-1`). Required when `STORAGE_BACKEND=s3`. |
-| `S3_ENDPOINT` | ❌ | _(none)_ | Custom S3 endpoint URL. Required for non-AWS providers (R2, Hetzner, MinIO, etc.). Leave empty for AWS S3. |
-| `S3_ACCESS_KEY` | ⚠️ | - | S3 access key ID. Required when `STORAGE_BACKEND=s3`. |
-| `S3_SECRET_KEY` | ⚠️ | - | S3 secret access key. Required when `STORAGE_BACKEND=s3`. |
-| `S3_FORCE_PATH_STYLE` | ❌ | `false` | Use path-style URLs instead of virtual-hosted-style. Required for MinIO, Garage, and some self-hosted providers. |
-| `S3_PRESIGNED_EXPIRY` | ❌ | `300` | Presigned download URL expiry in seconds. |
-| `S3_PART_SIZE` | ❌ | `25MB` | Size of each S3 multipart upload part. Larger values reduce round-trips but use more memory. Minimum is `5MB` (S3 requirement). |
-| `S3_CONCURRENCY` | ❌ | `4` | Number of S3 parts uploaded in parallel. Higher values improve throughput but use more memory and bandwidth. Range: 1-16. |
+| Variable              | Required | Default      | Description                                                                                                                                                                             |
+| :-------------------- | :------: | :----------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `STORAGE_BACKEND`     |    ❌    | `filesystem` | Storage backend to use. `filesystem` stores files locally, `s3` uses S3-compatible object storage.                                                                                      |
+| `S3_BUCKET`           |    ⚠️    | -            | S3 bucket name. Required when `STORAGE_BACKEND=s3`.                                                                                                                                     |
+| `S3_REGION`           |    ⚠️    | -            | S3 region (e.g. `eu-central-1`). Required when `STORAGE_BACKEND=s3`.                                                                                                                    |
+| `S3_ENDPOINT`         |    ❌    | _(none)_     | Custom S3 endpoint URL. Required for non-AWS providers (R2, Hetzner, MinIO, etc.). Leave empty for AWS S3.                                                                              |
+| `S3_ACCESS_KEY`       |    ⚠️    | -            | S3 access key ID. Required when `STORAGE_BACKEND=s3`.                                                                                                                                   |
+| `S3_SECRET_KEY`       |    ⚠️    | -            | S3 secret access key. Required when `STORAGE_BACKEND=s3`.                                                                                                                               |
+| `S3_FORCE_PATH_STYLE` |    ❌    | `false`      | Use path-style URLs instead of virtual-hosted-style. Required for MinIO, Garage, and custom endpoints such as R2 whose virtual-hosted bucket origin is not allowed by Hajd.Cloud's CSP. |
+| `S3_PRESIGNED_EXPIRY` |    ❌    | `300`        | Presigned download URL expiry in seconds.                                                                                                                                               |
+| `S3_PART_SIZE`        |    ❌    | `25MB`       | Size of each S3 multipart upload part. Larger values reduce round-trips but use more memory. Minimum is `5MB` (S3 requirement).                                                         |
+| `S3_CONCURRENCY`      |    ❌    | `4`          | Number of S3 parts uploaded in parallel. Higher values improve throughput but use more memory and bandwidth. Range: 1-16.                                                               |
 
 → See [S3 Storage](/user-guide/configuration/s3) for provider examples and CORS configuration.
 
 ## Branding & Customization
 
-| Variable | Required | Default | Description |
-| :--- | :---: | :--- | :--- |
-| `CUSTOM_TITLE` | ❌ | `SkySend` | Displayed site title in the UI. |
-| `CUSTOM_COLOR` | ❌ | _(none)_ | Primary brand color as 6-digit hex code (e.g. `46c89d`). The `#` prefix is optional. |
-| `CUSTOM_LOGO` | ❌ | _(none)_ | Path to a custom logo. Put the file into `BRANDING_DIR` and reference it as `/branding/logo.svg`. An external URL (`https://example.com/logo.svg`) also works but is not recommended. |
-| `CUSTOM_OG_IMAGE` | ❌ | `CUSTOM_LOGO` or built-in logo | Image shown when a link to your instance is shared on messengers and social networks. Same path or URL rules as `CUSTOM_LOGO`. Use PNG or JPEG, SVG is not rendered in link previews. See [Link preview image](#link-preview-image). |
-| `CUSTOM_OG_IMAGE_STYLE` | ❌ | `logo` | How X and Discord show the preview image. `logo` for a small square image next to the text, `banner` for a large image above it. |
-| `CUSTOM_PRIVACY` | ❌ | _(none)_ | URL to your privacy policy page. Shown as a link in the footer if set. |
-| `CUSTOM_LEGAL` | ❌ | _(none)_ | URL to your legal notice / impressum page. Shown as a link in the footer if set. |
-| `CUSTOM_LINK_URL` | ❌ | _(none)_ | URL for a custom footer link. Must be used together with `CUSTOM_LINK_NAME`. |
-| `CUSTOM_LINK_NAME` | ❌ | _(none)_ | Display text for the custom footer link (max 50 characters). |
-| `CUSTOM_REPORT_URL` | ❌ | _(none)_ | URL to a report/abuse page. When set, a "Report" link is shown in the footer. |
-| `DEFAULT_THEME` | ❌ | `graphite` | Visual theme of the web app. One of `graphite`, `aurora`, or `midnight`. Every theme works with `CUSTOM_COLOR` and with both color schemes. Before v3 this variable held the color scheme, which now lives in `DEFAULT_COLOR_SCHEME`. |
-| `DEFAULT_COLOR_SCHEME` | ❌ | `system` | Color scheme for visitors who have not picked one. One of `dark`, `light`, or `system`. Visitors can still switch in the UI. |
-| `DEFAULT_TAB` | ❌ | `file` | Tab shown when opening the app. `file` or `note`. `text`, `password`, `code` or `sshkey` open the note tab with that block already added. Falls back to the first available tab if the configured one is not enabled via `ENABLED_SERVICES`. |
-| `FORCE_FILE_PASSWORD` | ❌ | `false` | When `true`, all file uploads must be password-protected. The password toggle is hidden and the field is always visible. Enforced on both frontend and server. |
-| `FORCE_NOTE_PASSWORD` | ❌ | `false` | When `true`, all note uploads (text, password, code, SSH key) must be password-protected. Enforced on both frontend and server. |
-| `FORCE_REQUEST_PASSWORD` | ❌ | `false` | When `true`, the inbox of every file request must be password-protected. The server refuses a request that does not say it has one, and cannot check the password itself, which never reaches it. |
+| Variable                 | Required | Default                        | Description                                                                                                                                                                                                                                      |
+| :----------------------- | :------: | :----------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `CUSTOM_TITLE`           |    ❌    | `Hajd.Cloud`                   | Displayed site title in the UI.                                                                                                                                                                                                                  |
+| `CUSTOM_COLOR`           |    ❌    | _(none)_                       | Primary brand color as 6-digit hex code (e.g. `46c89d`). The `#` prefix is optional.                                                                                                                                                             |
+| `CUSTOM_LOGO`            |    ❌    | _(none)_                       | Path to a custom header logo and browser tab icon. Put the file into `BRANDING_DIR` and reference it as `/branding/logo.svg`. An external URL (`https://example.com/logo.svg`) also works but is not recommended.                                |
+| `CUSTOM_OG_IMAGE`        |    ❌    | `CUSTOM_LOGO` or built-in logo | Image shown when a link to your instance is shared on messengers and social networks. Same path or URL rules as `CUSTOM_LOGO`. Use PNG or JPEG, SVG is not rendered in link previews. See [Link preview image](#link-preview-image).             |
+| `CUSTOM_OG_IMAGE_STYLE`  |    ❌    | `logo`                         | How X and Discord show the preview image. `logo` for a small square image next to the text, `banner` for a large image above it.                                                                                                                 |
+| `CUSTOM_PRIVACY`         |    ❌    | _(none)_                       | URL to your privacy policy page. Shown as a link in the footer if set.                                                                                                                                                                           |
+| `CUSTOM_LEGAL`           |    ❌    | _(none)_                       | URL to your legal notice / impressum page. Shown as a link in the footer if set.                                                                                                                                                                 |
+| `CUSTOM_LINK_URL`        |    ❌    | _(none)_                       | URL for a custom footer link. Must be used together with `CUSTOM_LINK_NAME`.                                                                                                                                                                     |
+| `CUSTOM_LINK_NAME`       |    ❌    | _(none)_                       | Display text for the custom footer link (max 50 characters).                                                                                                                                                                                     |
+| `CUSTOM_REPORT_URL`      |    ❌    | _(none)_                       | URL to a report/abuse page. When set, a "Report" link is shown in the footer.                                                                                                                                                                    |
+| `DEFAULT_THEME`          |    ❌    | `crimson`                      | Visual theme of the web app. One of `crimson`, `graphite`, `aurora`, or `midnight`. Every theme works with `CUSTOM_COLOR` and with both color schemes. Before v3 this variable held the color scheme, which now lives in `DEFAULT_COLOR_SCHEME`. |
+| `DEFAULT_COLOR_SCHEME`   |    ❌    | `system`                       | Color scheme for visitors who have not picked one. One of `dark`, `light`, or `system`. Visitors can still switch in the UI.                                                                                                                     |
+| `DEFAULT_TAB`            |    ❌    | `file`                         | Tab shown when opening the app. `file` or `note`. `text`, `password`, `code` or `sshkey` open the note tab with that block already added. Falls back to the first available tab if the configured one is not enabled via `ENABLED_SERVICES`.     |
+| `FORCE_FILE_PASSWORD`    |    ❌    | `false`                        | When `true`, all file uploads must be password-protected. The password toggle is hidden and the field is always visible. Enforced on both frontend and server.                                                                                   |
+| `FORCE_NOTE_PASSWORD`    |    ❌    | `false`                        | When `true`, all note uploads (text, password, code, SSH key) must be password-protected. Enforced on both frontend and server.                                                                                                                  |
+| `FORCE_REQUEST_PASSWORD` |    ❌    | `false`                        | When `true`, the inbox of every file request must be password-protected. The server refuses a request that does not say it has one, and cannot check the password itself, which never reaches it.                                                |
 
 ::: tip Example
+
 ```yaml
 # docker-compose.yml
 environment:
@@ -151,17 +153,18 @@ The `#` prefix is optional for `CUSTOM_COLOR`. Both `ff6b35` and `#ff6b35` are v
 
 ### Themes and accent color
 
-`DEFAULT_THEME` picks one of three looks for the whole web app. Each one has a light and a dark color scheme.
+`DEFAULT_THEME` picks one of four looks for the whole web app. Each one has a light and a dark color scheme.
 
-| Theme | Look |
-| :--- | :--- |
-| `graphite` | The default. Neutral gray surfaces lit from above and buttons with a light top edge, close to a native desktop app. |
-| `aurora` | Frosted glass cards over a soft light that is mixed from the accent color. |
+| Theme      | Look                                                                                                          |
+| :--------- | :------------------------------------------------------------------------------------------------------------ |
+| `crimson`  | The default. Burgundy surfaces, dark red actions, terminal headings and a subtle circuit grid.                |
+| `graphite` | Neutral gray surfaces lit from above and buttons with a light top edge.                                       |
+| `aurora`   | Frosted glass cards over a soft light that is mixed from the accent color.                                    |
 | `midnight` | Plain black or white surfaces, a beam of the accent from the top, and a glowing outline around the main card. |
 
 The theme is the same for every visitor. The color scheme is not: `DEFAULT_COLOR_SCHEME` only sets it for visitors who have not picked one. Anyone can switch between light, dark and system in the header, and that choice is stored in their browser.
 
-`CUSTOM_COLOR` replaces the SkySend green in every theme: buttons, the active tab, selected options, links, the share link's key and the glow behind the main card. Any color works. Text on the accent turns white or black on its own, and where the accent is used as text it is darkened or lightened until it stays readable in both color schemes.
+`CUSTOM_COLOR` replaces the Hajd.Cloud crimson in every theme: buttons, the active tab, selected options, links, the share link's key and the glow behind the main card. Any color works. Text on the accent turns white or black on its own, and where the accent is used as text it is darkened or lightened until it stays readable in both color schemes.
 
 ```yaml
 # docker-compose.yml
@@ -191,19 +194,19 @@ environment:
 The directory is created automatically on startup and is served under `/branding/`. Only image files are served (`.svg`, `.png`, `.jpg`, `.jpeg`, `.webp`, `.gif`, `.ico`, `.avif`), everything else returns 404.
 
 ::: info External URLs
-`CUSTOM_LOGO` still accepts an external URL, and that stays supported. Be aware of the trade-off: every visitor's browser loads the image from that host, so the host sees their IP address and the time of the request. It does not learn which link they opened, because SkySend sends `Referrer-Policy: no-referrer`. The Content Security Policy is widened to allow images from that one origin, and if the host is slow or unreachable, so is your logo.
+`CUSTOM_LOGO` still accepts an external URL, and that stays supported. Be aware of the trade-off: every visitor's browser loads the image from that host, so the host sees their IP address and the time of the request. It does not learn which link they opened, because Hajd.Cloud sends `Referrer-Policy: no-referrer`. The Content Security Policy is widened to allow images from that one origin, and if the host is slow or unreachable, so is your logo.
 
 Hosting the file on infrastructure you control (including your own CDN) is fine. A local file in `BRANDING_DIR` avoids the extra request entirely and is the simpler default.
 :::
 
 ### Link preview image
 
-When a link to your instance is shared on WhatsApp, Signal, Telegram, Discord, X, or similar, the preview card shows an image. SkySend picks it in this order:
+When a link to your instance is shared on WhatsApp, Signal, Telegram, Discord, X, or similar, the preview card shows an image. Hajd.Cloud picks it in this order:
 
 1. `CUSTOM_OG_IMAGE`, if set.
 2. `CUSTOM_LOGO`, if it is a PNG, JPEG, WebP, or GIF file.
-3. No image, if `CUSTOM_LOGO` is set in any other format such as SVG. SkySend logs a note on startup in that case.
-4. The built-in SkySend logo, if neither is set.
+3. No image, if `CUSTOM_LOGO` is set in any other format such as SVG. Hajd.Cloud logs a note on startup in that case.
+4. The built-in Hajd.Cloud logo, if neither is set.
 
 Link previews do not render SVG, so an instance with an SVG logo needs a separate raster image for the preview:
 
@@ -235,33 +238,33 @@ When `OIDC_ISSUER`, `OIDC_CLIENT_ID`, and `OIDC_CLIENT_SECRET` are all set, OIDC
 
 → See [OIDC Authentication](/user-guide/configuration/oidc) for provider setup guides and examples.
 
-| Variable | Required | Default | Description |
-| :--- | :---: | :--- | :--- |
-| `OIDC_PROVIDER` | ❌ | `generic` | Provider preset. One of `generic`, `pocketid`, `authentik`, `keycloak`. Controls which token claims are used for the display name. |
-| `OIDC_ISSUER` | ⚠️ | - | Issuer URL of your OIDC provider. Required to activate OIDC. All endpoints are discovered automatically from this URL. |
-| `OIDC_CLIENT_ID` | ⚠️ | - | Client ID of the application registered at your provider. |
-| `OIDC_CLIENT_SECRET` | ⚠️ | - | Client secret of the application registered at your provider. |
-| `OIDC_SESSION_SECRET` | ❌ | auto | Secret used to sign session JWT cookies. If not set, a random 48-byte secret is generated at startup - sessions will be invalidated on every server restart. Set this to a fixed value (minimum 32 characters, generate with `openssl rand -base64 48`) to persist sessions across restarts. |
-| `OIDC_PROTECT_FILES` | ❌ | `true` | Require login to upload files. Set to `false` to allow anonymous file uploads while OIDC is active. |
-| `OIDC_PROTECT_NOTES` | ❌ | `true` | Require login to create notes. Set to `false` to allow anonymous note creation while OIDC is active. |
-| `OIDC_PROTECT_REQUESTS` | ❌ | inherited | Require login to create file requests. Unset, it is `true` while `OIDC_PROTECT_FILES` or `OIDC_PROTECT_NOTES` is, so an instance that keeps either behind the login keeps requests there too. Set it to protect requests apart from files and notes. Uploading into a request and opening its inbox never need a login, the links are enough. |
-| `OIDC_REDIRECT_URI` | ❌ | `{BASE_URL}/auth/callback` | Override the OAuth2 redirect/callback URI. Only needed if SkySend is served under a sub-path or behind a proxy that changes the origin. |
-| `OIDC_SCOPES` | ❌ | `openid profile email` | Space-separated list of OIDC scopes to request. |
-| `OIDC_SESSION_DURATION` | ❌ | `86400` | Session cookie lifetime in seconds (default: 24 hours). |
+| Variable                | Required | Default                    | Description                                                                                                                                                                                                                                                                                                                                   |
+| :---------------------- | :------: | :------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `OIDC_PROVIDER`         |    ❌    | `generic`                  | Provider preset. One of `generic`, `pocketid`, `authentik`, `keycloak`. Controls which token claims are used for the display name.                                                                                                                                                                                                            |
+| `OIDC_ISSUER`           |    ⚠️    | -                          | Issuer URL of your OIDC provider. Required to activate OIDC. All endpoints are discovered automatically from this URL.                                                                                                                                                                                                                        |
+| `OIDC_CLIENT_ID`        |    ⚠️    | -                          | Client ID of the application registered at your provider.                                                                                                                                                                                                                                                                                     |
+| `OIDC_CLIENT_SECRET`    |    ⚠️    | -                          | Client secret of the application registered at your provider.                                                                                                                                                                                                                                                                                 |
+| `OIDC_SESSION_SECRET`   |    ❌    | auto                       | Secret used to sign session JWT cookies. If not set, a random 48-byte secret is generated at startup - sessions will be invalidated on every server restart. Set this to a fixed value (minimum 32 characters, generate with `openssl rand -base64 48`) to persist sessions across restarts.                                                  |
+| `OIDC_PROTECT_FILES`    |    ❌    | `true`                     | Require login to upload files. Set to `false` to allow anonymous file uploads while OIDC is active.                                                                                                                                                                                                                                           |
+| `OIDC_PROTECT_NOTES`    |    ❌    | `true`                     | Require login to create notes. Set to `false` to allow anonymous note creation while OIDC is active.                                                                                                                                                                                                                                          |
+| `OIDC_PROTECT_REQUESTS` |    ❌    | inherited                  | Require login to create file requests. Unset, it is `true` while `OIDC_PROTECT_FILES` or `OIDC_PROTECT_NOTES` is, so an instance that keeps either behind the login keeps requests there too. Set it to protect requests apart from files and notes. Uploading into a request and opening its inbox never need a login, the links are enough. |
+| `OIDC_REDIRECT_URI`     |    ❌    | `{BASE_URL}/auth/callback` | Override the OAuth2 redirect/callback URI. Only needed if Hajd.Cloud is served under a sub-path or behind a proxy that changes the origin.                                                                                                                                                                                                    |
+| `OIDC_SCOPES`           |    ❌    | `openid profile email`     | Space-separated list of OIDC scopes to request.                                                                                                                                                                                                                                                                                               |
+| `OIDC_SESSION_DURATION` |    ❌    | `86400`                    | Session cookie lifetime in seconds (default: 24 hours).                                                                                                                                                                                                                                                                                       |
 
-> ⚠️ The three variables marked ⚠️ (`OIDC_ISSUER`, `OIDC_CLIENT_ID`, `OIDC_CLIENT_SECRET`) must all be set together. Setting any one of them without the others will cause SkySend to refuse to start.
+> ⚠️ The three variables marked ⚠️ (`OIDC_ISSUER`, `OIDC_CLIENT_ID`, `OIDC_CLIENT_SECRET`) must all be set together. Setting any one of them without the others will cause Hajd.Cloud to refuse to start.
 
 ## Docker
 
-| Variable | Required | Default | Description |
-| :--- | :---: | :--- | :--- |
-| `PUID` | ❌ | `1001` | User ID the container runs as. |
-| `PGID` | ❌ | `1001` | Group ID the container runs as. |
-| `SKIP_CHOWN` | ❌ | `false` | Skip `chown` of `/data` and `/uploads` on startup. Required for NFS mounts or read-only filesystems where `chown` is not permitted. You must ensure correct permissions yourself. |
+| Variable     | Required | Default | Description                                                                                                                                                                       |
+| :----------- | :------: | :------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `PUID`       |    ❌    | `1001`  | User ID the container runs as.                                                                                                                                                    |
+| `PGID`       |    ❌    | `1001`  | Group ID the container runs as.                                                                                                                                                   |
+| `SKIP_CHOWN` |    ❌    | `false` | Skip `chown` of `/data` and `/uploads` on startup. Required for NFS mounts or read-only filesystems where `chown` is not permitted. You must ensure correct permissions yourself. |
 
 ## Validation
 
-SkySend validates all environment variables on startup using Zod:
+Hajd.Cloud validates all environment variables on startup using Zod:
 
 - `FILE_DEFAULT_EXPIRE_SEC` must be one of the values in `FILE_EXPIRE_OPTIONS_SEC`
 - `FILE_DEFAULT_DOWNLOAD` must be one of the values in `FILE_DOWNLOAD_OPTIONS`

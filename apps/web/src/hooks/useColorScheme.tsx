@@ -12,9 +12,7 @@ const ColorSchemeContext = createContext<ColorSchemeContextValue | undefined>(un
 const STORAGE_KEY = "skysend-color-scheme";
 
 function getSystemScheme(): "dark" | "light" {
-  return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
 function isColorScheme(value: string | null | undefined): value is ColorScheme {
@@ -43,7 +41,16 @@ function applyScheme(colorScheme: ColorScheme) {
   document.documentElement.classList.toggle("dark", resolved === "dark");
   document
     .querySelector('meta[name="theme-color"]')
-    ?.setAttribute("content", resolved === "dark" ? "#09090b" : "#ffffff");
+    ?.setAttribute(
+      "content",
+      document.documentElement.dataset.theme === "crimson"
+        ? resolved === "dark"
+          ? "#0d080a"
+          : "#faf5f5"
+        : resolved === "dark"
+          ? "#09090b"
+          : "#ffffff",
+    );
 }
 
 export function ColorSchemeProvider({ children }: { children: ReactNode }) {

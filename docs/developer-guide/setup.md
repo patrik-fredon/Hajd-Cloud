@@ -1,10 +1,10 @@
 # Project Setup
 
-Set up a local development environment for SkySend.
+Set up a local development environment for Hajd.Cloud.
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/) 24 LTS, the version in `.node-version` that CI and the Docker image use. A version manager like [fnm](https://github.com/Schniz/fnm) switches to it on its own.
+- [Node.js](https://nodejs.org/) 24 LTS, the version in `.node-version` that CI and the Docker image use. A version manager like fnm switches to it on its own.
 - [pnpm](https://pnpm.io/) 10
 - [Git](https://git-scm.com/)
 - Linux, macOS or Windows on x64 or arm64, the platforms the SQLite driver of the server ships prebuilt binaries for
@@ -12,8 +12,7 @@ Set up a local development environment for SkySend.
 ## Clone and Install
 
 ```bash
-git clone https://github.com/Skyfay/SkySend.git
-cd SkySend
+cd Hajd.Cloud
 git checkout dev
 ```
 
@@ -42,6 +41,7 @@ pnpm dev
 ```
 
 This runs all workspaces in parallel:
+
 - **Server** (`apps/server`) - Hono dev server with hot reload
 - **Web** (`apps/web`) - Vite dev server with HMR
 - **Docs** (`docs`) - VitePress dev server
@@ -79,6 +79,7 @@ pnpm test
 ```
 
 Tests are written with Vitest. Each package has its own test directory:
+
 - `packages/crypto/tests/` - Crypto library tests
 - `apps/server/tests/` - Server tests
 - `apps/client/` - CLI client (use `pnpm --filter @skysend/client run` for manual testing)
@@ -104,7 +105,7 @@ pnpm typecheck
 
 ## Monorepo Structure
 
-SkySend uses pnpm Workspaces:
+Hajd.Cloud uses pnpm Workspaces:
 
 ```yaml
 # pnpm-workspace.yaml
@@ -118,17 +119,17 @@ All packages share a root `tsconfig.json` and ESLint configuration. Each package
 
 ## Key Scripts
 
-| Command | Description |
-| --- | --- |
-| `pnpm dev` | Start all packages in dev mode |
-| `pnpm build` | Build all packages |
-| `pnpm test` | Run all tests |
-| `pnpm lint` | Run ESLint |
-| `pnpm lint:fix` | Run ESLint with auto-fix |
-| `pnpm format` | Format with Prettier |
-| `pnpm format:check` | Check formatting |
-| `pnpm typecheck` | TypeScript type checking |
-| `pnpm --filter @skysend/client run -- <args>` | Run CLI client in dev mode |
+| Command                                       | Description                    |
+| --------------------------------------------- | ------------------------------ |
+| `pnpm dev`                                    | Start all packages in dev mode |
+| `pnpm build`                                  | Build all packages             |
+| `pnpm test`                                   | Run all tests                  |
+| `pnpm lint`                                   | Run ESLint                     |
+| `pnpm lint:fix`                               | Run ESLint with auto-fix       |
+| `pnpm format`                                 | Format with Prettier           |
+| `pnpm format:check`                           | Check formatting               |
+| `pnpm typecheck`                              | TypeScript type checking       |
+| `pnpm --filter @skysend/client run -- <args>` | Run CLI client in dev mode     |
 
 ## Code Conventions
 

@@ -1,6 +1,6 @@
 # Admin CLI
 
-SkySend includes a command-line administration tool for managing uploads and inspecting the server.
+Hajd.Cloud includes a command-line administration tool for managing uploads and inspecting the server.
 
 ::: tip Looking for the CLI Client?
 The **Admin CLI** (`skysend-cli`) is for server administrators to manage uploads and inspect the database. If you want to **upload and download files** from the terminal, see the [CLI Client](/user-guide/client-cli/) (`skysend`).
@@ -12,7 +12,7 @@ The CLI operates directly on the SQLite database and filesystem - no running ser
 
 ## Installation
 
-The CLI is part of the SkySend monorepo. After building the project:
+The CLI is part of the Hajd.Cloud monorepo. After building the project:
 
 ```bash
 # From the project root
@@ -30,12 +30,12 @@ skysend-cli <command>
 
 ## Available Commands
 
-| Command | Description |
-| --- | --- |
-| `list` | Show active uploads, notes and file requests |
+| Command       | Description                                      |
+| ------------- | ------------------------------------------------ |
+| `list`        | Show active uploads, notes and file requests     |
 | `delete <id>` | Delete an upload, a note or a file request by ID |
-| `stats` | Show storage overview |
-| `cleanup` | Remove expired uploads, notes and file requests |
-| `config` | Show server configuration |
+| `stats`       | Show storage overview                            |
+| `cleanup`     | Remove expired uploads, notes and file requests  |
+| `config`      | Show server configuration                        |
 
 See [Commands](/user-guide/admin-cli/commands) for detailed usage of each command.

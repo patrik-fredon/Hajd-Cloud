@@ -24,19 +24,19 @@ Create a new encrypted note.
 }
 ```
 
-| Field | Type | Description |
-| --- | --- | --- |
-| `encryptedContent` | base64 | AES-256-GCM ciphertext of the note content |
-| `nonce` | base64 | 12-byte IV for AES-GCM |
-| `salt` | base64url | 32-byte HKDF salt. 16 bytes are still accepted from older clients. |
-| `ownerToken` | base64url | Ownership token (HKDF-derived) |
-| `authToken` | base64url | Authentication token (HMAC-derived) |
-| `contentType` | string | `"blocks"`. The types from before v3 are still accepted, see below. |
-| `maxViews` | integer | Maximum number of views (must be a valid option) |
-| `expireSec` | integer | Expiry time in seconds (must be a valid option) |
-| `hasPassword` | boolean | Whether the note is password-protected |
-| `passwordSalt` | base64url | Password KDF salt (required if `hasPassword`) |
-| `passwordAlgo` | string | `"argon2id-v2"` (required if `hasPassword`) |
+| Field              | Type      | Description                                                         |
+| ------------------ | --------- | ------------------------------------------------------------------- |
+| `encryptedContent` | base64    | AES-256-GCM ciphertext of the note content                          |
+| `nonce`            | base64    | 12-byte IV for AES-GCM                                              |
+| `salt`             | base64url | 32-byte HKDF salt. 16 bytes are still accepted from older clients.  |
+| `ownerToken`       | base64url | Ownership token (HKDF-derived)                                      |
+| `authToken`        | base64url | Authentication token (HMAC-derived)                                 |
+| `contentType`      | string    | `"blocks"`. The types from before v3 are still accepted, see below. |
+| `maxViews`         | integer   | Maximum number of views (must be a valid option)                    |
+| `expireSec`        | integer   | Expiry time in seconds (must be a valid option)                     |
+| `hasPassword`      | boolean   | Whether the note is password-protected                              |
+| `passwordSalt`     | base64url | Password KDF salt (required if `hasPassword`)                       |
+| `passwordAlgo`     | string    | `"argon2id-v2"` (required if `hasPassword`)                         |
 
 ### Validation
 
@@ -251,8 +251,8 @@ Delete a note. Requires the owner token.
 
 **Headers:**
 
-| Header | Type | Description |
-| --- | --- | --- |
+| Header          | Type      | Description     |
+| --------------- | --------- | --------------- |
 | `X-Owner-Token` | base64url | Ownership token |
 
 ### Response

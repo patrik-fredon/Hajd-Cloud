@@ -1,6 +1,6 @@
 # Architecture
 
-SkySend follows a simple client-server architecture with end-to-end encryption.
+Hajd.Cloud follows a simple client-server architecture with end-to-end encryption.
 
 ## High-Level Architecture
 
@@ -28,7 +28,7 @@ When using S3 storage, downloads bypass the server via presigned URLs - the clie
 
 ## Upload Flow
 
-SkySend supports two upload transports. The WebSocket transport is the primary path (lower overhead, single persistent connection). If the WebSocket handshake fails (proxy blocks upgrade, server has `FILE_UPLOAD_WS=false`, timeout), the client falls back to HTTP chunked uploads automatically. Both transports carry identical ciphertext - encryption happens before the transport decision.
+Hajd.Cloud supports two upload transports. The WebSocket transport is the primary path (lower overhead, single persistent connection). If the WebSocket handshake fails (proxy blocks upgrade, server has `FILE_UPLOAD_WS=false`, timeout), the client falls back to HTTP chunked uploads automatically. Both transports carry identical ciphertext - encryption happens before the transport decision.
 
 ### WebSocket Transport (Primary)
 
@@ -123,13 +123,13 @@ Client                                          Server
 
 ### Download Strategy Selection
 
-SkySend uses a tiered approach to handle large file downloads without exhausting RAM. See [Download Modes](./download-modes.md) for full details.
+Hajd.Cloud uses a tiered approach to handle large file downloads without exhausting RAM. See [Download Modes](./download-modes.md) for full details.
 
-| Tier | Browsers | Method | RAM Usage |
-| --- | --- | --- | --- |
-| 1 | All modern browsers except Safari | Service Worker streaming decryption | Low (buffer only) |
-| 2 | Chrome, Edge (fallback) | `showSaveFilePicker` API | Zero |
-| 3 | Safari default / legacy fallback | Blob in memory | Full file size |
+| Tier | Browsers                          | Method                              | RAM Usage         |
+| ---- | --------------------------------- | ----------------------------------- | ----------------- |
+| 1    | All modern browsers except Safari | Service Worker streaming decryption | Low (buffer only) |
+| 2    | Chrome, Edge (fallback)           | `showSaveFilePicker` API            | Zero              |
+| 3    | Safari default / legacy fallback  | Blob in memory                      | Full file size    |
 
 ## Note Flow
 
@@ -177,13 +177,13 @@ Client                                          Server
 
 ### Blocks
 
-| Block | Viewer |
-| --- | --- |
-| Text (plain) | Whitespace-preserving display |
+| Block           | Viewer                                              |
+| --------------- | --------------------------------------------------- |
+| Text (plain)    | Whitespace-preserving display                       |
 | Text (Markdown) | Rendered GFM via react-markdown and rehype-sanitize |
-| Password | Per-password masked display with reveal and copy |
-| Code | Syntax highlighting with line numbers, foldable |
-| SSH key | Public key, private key and passphrase sections |
+| Password        | Per-password masked display with reveal and copy    |
+| Code            | Syntax highlighting with line numbers, foldable     |
+| SSH key         | Public key, private key and passphrase sections     |
 
 Notes created before v3 have a single content type instead of blocks (`text`, `markdown`, `password`, `code` or `sshkey`). They are read into blocks and shown by the same viewer.
 

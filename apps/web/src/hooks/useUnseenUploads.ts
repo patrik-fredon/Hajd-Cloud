@@ -62,7 +62,7 @@ function startRound(): void {
 
 /**
  * The number of uploads that arrived in requests of this browser since their inbox was
- * last open, checked every few minutes while a SkySend page is visible. Nothing is sent
+ * last open, checked every few minutes while a Hajd.Cloud page is visible. Nothing is sent
  * but the inbox tokens opening the list of requests sends anyway. The layout turns it off
  * on the pages of share links, so a check never ties the requests to a download or to an
  * upload into someone else's request.

@@ -56,7 +56,7 @@ interface TemplateListProps {
 
 /**
  * The Templates tab of the settings: the templates kept in this browser, the ones that come with
- * SkySend, and export and import to move them to another browser.
+ * Hajd.Cloud, and export and import to move them to another browser.
  */
 export function TemplateList({ linkImport, onLinkImportDone }: TemplateListProps) {
   const { t, i18n } = useTranslation();

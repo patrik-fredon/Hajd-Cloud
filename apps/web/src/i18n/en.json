@@ -1,6 +1,6 @@
 {
   "common": {
-    "appName": "SkySend",
+    "appName": "Hajd.Cloud",
     "tabSubtitle": "Encrypted File & Note Sharing",
     "tagline": "End-to-end encrypted file and note sharing",
     "loading": "Loading...",
@@ -63,7 +63,8 @@
     "moveUp": "Move up",
     "moveDown": "Move down",
     "removeBlock": "Remove block",
-    "blockTitle": "Title (optional)"
+    "blockTitle": "Title (optional)",
+    "advanced": "Advanced"
   },
   "upload": {
     "title": "Upload Files",
@@ -181,7 +182,7 @@
     "blockCount_one": "Note with {{count}} block",
     "blockCount_other": "Note with {{count}} blocks",
     "copyAll": "Copy all",
-    "unsupported": "This part of the note needs a newer version of SkySend.",
+    "unsupported": "This part of the note needs a newer version of Hajd.Cloud.",
     "unreadable": "This note could not be read as usual, so it is shown exactly as it arrived.",
     "showCode": "Show code",
     "hideCode": "Hide code"
@@ -298,7 +299,8 @@
     "failed": "Failed"
   },
   "language": {
-    "search": "Search language..."
+    "search": "Search language...",
+    "auto": "Auto"
   },
   "errors": {
     "insecureContext": "HTTPS required",
@@ -384,7 +386,7 @@
   "how": {
     "eyebrow": "Zero knowledge by design",
     "title": "Your secrets stay <a>yours</a>",
-    "lead": "SkySend encrypts everything in your browser before it leaves your device. The key travels in the link and never reaches the server. This page shows how.",
+    "lead": "Hajd.Cloud encrypts everything in your browser before it leaves your device. The key travels in the link and never reaches the server. This page shows how.",
     "flowSender": "You",
     "flowSenderText": "Encrypt in the browser",
     "flowServer": "Server",
@@ -394,7 +396,7 @@
     "flowKeyShort": "Key in the link",
     "flowKey": "The key sits after the # in the link. Browsers never send that part, so the server only ever sees encrypted data.",
     "demoTitle": "Try it yourself",
-    "demoText": "Type something. It is encrypted right here with the same code SkySend uses for notes. Nothing is sent anywhere.",
+    "demoText": "Type something. It is encrypted right here with the same code Hajd.Cloud uses for notes. Nothing is sent anywhere.",
     "demoInput": "Your text",
     "demoSample": "The door code is 4711. See you at eight.",
     "demoLocal": "Runs only in this tab",
@@ -404,12 +406,12 @@
     "demoToken": "Token the server would check",
     "demoBytes_one": "{{count}} byte of ciphertext",
     "demoBytes_other": "{{count}} bytes of ciphertext",
-    "demoUnavailable": "This browser does not allow Web Crypto on this page, so the demo cannot run. Open SkySend over HTTPS to try it.",
+    "demoUnavailable": "This browser does not allow Web Crypto on this page, so the demo cannot run. Open Hajd.Cloud over HTTPS to try it.",
     "badgeLinkOnly": "Stays in the link",
     "badgeSent": "Sent to the server",
     "stepsTitle": "Four steps, one promise",
     "step1Title": "A key is made in your browser",
-    "step1Text": "A random 256-bit secret is created on your device. Every key SkySend needs is derived from it.",
+    "step1Text": "A random 256-bit secret is created on your device. Every key Hajd.Cloud needs is derived from it.",
     "step2Title": "Everything is encrypted first",
     "step2Text": "Files, file names and notes are encrypted before the first byte leaves your device.",
     "step3Title": "The key travels in the link",
@@ -438,7 +440,7 @@
     "featureStreamTitle": "Large files, streamed",
     "featureStreamText": "Files are encrypted in 64 KB records as they stream to the server.",
     "featurePrivacyTitle": "No accounts, no analytics",
-    "featurePrivacyText": "SkySend has no user accounts and no tracking. Your upload history lives only in your browser.",
+    "featurePrivacyText": "Hajd.Cloud has no user accounts and no tracking. Your upload history lives only in your browser.",
     "featureOpenTitle": "Open source and self-hosted",
     "featureOpenText": "Anyone can read the code, check these claims and run their own instance.",
     "specsTitle": "Under the hood",
@@ -775,7 +777,7 @@
     "imported_other": "{{count}} templates imported.",
     "importFailed": "The templates could not be imported.",
     "importError": {
-      "invalid": "This holds no SkySend templates.",
+      "invalid": "This holds no Hajd.Cloud templates.",
       "tooLarge": "This export is too large.",
       "password": "Wrong password."
     },

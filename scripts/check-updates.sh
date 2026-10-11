@@ -27,7 +27,7 @@ fi
 OUTDATED=()
 
 echo ""
-printf "${BOLD}Checking SkySend dependencies...${NC}\n\n"
+printf "${BOLD}Checking Hajd.Cloud dependencies...${NC}\n\n"
 
 for dir in "${PROJECTS[@]}"; do
   name="${dir#"$ROOT"/}"

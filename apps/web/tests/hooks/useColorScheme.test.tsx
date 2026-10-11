@@ -37,6 +37,7 @@ beforeEach(() => {
   }));
   document.documentElement.className = "";
   delete document.documentElement.dataset.defaultColorScheme;
+  delete document.documentElement.dataset.theme;
   document.head.innerHTML = '<meta name="theme-color" content="">';
 });
 
@@ -46,10 +47,13 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-const wrapper = ({ children }: { children: ReactNode }) => <ColorSchemeProvider>{children}</ColorSchemeProvider>;
+const wrapper = ({ children }: { children: ReactNode }) => (
+  <ColorSchemeProvider>{children}</ColorSchemeProvider>
+);
 const render = () => renderHook(() => useColorScheme(), { wrapper });
 const isDark = () => document.documentElement.classList.contains("dark");
-const themeColor = () => document.querySelector('meta[name="theme-color"]')?.getAttribute("content");
+const themeColor = () =>
+  document.querySelector('meta[name="theme-color"]')?.getAttribute("content");
 const osChanges = (dark: boolean) =>
   act(() => {
     osDark = dark;
@@ -57,6 +61,19 @@ const osChanges = (dark: boolean) =>
   });
 
 describe("useColorScheme", () => {
+  it("updates Crimson browser chrome for explicit and changing system schemes", () => {
+    document.documentElement.dataset.theme = "crimson";
+    const { result } = render();
+    expect(themeColor()).toBe("#faf5f5");
+    osChanges(true);
+    expect(themeColor()).toBe("#0d080a");
+    act(() => result.current.setColorScheme("light"));
+    expect(themeColor()).toBe("#faf5f5");
+    osChanges(false);
+    osChanges(true);
+    expect(themeColor()).toBe("#faf5f5");
+  });
+
   it("starts with the scheme the visitor picked before", () => {
     store.set(KEY, "dark");
     const { result } = render();

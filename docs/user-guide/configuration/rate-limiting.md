@@ -1,6 +1,6 @@
 # Rate Limiting & Quotas
 
-SkySend includes built-in rate limiting and upload quotas to protect against abuse. All variables are documented in the [Environment Variables](/user-guide/configuration/environment-variables) reference.
+Hajd.Cloud includes built-in rate limiting and upload quotas to protect against abuse. All variables are documented in the [Environment Variables](/user-guide/configuration/environment-variables) reference.
 
 Every limit on this page counts per client address. An IPv6 client counts per /64 network, since a household, a phone or a server usually holds a whole /64 and could otherwise take a new address for every request. An IPv4 address that arrives mapped into IPv6 counts as that IPv4 address.
 
@@ -52,7 +52,7 @@ When the limit is used up, creating a request returns `429 Too Many Requests`, a
 
 ## Password Attempt Lockout
 
-SkySend tracks failed password attempts per upload/note and per client IP. For an upload, the password check and a download with a wrong token count together, so a guesser cannot switch between them. After too many failures, that specific IP is locked out from that specific resource for a configurable duration. Controlled via `PASSWORD_MAX_ATTEMPTS` and `PASSWORD_LOCKOUT_MS`.
+Hajd.Cloud tracks failed password attempts per upload/note and per client IP. For an upload, the password check and a download with a wrong token count together, so a guesser cannot switch between them. After too many failures, that specific IP is locked out from that specific resource for a configurable duration. Controlled via `PASSWORD_MAX_ATTEMPTS` and `PASSWORD_LOCKOUT_MS`.
 
 This is intentionally per-resource, not per-IP globally: a user mis-typing a password cannot block others from accessing unrelated uploads, and a shared IP (corporate NAT, VPN) cannot trigger a lockout for a resource they have not tried.
 
@@ -64,7 +64,7 @@ Client IP addresses are HMAC-SHA256 hashed with an ephemeral in-memory key befor
 
 ## IP Detection
 
-SkySend determines the client IP using:
+Hajd.Cloud determines the client IP using:
 
 1. `X-Forwarded-For` header (if `TRUST_PROXY=true`)
 2. `X-Real-IP` header (if `TRUST_PROXY=true`)

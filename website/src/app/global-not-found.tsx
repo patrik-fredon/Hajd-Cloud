@@ -12,9 +12,9 @@ const t = createTranslator("en");
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: `404 | SkySend`,
+  title: `404 | Hajd.Cloud`,
   description: t("notFound.text"),
-  icons: { icon: "/logo.svg", apple: "/apple-touch-icon.png" },
+  icons: { icon: "/hajd-cloud-logo-crimson.webp", apple: "/apple-touch-icon.png" },
 };
 
 export default function GlobalNotFound() {

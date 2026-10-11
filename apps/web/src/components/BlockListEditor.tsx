@@ -40,15 +40,24 @@ interface BlockListEditorProps {
   disabled: boolean;
   /** Shown at the end of the row of buttons that add a block, like the size of the note. */
   addon?: ReactNode;
+  /** Compose mode can hide its optional management controls on the entry page. */
+  advanced?: boolean;
 }
 
 /**
  * The blocks of a note, each in its own editor. Writing a note and laying out a template can
  * add, move and remove blocks. Filling in a template cannot, its structure is the requester's.
  */
-export function BlockListEditor({ drafts, onChange, mode, disabled, addon }: BlockListEditorProps) {
+export function BlockListEditor({
+  drafts,
+  onChange,
+  mode,
+  disabled,
+  addon,
+  advanced = true,
+}: BlockListEditorProps) {
   const { t } = useTranslation();
-  const structured = mode !== "fill";
+  const structured = mode !== "fill" && advanced;
 
   const replace = (id: number, block: NoteBlock) =>
     onChange((current) => current.map((draft) => (draft.id === id ? { ...block, id } : draft)));
@@ -82,7 +91,14 @@ export function BlockListEditor({ drafts, onChange, mode, disabled, addon }: Blo
         };
         switch (draft.type) {
           case "text":
-            return <TextBlockEditor key={draft.id} block={draft} {...props} />;
+            return (
+              <TextBlockEditor
+                key={draft.id}
+                block={draft}
+                {...props}
+                simple={mode === "compose" && !advanced}
+              />
+            );
           case "password":
             return <PasswordBlockEditor key={draft.id} block={draft} {...props} />;
           case "code":

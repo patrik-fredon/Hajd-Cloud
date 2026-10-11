@@ -46,9 +46,7 @@ function nonceXorCounter(baseNonce, counter) {
 }
 
 async function deriveFileKey(secret, salt) {
-  const baseKey = await crypto.subtle.importKey(
-    "raw", secret, "HKDF", false, ["deriveKey"]
-  );
+  const baseKey = await crypto.subtle.importKey("raw", secret, "HKDF", false, ["deriveKey"]);
   return crypto.subtle.deriveKey(
     {
       name: "HKDF",
@@ -122,7 +120,9 @@ self.addEventListener("fetch", (event) => {
   // but the body stream may still be consumed. waitUntil() keeps the SW alive
   // until the stream is fully read - critical for Safari which terminates SWs aggressively.
   let streamDone;
-  const donePromise = new Promise((resolve) => { streamDone = resolve; });
+  const donePromise = new Promise((resolve) => {
+    streamDone = resolve;
+  });
 
   event.respondWith(handleDownload(config, id, streamDone));
   event.waitUntil(donePromise);
@@ -139,7 +139,8 @@ self.addEventListener("fetch", (event) => {
  * - Report progress and completion back to main thread
  */
 async function handleDownload(config, downloadId, streamDone) {
-  const { url, authToken, tokenHeader, secret, salt, filename, mimeType, size, plaintextSize } = config;
+  const { url, authToken, tokenHeader, secret, salt, filename, mimeType, size, plaintextSize } =
+    config;
   const cleanup = () => {
     pendingCancels.delete(downloadId);
     streamDone();
@@ -147,7 +148,7 @@ async function handleDownload(config, downloadId, streamDone) {
 
   const fileKey = await deriveFileKey(secret, salt);
 
-  // Step 1: Fetch from SkySend API (handles auth + download counting)
+  // Step 1: Fetch from Hajd.Cloud API (handles auth + download counting)
   const apiResponse = await fetch(url, {
     headers: { [tokenHeader]: authToken },
   });
@@ -157,7 +158,10 @@ async function handleDownload(config, downloadId, streamDone) {
     cleanup();
     // Use Content-Disposition: attachment so the browser treats this as a failed download
     // rather than navigating the main page away (critical for the <a>-navigation SW approach).
-    return new Response(null, { status: 200, headers: { "Content-Disposition": "attachment", "Content-Length": "0" } });
+    return new Response(null, {
+      status: 200,
+      headers: { "Content-Disposition": "attachment", "Content-Length": "0" },
+    });
   }
 
   // Step 2: Check if the response is a presigned URL (S3 backend) or a direct stream
@@ -176,16 +180,26 @@ async function handleDownload(config, downloadId, streamDone) {
     } catch (fetchErr) {
       // CORS or network error reaching the S3/R2 bucket.
       // This typically means CORS is not configured on the bucket - the bucket must allow
-      // GET requests from the SkySend origin.
+      // GET requests from the Hajd.Cloud origin.
       console.warn(`[SW-dl:${downloadId}] S3 fetch failed (CORS or network):`, fetchErr.message);
-      bc.postMessage({ type: "dl-error", downloadId, error: "S3 unreachable - make sure CORS is configured on your S3/R2 bucket" });
+      bc.postMessage({
+        type: "dl-error",
+        downloadId,
+        error: "S3 unreachable - make sure CORS is configured on your S3/R2 bucket",
+      });
       cleanup();
-      return new Response(null, { status: 200, headers: { "Content-Disposition": "attachment", "Content-Length": "0" } });
+      return new Response(null, {
+        status: 200,
+        headers: { "Content-Disposition": "attachment", "Content-Length": "0" },
+      });
     }
     if (!response.ok) {
       bc.postMessage({ type: "dl-error", downloadId, error: `S3 HTTP ${response.status}` });
       cleanup();
-      return new Response(null, { status: 200, headers: { "Content-Disposition": "attachment", "Content-Length": "0" } });
+      return new Response(null, {
+        status: 200,
+        headers: { "Content-Disposition": "attachment", "Content-Length": "0" },
+      });
     }
   } else {
     // Filesystem backend: use the stream directly
@@ -197,7 +211,9 @@ async function handleDownload(config, downloadId, streamDone) {
   // encodeURIComponent would throw on falls back to a plain one here, after the
   // download was already counted, instead of failing the whole tier.
   const headers = new Headers({
-    "Content-Type": /^[\w.+-]+\/[\w.+-]+$/.test(mimeType || "") ? mimeType : "application/octet-stream",
+    "Content-Type": /^[\w.+-]+\/[\w.+-]+$/.test(mimeType || "")
+      ? mimeType
+      : "application/octet-stream",
     // The type is the uploader's word, so the browser must not guess a more dangerous one.
     "X-Content-Type-Options": "nosniff",
   });
@@ -234,7 +250,9 @@ async function handleDownload(config, downloadId, streamDone) {
   bc.postMessage({ type: "dl-tier", downloadId, swPath: "stream" });
 
   const reader = response.body.getReader();
-  console.debug(`[SW-dl:${downloadId}] stream start: totalSize=${totalSize}B decryptedSize=${decryptedSize}B`);
+  console.debug(
+    `[SW-dl:${downloadId}] stream start: totalSize=${totalSize}B decryptedSize=${decryptedSize}B`,
+  );
 
   let baseNonce = null;
   let counter = 0;
@@ -296,9 +314,9 @@ async function handleDownload(config, downloadId, streamDone) {
   // Chunk queue: incoming network chunks are held by reference with zero copy.
   // readFromBuf allocates only the bytes needed for the current operation
   // (one record at a time), cutting GC pressure to roughly the plaintext size.
-  let chunks = [];    // queue of Uint8Array chunks from reader.read()
+  let chunks = []; // queue of Uint8Array chunks from reader.read()
   let chunkOffset = 0; // read position within chunks[0]
-  let bufTotal = 0;    // sum of all chunk lengths (O(1) bufLen)
+  let bufTotal = 0; // sum of all chunk lengths (O(1) bufLen)
 
   function bufLen() {
     return bufTotal - chunkOffset;
@@ -350,7 +368,9 @@ async function handleDownload(config, downloadId, streamDone) {
       // Log reads that take unusually long - indicates network jitter or
       // connection stalls independent of the double-readMore drift pattern.
       if (readMs > 1000) {
-        console.debug(`[SW-dl:${downloadId}] slow-read +${value.byteLength}B readMs=${readMs} loaded=${loaded}B`);
+        console.debug(
+          `[SW-dl:${downloadId}] slow-read +${value.byteLength}B readMs=${readMs} loaded=${loaded}B`,
+        );
       }
 
       // Report progress (throttled)
@@ -363,145 +383,159 @@ async function handleDownload(config, downloadId, streamDone) {
     }
   }
 
-  const decryptStream = new ReadableStream({
-    async pull(controller) {
-      if (cancelled) { cancelStream(controller); return; }
-      // Ensure the buffer has enough data for one full encrypted record before
-      // attempting to decrypt. The while-loop is required: without it pull()
-      // would return without enqueuing, causing the stream to call pull() again
-      // immediately in a tight CPU-spinning loop until network data arrives.
-      // The loop must run until bufLen > ENCRYPTED_RECORD_SIZE so that the
-      // record-processing branch below can always enqueue without returning empty.
-      let readMoreCalls = 0;
-      while (!readerDone && bufLen() <= ENCRYPTED_RECORD_SIZE) {
-        await readMore();
-        readMoreCalls++;
-        if (cancelled) { cancelStream(controller); return; }
-      }
-      // Double-readMore: ECE records (65552 B) and network chunks (65536 B) differ
-      // by 16 B, so the ciphertext buffer drifts down by 16 B per record. Every
-      // ~4096 records the buffer falls below ENCRYPTED_RECORD_SIZE after one read,
-      // requiring a second sequential read before decryption can proceed.
-      if (readMoreCalls > 1) {
-        console.debug(`[SW-dl:${downloadId}] double-readMore: record=${counter} calls=${readMoreCalls} bufLen=${bufLen()}B loaded=${loaded}B`);
-      }
-
-      // Extract nonce header on first call
-      if (baseNonce === null) {
-        if (bufLen() < NONCE_LENGTH) {
-          failStream(controller, "Encrypted stream is empty - missing nonce header");
+  const decryptStream = new ReadableStream(
+    {
+      async pull(controller) {
+        if (cancelled) {
+          cancelStream(controller);
           return;
         }
-        baseNonce = readFromBuf(NONCE_LENGTH);
-
-        // Read more if needed for first record
+        // Ensure the buffer has enough data for one full encrypted record before
+        // attempting to decrypt. The while-loop is required: without it pull()
+        // would return without enqueuing, causing the stream to call pull() again
+        // immediately in a tight CPU-spinning loop until network data arrives.
+        // The loop must run until bufLen > ENCRYPTED_RECORD_SIZE so that the
+        // record-processing branch below can always enqueue without returning empty.
+        let readMoreCalls = 0;
         while (!readerDone && bufLen() <= ENCRYPTED_RECORD_SIZE) {
           await readMore();
-          if (cancelled) { cancelStream(controller); return; }
+          readMoreCalls++;
+          if (cancelled) {
+            cancelStream(controller);
+            return;
+          }
         }
-      }
-
-      // Process exactly ONE complete record per pull() call, then return.
-      //
-      // Previously this was a while-loop that processed ALL buffered records in
-      // a single pull() call. That violated the pull-based contract of
-      // highWaterMark: 0 (= one chunk per pull). Firefox v128+ enforces this
-      // more strictly: if pull() enqueues multiple chunks at once, the
-      // ReadableStream controller loses its backpressure state and stops
-      // calling pull() mid-download, stalling the transfer at a random
-      // percentage. The stall point varies with network chunk size (larger
-      // chunks = more records buffered = higher chance of triggering the bug),
-      // which is why it only manifests on native hardware with fast connections
-      // and not in VMs or on older Firefox ESR.
-      if (bufLen() > ENCRYPTED_RECORD_SIZE) {
-        const record = readFromBuf(ENCRYPTED_RECORD_SIZE, scratchRecord);
-        const nonce = nonceXorCounter(baseNonce, counter++);
-        let plain;
-        try {
-          plain = await crypto.subtle.decrypt(
-            { name: "AES-GCM", iv: nonce, tagLength: TAG_LENGTH * 8 },
-            fileKey,
-            record,
+        // Double-readMore: ECE records (65552 B) and network chunks (65536 B) differ
+        // by 16 B, so the ciphertext buffer drifts down by 16 B per record. Every
+        // ~4096 records the buffer falls below ENCRYPTED_RECORD_SIZE after one read,
+        // requiring a second sequential read before decryption can proceed.
+        if (readMoreCalls > 1) {
+          console.debug(
+            `[SW-dl:${downloadId}] double-readMore: record=${counter} calls=${readMoreCalls} bufLen=${bufLen()}B loaded=${loaded}B`,
           );
-        } catch (e) {
-          console.error(`[SW-dl:${downloadId}] decrypt error on record #${counter - 1}:`, e);
-          bc.postMessage({ type: "dl-error", downloadId, error: "decrypt-failed" });
-          controller.error(e);
-          cleanup();
+        }
+
+        // Extract nonce header on first call
+        if (baseNonce === null) {
+          if (bufLen() < NONCE_LENGTH) {
+            failStream(controller, "Encrypted stream is empty - missing nonce header");
+            return;
+          }
+          baseNonce = readFromBuf(NONCE_LENGTH);
+
+          // Read more if needed for first record
+          while (!readerDone && bufLen() <= ENCRYPTED_RECORD_SIZE) {
+            await readMore();
+            if (cancelled) {
+              cancelStream(controller);
+              return;
+            }
+          }
+        }
+
+        // Process exactly ONE complete record per pull() call, then return.
+        //
+        // Previously this was a while-loop that processed ALL buffered records in
+        // a single pull() call. That violated the pull-based contract of
+        // highWaterMark: 0 (= one chunk per pull). Firefox v128+ enforces this
+        // more strictly: if pull() enqueues multiple chunks at once, the
+        // ReadableStream controller loses its backpressure state and stops
+        // calling pull() mid-download, stalling the transfer at a random
+        // percentage. The stall point varies with network chunk size (larger
+        // chunks = more records buffered = higher chance of triggering the bug),
+        // which is why it only manifests on native hardware with fast connections
+        // and not in VMs or on older Firefox ESR.
+        if (bufLen() > ENCRYPTED_RECORD_SIZE) {
+          const record = readFromBuf(ENCRYPTED_RECORD_SIZE, scratchRecord);
+          const nonce = nonceXorCounter(baseNonce, counter++);
+          let plain;
+          try {
+            plain = await crypto.subtle.decrypt(
+              { name: "AES-GCM", iv: nonce, tagLength: TAG_LENGTH * 8 },
+              fileKey,
+              record,
+            );
+          } catch (e) {
+            console.error(`[SW-dl:${downloadId}] decrypt error on record #${counter - 1}:`, e);
+            bc.postMessage({ type: "dl-error", downloadId, error: "decrypt-failed" });
+            controller.error(e);
+            cleanup();
+            return;
+          }
+          decryptedTotal += plain.byteLength;
+          controller.enqueue(new Uint8Array(plain));
+          // Periodic checkpoint: ~40 logs per 2.5 GiB download instead of ~150 K.
+          // Shows elapsed time since last checkpoint so a freeze shows as an
+          // abnormally large gap (e.g. 120 000 ms instead of the usual ~500 ms).
+          if (counter % 1000 === 0) {
+            const now = Date.now();
+            const elapsed = now - lastCheckpointTime;
+            lastCheckpointTime = now;
+            console.debug(
+              `[SW-dl:${downloadId}] checkpoint record=${counter} loaded=${loaded}B elapsed=${elapsed}ms`,
+            );
+          }
+          return; // Firefox calls pull() again for the next record
+        }
+
+        // Final record: stream ended, process remaining data
+        if (readerDone && bufLen() > TAG_LENGTH) {
+          const remaining = readFromBuf(bufLen(), scratchRecord);
+          const nonce = nonceXorCounter(baseNonce, counter++);
+          let plain;
+          try {
+            plain = await crypto.subtle.decrypt(
+              { name: "AES-GCM", iv: nonce, tagLength: TAG_LENGTH * 8 },
+              fileKey,
+              remaining,
+            );
+          } catch (e) {
+            console.error(`[SW-dl:${downloadId}] decrypt error on final record:`, e);
+            bc.postMessage({ type: "dl-error", downloadId, error: "decrypt-failed" });
+            controller.error(e);
+            cleanup();
+            return;
+          }
+          decryptedTotal += plain.byteLength;
+          controller.enqueue(new Uint8Array(plain));
+          console.debug(`[SW-dl:${downloadId}] stream complete: ${counter} records total`);
+          finishStream(controller);
           return;
         }
-        decryptedTotal += plain.byteLength;
-        controller.enqueue(new Uint8Array(plain));
-        // Periodic checkpoint: ~40 logs per 2.5 GiB download instead of ~150 K.
-        // Shows elapsed time since last checkpoint so a freeze shows as an
-        // abnormally large gap (e.g. 120 000 ms instead of the usual ~500 ms).
-        if (counter % 1000 === 0) {
-          const now = Date.now();
-          const elapsed = now - lastCheckpointTime;
-          lastCheckpointTime = now;
-          console.debug(`[SW-dl:${downloadId}] checkpoint record=${counter} loaded=${loaded}B elapsed=${elapsed}ms`);
-        }
-        return; // Firefox calls pull() again for the next record
-      }
 
-      // Final record: stream ended, process remaining data
-      if (readerDone && bufLen() > TAG_LENGTH) {
-        const remaining = readFromBuf(bufLen(), scratchRecord);
-        const nonce = nonceXorCounter(baseNonce, counter++);
-        let plain;
-        try {
-          plain = await crypto.subtle.decrypt(
-            { name: "AES-GCM", iv: nonce, tagLength: TAG_LENGTH * 8 },
-            fileKey,
-            remaining,
-          );
-        } catch (e) {
-          console.error(`[SW-dl:${downloadId}] decrypt error on final record:`, e);
-          bc.postMessage({ type: "dl-error", downloadId, error: "decrypt-failed" });
-          controller.error(e);
-          cleanup();
+        if (readerDone && bufLen() > 0) {
+          failStream(controller, "Invalid encrypted record: too short to contain auth tag");
           return;
         }
-        decryptedTotal += plain.byteLength;
-        controller.enqueue(new Uint8Array(plain));
-        console.debug(`[SW-dl:${downloadId}] stream complete: ${counter} records total`);
-        finishStream(controller);
-        return;
-      }
 
-      if (readerDone && bufLen() > 0) {
-        failStream(controller, "Invalid encrypted record: too short to contain auth tag");
-        return;
-      }
+        if (readerDone) {
+          finishStream(controller);
+        }
+      },
 
-      if (readerDone) {
-        finishStream(controller);
-      }
+      cancel() {
+        cancelled = true;
+        console.warn(`[SW-dl:${downloadId}] stream cancelled by consumer`);
+        reader.cancel();
+        bc.postMessage({ type: "dl-error", downloadId, error: "cancelled" });
+        cleanup();
+      },
+      // highWaterMark: 8 keeps up to 8 pre-decrypted records (~512 KB plaintext)
+      // in the stream's internal queue. Firefox's download manager reads from this
+      // queue instantly without waiting for pull() to complete. The larger queue
+      // (vs the previous value of 2) absorbs occasional double-readMore() stalls:
+      // because ECE records are 65552 B but network chunks are 65536 B, the
+      // ciphertext buffer drifts down by 16 B per record and roughly every
+      // 4096 records one pull() call must perform two sequential reader.read()s
+      // before it can enqueue. On slow or jittery connections that ~2x-chunk-time
+      // stall could exhaust a 2-record queue and freeze Firefox's UI for several
+      // seconds. 8 records provides enough slack down to ~5 Mbps connections.
+      // pull() still enqueues exactly ONE record per call, so Firefox's backpressure
+      // tracking remains correct and the stall-at-random-percentage bug from v2.9.2
+      // (caused by multiple enqueues per pull()) cannot recur.
     },
-
-    cancel() {
-      cancelled = true;
-      console.warn(`[SW-dl:${downloadId}] stream cancelled by consumer`);
-      reader.cancel();
-      bc.postMessage({ type: "dl-error", downloadId, error: "cancelled" });
-      cleanup();
-    },
-  // highWaterMark: 8 keeps up to 8 pre-decrypted records (~512 KB plaintext)
-  // in the stream's internal queue. Firefox's download manager reads from this
-  // queue instantly without waiting for pull() to complete. The larger queue
-  // (vs the previous value of 2) absorbs occasional double-readMore() stalls:
-  // because ECE records are 65552 B but network chunks are 65536 B, the
-  // ciphertext buffer drifts down by 16 B per record and roughly every
-  // 4096 records one pull() call must perform two sequential reader.read()s
-  // before it can enqueue. On slow or jittery connections that ~2x-chunk-time
-  // stall could exhaust a 2-record queue and freeze Firefox's UI for several
-  // seconds. 8 records provides enough slack down to ~5 Mbps connections.
-  // pull() still enqueues exactly ONE record per call, so Firefox's backpressure
-  // tracking remains correct and the stall-at-random-percentage bug from v2.9.2
-  // (caused by multiple enqueues per pull()) cannot recur.
-  }, { highWaterMark: 8 });
+    { highWaterMark: 8 },
+  );
 
   return new Response(decryptStream, { headers });
 }
-
-

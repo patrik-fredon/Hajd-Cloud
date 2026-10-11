@@ -1,6 +1,6 @@
 # Testing Guide
 
-SkySend uses [Vitest](https://vitest.dev/) for unit and integration testing.
+Hajd.Cloud uses [Vitest](https://vitest.dev/) for unit and integration testing.
 
 ## Running Tests
 
@@ -17,26 +17,26 @@ cd apps/server && pnpm test
 
 ### Crypto Tests (`packages/crypto/tests/`)
 
-| File | Tests |
-| --- | --- |
-| `keychain.test.ts` | Secret/salt generation, HKDF key derivation, token computation |
-| `ece.test.ts` | Streaming encryption/decryption, nonce handling, size calculation |
-| `metadata.test.ts` | Metadata encryption/decryption, schema validation |
-| `password.test.ts` | Argon2id key derivation, password protection XOR |
-| `util.test.ts` | Base64url encoding, constant-time comparison, byte utilities |
-| `integration.test.ts` | Full encrypt-decrypt roundtrip |
+| File                  | Tests                                                             |
+| --------------------- | ----------------------------------------------------------------- |
+| `keychain.test.ts`    | Secret/salt generation, HKDF key derivation, token computation    |
+| `ece.test.ts`         | Streaming encryption/decryption, nonce handling, size calculation |
+| `metadata.test.ts`    | Metadata encryption/decryption, schema validation                 |
+| `password.test.ts`    | Argon2id key derivation, password protection XOR                  |
+| `util.test.ts`        | Base64url encoding, constant-time comparison, byte utilities      |
+| `integration.test.ts` | Full encrypt-decrypt roundtrip                                    |
 
 ### Server Tests (`apps/server/tests/`)
 
-| File | Tests |
-| --- | --- |
-| `routes.test.ts` | All API route handlers |
-| `db.test.ts` | Database operations |
-| `storage.test.ts` | Filesystem storage layer |
-| `cleanup.test.ts` | Expired upload cleanup |
-| `config.test.ts` | Environment variable parsing and validation |
-| `rate-limit.test.ts` | Rate limiter behavior |
-| `quota.test.ts` | Upload quota enforcement |
+| File                 | Tests                                       |
+| -------------------- | ------------------------------------------- |
+| `routes.test.ts`     | All API route handlers                      |
+| `db.test.ts`         | Database operations                         |
+| `storage.test.ts`    | Filesystem storage layer                    |
+| `cleanup.test.ts`    | Expired upload cleanup                      |
+| `config.test.ts`     | Environment variable parsing and validation |
+| `rate-limit.test.ts` | Rate limiter behavior                       |
+| `quota.test.ts`      | Upload quota enforcement                    |
 
 ## Writing Tests
 
@@ -51,22 +51,22 @@ cd apps/server && pnpm test
 ### Example
 
 ```typescript
-import { describe, it, expect } from 'vitest'
-import { generateSecret, SALT_LENGTH } from '@skysend/crypto'
+import { describe, it, expect } from "vitest";
+import { generateSecret, SALT_LENGTH } from "@skysend/crypto";
 
-describe('generateSecret', () => {
-  it('should generate 32 bytes', () => {
-    const secret = generateSecret()
-    expect(secret).toBeInstanceOf(Uint8Array)
-    expect(secret.byteLength).toBe(32)
-  })
+describe("generateSecret", () => {
+  it("should generate 32 bytes", () => {
+    const secret = generateSecret();
+    expect(secret).toBeInstanceOf(Uint8Array);
+    expect(secret.byteLength).toBe(32);
+  });
 
-  it('should generate unique values', () => {
-    const a = generateSecret()
-    const b = generateSecret()
-    expect(a).not.toEqual(b)
-  })
-})
+  it("should generate unique values", () => {
+    const a = generateSecret();
+    const b = generateSecret();
+    expect(a).not.toEqual(b);
+  });
+});
 ```
 
 ## Test Helpers

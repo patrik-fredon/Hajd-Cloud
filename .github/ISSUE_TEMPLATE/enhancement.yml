@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Want to improve something that already exists in SkySend? Let us know what could be better.
+        Want to improve something that already exists in Hajd.Cloud? Let us know what could be better.
 
   - type: textarea
     id: current
@@ -36,7 +36,7 @@ body:
     id: area
     attributes:
       label: Area
-      description: Which part of SkySend does this relate to?
+      description: Which part of Hajd.Cloud does this relate to?
       options:
         - Upload
         - Download
@@ -62,8 +62,8 @@ body:
     id: instance_type
     attributes:
       label: Instance Type
-      description: Are you using a self-hosted instance or a public instance (e.g. ch.skysend.app)?
+      description: Are you using a self-hosted instance or a public instance (e.g. skysend.hajd.cloud)?
       options:
         - Self-hosted instance
-        - Public instance (ch.skysend.app or other community instance)
+        - Public instance (skysend.hajd.cloud or other community instance)
         - Not applicable

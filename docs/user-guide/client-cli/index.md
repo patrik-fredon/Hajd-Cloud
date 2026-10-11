@@ -1,6 +1,6 @@
 # CLI Client
 
-SkySend includes a command-line client for uploading and downloading files with the same end-to-end encryption as the web interface. It is distributed as a single binary - no runtime dependencies required.
+Hajd.Cloud includes a command-line client for uploading and downloading files with the same end-to-end encryption as the web interface. It is distributed as a single binary - no runtime dependencies required.
 
 ## Overview
 
@@ -19,13 +19,13 @@ All cryptographic operations use the same `@skysend/crypto` library as the web f
 
 ## Supported Platforms
 
-| Platform | Architecture | Binary Name |
-| --- | --- | --- |
-| Linux | x86_64 (AMD64) | `skysend-linux-x64` |
-| Linux | ARM64 (aarch64) | `skysend-linux-arm64` |
-| macOS | Intel (x86_64) | `skysend-macos-x64` |
-| macOS | Apple Silicon (ARM64) | `skysend-macos-arm64` |
-| Windows | x86_64 (AMD64) | `skysend-windows-x64.exe` |
+| Platform | Architecture          | Binary Name               |
+| -------- | --------------------- | ------------------------- |
+| Linux    | x86_64 (AMD64)        | `skysend-linux-x64`       |
+| Linux    | ARM64 (aarch64)       | `skysend-linux-arm64`     |
+| macOS    | Intel (x86_64)        | `skysend-macos-x64`       |
+| macOS    | Apple Silicon (ARM64) | `skysend-macos-arm64`     |
+| Windows  | x86_64 (AMD64)        | `skysend-windows-x64.exe` |
 
 Binaries are compiled with [Bun](https://bun.sh/) and published as GitHub Release assets.
 
@@ -36,14 +36,14 @@ Binaries are compiled with [Bun](https://bun.sh/) and published as GitHub Releas
 The install script automatically detects your OS and architecture, downloads the correct binary, verifies the SHA-256 checksum, and installs it to `/usr/local/bin`:
 
 ```bash
-curl -fsSL https://skysend.app/install.sh | sh
+pnpm client:build
 ```
 
 To install a specific version or to a custom directory:
 
 ```bash
-VERSION=v2.11.3 curl -fsSL https://skysend.app/install.sh | sh
-INSTALL_DIR=$HOME/.local/bin curl -fsSL https://skysend.app/install.sh | sh
+VERSION=v2.11.3 curl -fsSL https://skysend.hajd.cloud/how | sh
+INSTALL_DIR=$HOME/.local/bin curl -fsSL https://skysend.hajd.cloud/how | sh
 ```
 
 ::: warning macOS on Apple Silicon
@@ -57,7 +57,7 @@ A binary downloaded through a browser is also held back by Gatekeeper, because i
 Run in PowerShell:
 
 ```powershell
-irm https://skysend.app/install.ps1 | iex
+pnpm client:build
 ```
 
 This installs `skysend.exe` to `~/.skysend/bin` and adds it to your user PATH. Restart your terminal for PATH changes to take effect.
@@ -65,12 +65,12 @@ This installs `skysend.exe` to `~/.skysend/bin` and adds it to your user PATH. R
 To install a specific version:
 
 ```powershell
-$env:VERSION="v2.11.3"; irm https://skysend.app/install.ps1 | iex
+$env:VERSION="v2.11.3"; irm https://skysend.hajd.cloud/how | iex
 ```
 
 ### Manual Download
 
-Download the binary for your platform from the [GitHub Releases](https://github.com/Skyfay/SkySend/releases) page, make it executable, and move it to a directory in your PATH:
+Download the binary for your platform from the GitHub Releases page, make it executable, and move it to a directory in your PATH:
 
 ```bash
 chmod +x skysend-linux-x64
@@ -79,7 +79,7 @@ sudo mv skysend-linux-x64 /usr/local/bin/skysend
 
 ## Configuration
 
-Before uploading, set your default SkySend server:
+Before uploading, set your default Hajd.Cloud server:
 
 ```bash
 skysend config set-server https://your-instance.com
@@ -125,6 +125,8 @@ skysend update --check
 skysend update
 ```
 
+The update command requires `HAJD_CLOUD_RELEASE_URL`, an HTTPS JSON endpoint containing the release metadata and binary assets. No upstream repository is used by default.
+
 The update command:
 
 1. Checks the latest version from GitHub Releases
@@ -138,20 +140,20 @@ On Linux/macOS, you may need `sudo` if the binary is installed in `/usr/local/bi
 
 ## Quick Reference
 
-| Command | Description |
-| --- | --- |
-| `skysend` | Interactive menu-driven mode (recommended) |
-| `skysend upload <files...>` | Upload files with E2E encryption |
-| `skysend download <url>` | Download and decrypt a file |
-| `skysend note [text]` | Create an encrypted note |
-| `skysend note:view <url>` | View an encrypted note |
-| `skysend ls` | List upload and note history |
-| `skysend delete <url> <ownerToken>` | Delete an upload or note |
-| `skysend config` | Show current configuration |
-| `skysend config set-server <url>` | Set default server |
-| `skysend config reset` | Reset configuration |
-| `skysend update` | Self-update to latest version |
-| `skysend --version` | Show current version |
-| `skysend --help` | Show help |
+| Command                             | Description                                |
+| ----------------------------------- | ------------------------------------------ |
+| `skysend`                           | Interactive menu-driven mode (recommended) |
+| `skysend upload <files...>`         | Upload files with E2E encryption           |
+| `skysend download <url>`            | Download and decrypt a file                |
+| `skysend note [text]`               | Create an encrypted note                   |
+| `skysend note:view <url>`           | View an encrypted note                     |
+| `skysend ls`                        | List upload and note history               |
+| `skysend delete <url> <ownerToken>` | Delete an upload or note                   |
+| `skysend config`                    | Show current configuration                 |
+| `skysend config set-server <url>`   | Set default server                         |
+| `skysend config reset`              | Reset configuration                        |
+| `skysend update`                    | Self-update to latest version              |
+| `skysend --version`                 | Show current version                       |
+| `skysend --help`                    | Show help                                  |
 
 See [Commands](/user-guide/client-cli/commands) for detailed usage of each command.

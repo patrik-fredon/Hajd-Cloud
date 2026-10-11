@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const INSTANCES_API_URL = "https://instances.skysend.app";
+export const INSTANCES_API_URL = process.env.NEXT_PUBLIC_INSTANCES_API_URL ?? "";
 
 const ContactSchema = z
   .object({
@@ -40,7 +40,9 @@ export const InstancesResponseSchema = z.object({
  * emptying the whole list.
  */
 export function parseInstancesResponse(raw: unknown): InstancesResponse | null {
-  const outer = z.object({ instances: z.array(z.unknown()), lastUpdated: z.string().nullable() }).safeParse(raw);
+  const outer = z
+    .object({ instances: z.array(z.unknown()), lastUpdated: z.string().nullable() })
+    .safeParse(raw);
   if (!outer.success) return null;
   const instances = outer.data.instances.flatMap((item) => {
     const parsed = InstanceSchema.safeParse(item);
@@ -55,7 +57,7 @@ export type InstancesResponse = z.infer<typeof InstancesResponseSchema>;
 export function isOfficialInstance(url: string): boolean {
   try {
     const host = new URL(url).hostname;
-    return host === "skysend.app" || host.endsWith(".skysend.app");
+    return host === "skysend.hajd.cloud" || host.endsWith(".skysend.hajd.cloud");
   } catch {
     return false;
   }

@@ -1,0 +1,15 @@
+# Build the server and frontend before building this image. See deploy/README.md.
+# Preserve the verified runtime dependencies and update the branding defaults.
+FROM sha256:23aaa1cf3a8be8ad1a56195c5a8bdbf155158020d3dc6779fb1bde7bc724086b
+RUN rm -rf /app/apps/web/dist
+COPY --chown=1001:1001 apps/web/dist/ /app/apps/web/dist/
+# Use the custom logo for the browser favicon through the existing branding config.
+COPY --chown=1001:1001 apps/server/dist/lib/index-html.js /app/apps/server/dist/lib/index-html.js
+COPY --chown=1001:1001 apps/server/dist/lib/config.js /app/apps/server/dist/lib/config.js
+# Keep public image metadata free of source repository and publisher credits.
+LABEL org.opencontainers.image.title="Hajd.Cloud" \
+      org.opencontainers.image.vendor="Hajd.Cloud" \
+      org.opencontainers.image.url="https://skysend.hajd.cloud" \
+      org.opencontainers.image.source="" \
+      org.opencontainers.image.documentation="" \
+      org.opencontainers.image.authors=""

@@ -4,7 +4,13 @@ import { join } from "node:path";
 import { Hono } from "hono";
 import type { Context, MiddlewareHandler, Next } from "hono";
 import { eq } from "drizzle-orm";
-import { createTestDb, createTestStorage, insertTestUpload, TEST_UUID, fakeBase64urlToken } from "./helpers.js";
+import {
+  createTestDb,
+  createTestStorage,
+  insertTestUpload,
+  TEST_UUID,
+  fakeBase64urlToken,
+} from "./helpers.js";
 import { uploads } from "../src/db/schema.js";
 import type { FileStorage } from "../src/storage/filesystem.js";
 import type { StorageBackend } from "../src/storage/types.js";
@@ -60,7 +66,7 @@ const DEFAULT_CONFIG = {
   NOTE_VIEW_OPTIONS: [1, 2, 3, 5, 10, 20, 50, 100],
   NOTE_DEFAULT_VIEWS: 1,
   CLEANUP_INTERVAL: 60,
-  CUSTOM_TITLE: "SkySend",
+  CUSTOM_TITLE: "Hajd.Cloud",
   RATE_LIMIT_WINDOW: 60000,
   RATE_LIMIT_MAX: 60,
   TRUST_PROXY: false,
@@ -129,7 +135,7 @@ describe("routes", () => {
       expect(body.fileMaxFilesPerUpload).toBe(32);
       expect(body.fileExpireOptions).toEqual([300, 3600, 86400, 604800]);
       expect(body.fileDownloadOptions).toEqual([1, 2, 3, 4, 5, 10, 20, 50, 100]);
-      expect(body.customTitle).toBe("SkySend");
+      expect(body.customTitle).toBe("Hajd.Cloud");
       expect(body.noteMaxSize).toBe(1024 ** 2);
       expect(body.noteViewOptions).toEqual([1, 2, 3, 5, 10, 20, 50, 100]);
       // CLI clients check this before they create a note made of blocks.
@@ -137,14 +143,20 @@ describe("routes", () => {
     });
 
     it("should keep request out of enabledServices for older CLI clients", async () => {
-      vi.mocked(getConfig).mockReturnValue({ ...DEFAULT_CONFIG, ENABLED_SERVICES: ["file", "note", "request"] });
+      vi.mocked(getConfig).mockReturnValue({
+        ...DEFAULT_CONFIG,
+        ENABLED_SERVICES: ["file", "note", "request"],
+      });
       const app = new Hono();
       app.route("/api/config", configRoute);
       const body = await (await app.request("/api/config")).json();
       expect(body.enabledServices).toEqual(["file", "note"]);
       expect(body.fileRequestsEnabled).toBe(true);
 
-      vi.mocked(getConfig).mockReturnValue({ ...DEFAULT_CONFIG, ENABLED_SERVICES: ["file", "note"] });
+      vi.mocked(getConfig).mockReturnValue({
+        ...DEFAULT_CONFIG,
+        ENABLED_SERVICES: ["file", "note"],
+      });
       const off = await (await app.request("/api/config")).json();
       expect(off.fileRequestsEnabled).toBe(false);
     });
@@ -856,7 +868,10 @@ describe("routes", () => {
 
       // Create file on disk
       const stream = new ReadableStream({
-        start(c) { c.enqueue(new Uint8Array([1, 2, 3])); c.close(); },
+        start(c) {
+          c.enqueue(new Uint8Array([1, 2, 3]));
+          c.close();
+        },
       });
       await storage.save(TEST_UUID, stream);
 
@@ -921,9 +936,15 @@ describe("routes", () => {
         size: fileData.length,
       });
 
-      await storage.save(TEST_UUID, new ReadableStream({
-        start(c) { c.enqueue(fileData); c.close(); },
-      }));
+      await storage.save(
+        TEST_UUID,
+        new ReadableStream({
+          start(c) {
+            c.enqueue(fileData);
+            c.close();
+          },
+        }),
+      );
 
       const app = new Hono();
       app.route("/api/download", createDownloadRoute(storage, createPasswordLockout(10, 60_000)));
@@ -1139,7 +1160,9 @@ describe("routes", () => {
       app.route("/api/upload", createUploadRoute(storage, { chunkDir }));
 
       // 16-byte salt is valid base64url but SALT_LENGTH requires 32 bytes
-      const shortSalt = Buffer.from(crypto.getRandomValues(new Uint8Array(16))).toString("base64url");
+      const shortSalt = Buffer.from(crypto.getRandomValues(new Uint8Array(16))).toString(
+        "base64url",
+      );
 
       const res = await app.request("/api/upload", {
         method: "POST",
@@ -1157,7 +1180,9 @@ describe("routes", () => {
       app.route("/api/upload", createUploadRoute(storage, { chunkDir }));
 
       // 8-byte passwordSalt is valid base64url but PASSWORD_SALT_LENGTH requires 16 bytes
-      const shortPwSalt = Buffer.from(crypto.getRandomValues(new Uint8Array(8))).toString("base64url");
+      const shortPwSalt = Buffer.from(crypto.getRandomValues(new Uint8Array(8))).toString(
+        "base64url",
+      );
 
       const res = await app.request("/api/upload", {
         method: "POST",
@@ -1179,7 +1204,9 @@ describe("routes", () => {
       app.route("/api/upload", createUploadRoute(storage, { chunkDir }));
 
       // Exactly 16 bytes for passwordSalt (PASSWORD_SALT_LENGTH)
-      const validPwSalt = Buffer.from(crypto.getRandomValues(new Uint8Array(16))).toString("base64url");
+      const validPwSalt = Buffer.from(crypto.getRandomValues(new Uint8Array(16))).toString(
+        "base64url",
+      );
 
       const res = await app.request("/api/upload", {
         method: "POST",
@@ -1251,7 +1278,9 @@ describe("routes", () => {
   // ── Chunked Upload (init / chunk / finalize) ────────
 
   describe("POST /api/upload/init, /chunk, /finalize", () => {
-    const validChunkSalt = Buffer.from(crypto.getRandomValues(new Uint8Array(32))).toString("base64url");
+    const validChunkSalt = Buffer.from(crypto.getRandomValues(new Uint8Array(32))).toString(
+      "base64url",
+    );
 
     function makeInitHeaders(overrides: Record<string, string> = {}) {
       return {
@@ -1358,13 +1387,22 @@ describe("routes", () => {
 
       // Chunk 0 never arrives, so every later one has to wait.
       for (let index = 1; index <= 64; index++) {
-        const res = await app.request(`/api/upload/${id}/chunk?index=${index}`, { method: "POST", body: new Uint8Array(1) });
+        const res = await app.request(`/api/upload/${id}/chunk?index=${index}`, {
+          method: "POST",
+          body: new Uint8Array(1),
+        });
         expect(res.status).toBe(200);
       }
-      const over = await app.request(`/api/upload/${id}/chunk?index=65`, { method: "POST", body: new Uint8Array(1) });
+      const over = await app.request(`/api/upload/${id}/chunk?index=65`, {
+        method: "POST",
+        body: new Uint8Array(1),
+      });
       expect(over.status).toBe(429);
       // The chunk everything waits for is still taken.
-      const first = await app.request(`/api/upload/${id}/chunk?index=0`, { method: "POST", body: new Uint8Array(1) });
+      const first = await app.request(`/api/upload/${id}/chunk?index=0`, {
+        method: "POST",
+        body: new Uint8Array(1),
+      });
       expect(first.status).toBe(200);
     });
 
@@ -1680,7 +1718,9 @@ describe("routes", () => {
       const id = await openSession(app, 30);
 
       expect((await postChunk(app, id, 1, new Uint8Array(10))).status).toBe(200);
-      expect((await app.request(`/api/upload/${id}/finalize`, { method: "POST" })).status).toBe(400);
+      expect((await app.request(`/api/upload/${id}/finalize`, { method: "POST" })).status).toBe(
+        400,
+      );
 
       await vi.waitFor(() => expect(readdirSync(chunkDir)).toEqual([]));
     });
@@ -1796,8 +1836,12 @@ describe("routes", () => {
   // that are unreachable through normal route flows.
 
   describe("validateUploadHeaders (unit)", () => {
-    const validSalt32 = Buffer.from(crypto.getRandomValues(new Uint8Array(32))).toString("base64url");
-    const validPwSalt16 = Buffer.from(crypto.getRandomValues(new Uint8Array(16))).toString("base64url");
+    const validSalt32 = Buffer.from(crypto.getRandomValues(new Uint8Array(32))).toString(
+      "base64url",
+    );
+    const validPwSalt16 = Buffer.from(crypto.getRandomValues(new Uint8Array(16))).toString(
+      "base64url",
+    );
 
     function makeHeaders(overrides: Partial<UploadHeaders> = {}): UploadHeaders {
       return {
@@ -1872,11 +1916,20 @@ describe("routes", () => {
     }
 
     const init = async (app: Hono, size: number) => {
-      const res = await app.request("/api/upload/init", { method: "POST", headers: headersFor(size) });
-      return { status: res.status, id: res.status === 201 ? ((await res.json()) as { id: string }).id : "" };
+      const res = await app.request("/api/upload/init", {
+        method: "POST",
+        headers: headersFor(size),
+      });
+      return {
+        status: res.status,
+        id: res.status === 201 ? ((await res.json()) as { id: string }).id : "",
+      };
     };
     const chunk = (app: Hono, id: string, size: number) =>
-      app.request(`/api/upload/${id}/chunk?index=0`, { method: "POST", body: new Uint8Array(size) });
+      app.request(`/api/upload/${id}/chunk?index=0`, {
+        method: "POST",
+        body: new Uint8Array(size),
+      });
     const finalize = (app: Hono, id: string) =>
       app.request(`/api/upload/${id}/finalize`, { method: "POST" });
 
@@ -2161,9 +2214,15 @@ describe("routes", () => {
 
     it("forgets the wrong guesses after a download with the right token", async () => {
       insertProtected();
-      await storage.save(TEST_UUID, new ReadableStream({
-        start(c) { c.enqueue(new Uint8Array([1, 2, 3])); c.close(); },
-      }));
+      await storage.save(
+        TEST_UUID,
+        new ReadableStream({
+          start(c) {
+            c.enqueue(new Uint8Array([1, 2, 3]));
+            c.close();
+          },
+        }),
+      );
       const app = appWithLockout(3);
       expect((await guessDownload(app, fakeBase64urlToken())).status).toBe(401);
       expect((await guessDownload(app, fakeBase64urlToken())).status).toBe(401);
@@ -2221,7 +2280,10 @@ describe("authMiddleware edge cases", () => {
   it("returns 404 when the upload does not exist in the database", async () => {
     // DB is empty - no upload inserted
     const app = new Hono();
-    app.route("/api/download", createDownloadRoute(storageCtx.storage, createPasswordLockout(10, 60_000)));
+    app.route(
+      "/api/download",
+      createDownloadRoute(storageCtx.storage, createPasswordLockout(10, 60_000)),
+    );
 
     const res = await app.request(`/api/download/${TEST_UUID}`, {
       headers: { "X-Auth-Token": fakeBase64urlToken() },
@@ -2235,7 +2297,10 @@ describe("authMiddleware edge cases", () => {
   it("returns 401 for an auth token containing non-base64url characters", async () => {
     insertTestUpload(dbCtx.db);
     const app = new Hono();
-    app.route("/api/download", createDownloadRoute(storageCtx.storage, createPasswordLockout(10, 60_000)));
+    app.route(
+      "/api/download",
+      createDownloadRoute(storageCtx.storage, createPasswordLockout(10, 60_000)),
+    );
 
     const res = await app.request(`/api/download/${TEST_UUID}`, {
       headers: { "X-Auth-Token": "!!!invalid-base64url!!!" },
@@ -2336,7 +2401,10 @@ describe("download route edge cases", () => {
     // File deliberately not saved to storage
 
     const app = new Hono();
-    app.route("/api/download", createDownloadRoute(storageCtx.storage, createPasswordLockout(10, 60_000)));
+    app.route(
+      "/api/download",
+      createDownloadRoute(storageCtx.storage, createPasswordLockout(10, 60_000)),
+    );
 
     const res = await app.request(`/api/download/${TEST_UUID}`, {
       headers: { "X-Auth-Token": authToken },
@@ -2351,9 +2419,15 @@ describe("download route edge cases", () => {
     const authToken = fakeBase64urlToken();
     const fileData = new Uint8Array([1, 2, 3]);
     insertTestUpload(dbCtx.db, { authToken, size: fileData.length, maxDownloads: 1 });
-    await storageCtx.storage.save(TEST_UUID, new ReadableStream({
-      start(c) { c.enqueue(fileData); c.close(); },
-    }));
+    await storageCtx.storage.save(
+      TEST_UUID,
+      new ReadableStream({
+        start(c) {
+          c.enqueue(fileData);
+          c.close();
+        },
+      }),
+    );
 
     // Simulate race: the conditional UPDATE matches 0 rows
     const updateSpy = vi.spyOn(dbCtx.db, "update").mockReturnValueOnce({
@@ -2365,7 +2439,10 @@ describe("download route edge cases", () => {
     } as ReturnType<typeof dbCtx.db.update>);
 
     const app = new Hono();
-    app.route("/api/download", createDownloadRoute(storageCtx.storage, createPasswordLockout(10, 60_000)));
+    app.route(
+      "/api/download",
+      createDownloadRoute(storageCtx.storage, createPasswordLockout(10, 60_000)),
+    );
 
     const res = await app.request(`/api/download/${TEST_UUID}`, {
       headers: { "X-Auth-Token": authToken },

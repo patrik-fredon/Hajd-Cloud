@@ -1,16 +1,16 @@
 # Changelog
 
-All notable changes to SkySend are documented here.
+All notable changes to Hajd.Cloud are documented here.
 
 ## v3.0.0 - File and Note Requests, Notes Made of Blocks, New Themes and Security Hardening
 
-*Released: October 8, 2026*
+_Released: October 8, 2026_
 
 > ⚠️ **Breaking:** A CLI from before v3 can neither open notes created with v3 nor download password-protected files from a v3 server. Run `skysend update` together with the server update.
 
 > ⚠️ **Breaking:** `DEFAULT_THEME` now selects the visual theme (`graphite`, `aurora` or `midnight`) and the color scheme moved to the new `DEFAULT_COLOR_SCHEME`. An instance that still sets `DEFAULT_THEME` to `dark`, `light` or `system` refuses to start and names the value to set in `DEFAULT_COLOR_SCHEME` instead.
 
-> 💙 **Thank you** to everyone who reported bugs, reviewed the security of SkySend and shared ideas for this release. SkySend stays free and open source, and if it saves you time, you can now support it through [GitHub Sponsors](https://github.com/sponsors/Skyfay).
+> 💙 **Thank you** to everyone who reported bugs, reviewed the security of Hajd.Cloud and shared ideas for this release. Hajd.Cloud stays free and open source, and if it saves you time, you can now support it through GitHub Sponsors.
 
 ### ✨ Features
 
@@ -66,12 +66,12 @@ All notable changes to SkySend are documented here.
 - **web**: The download speed no longer shows a negative value after a download falls back to another way of saving the file.
 - **client**: A note with unlimited views shows its view count correctly in the terminal.
 - **client**: The macOS binaries are now signed, so macOS on Apple Silicon no longer stops them as soon as they start. A macOS installation that does not start has to run the install script once more, since `skysend update` cannot run either.
-- **client**: A failed download in the CLI or the TUI no longer deletes a file that was already at the output path. Thanks @NotAFlightRisk ([#81](https://github.com/Skyfay/SkySend/pull/81))
+- **client**: A failed download in the CLI or the TUI no longer deletes a file that was already at the output path.
 
 ### 🔒 Security
 
-- **server**: The metadata of a password-protected file is released only after a correct password, so a link holder can no longer test password guesses offline. Thanks @NotAFlightRisk ([GHSA-rxxj-c5wr-phqp](https://github.com/Skyfay/SkySend/security/advisories/GHSA-rxxj-c5wr-phqp))
-- **server**: A wrong token at the download of a password-protected file counts against the password lockout like a wrong password. Thanks @NotAFlightRisk ([GHSA-rxxj-c5wr-phqp](https://github.com/Skyfay/SkySend/security/advisories/GHSA-rxxj-c5wr-phqp))
+- **server**: The metadata of a password-protected file is released only after a correct password, so a link holder can no longer test password guesses offline.
+- **server**: A wrong token at the download of a password-protected file counts against the password lockout like a wrong password.
 - **server**: A failed OIDC sign-in and other server errors are logged without the claims of an ID token or other values attached to the error, so the log no longer holds data that identifies a user.
 - **server**: An IPv6 client counts per /64 network in the rate limit, the upload quota, the password lockout and the daily request limit, so a new address from the same network no longer starts a fresh count.
 - **server**: Updated `@hono/node-server` to 2.1.3 to patch a middleware bypass in static file serving (GHSA-rmxm-3fg6-px4f).
@@ -86,19 +86,19 @@ All notable changes to SkySend are documented here.
 - **server**: WebSocket uploads no longer send storage error details to the client.
 - **web**: A crafted SSH key or code note can no longer freeze the browser that opens it.
 - **web**: Markdown notes no longer load images, so a note cannot make its reader's browser send requests to the instance.
-- **web**: A new file or note password needs at least 8 characters. Thanks @NotAFlightRisk ([GHSA-rxxj-c5wr-phqp](https://github.com/Skyfay/SkySend/security/advisories/GHSA-rxxj-c5wr-phqp))
+- **web**: A new file or note password needs at least 8 characters.
 - **web**: Notes are padded to whole kilobytes before they are encrypted, so the server no longer learns how long a password in a note is.
 - **web**: Updated dompurify to 3.4.16 to fix two XSS issues in in-place sanitizing (GHSA-p98j-92pf-mc4p, GHSA-6688-9rhm-gjv2).
 - **web**: Downloads through the service worker tell the browser not to guess the file type.
 - **client**: A crafted SSH key note can no longer freeze the terminal that opens it.
 - **client**: Escape sequences and other control characters in a note are shown as placeholders in the terminal instead of being run.
 - **client**: A note saved from the terminal can only be read by its owner.
-- **client**: The CLI and the TUI ask for at least 8 characters for a new file or note password and take the metadata from the password check. Thanks @NotAFlightRisk ([GHSA-rxxj-c5wr-phqp](https://github.com/Skyfay/SkySend/security/advisories/GHSA-rxxj-c5wr-phqp))
+- **client**: The CLI and the TUI ask for at least 8 characters for a new file or note password and take the metadata from the password check.
 - **client**: The CLI and the TUI pad notes to whole kilobytes like the web app.
-- **client**: The CLI keeps its history, config and session files readable for the current user only, and narrows the permissions of files an older version created. Thanks @lissy93 ([GHSA-5vjq-2637-p33f](https://github.com/Skyfay/SkySend/security/advisories/GHSA-5vjq-2637-p33f))
+- **client**: The CLI keeps its history, config and session files readable for the current user only, and narrows the permissions of files an older version created.
 - **client**: Password prompts of the CLI no longer show what is typed, and a pasted password no longer keeps its line break.
 - **client**: `skysend note` without text asks for the note at a prompt that does not show it, or reads it from a pipe, so a secret no longer has to go into the shell history.
-- **client**: The CLI and the TUI save a download under a cleaned file name inside the chosen folder and add a number instead of replacing an existing file, so a crafted name can no longer write elsewhere on disk. Thanks @lissy93 ([GHSA-2gh8-5c87-87jx](https://github.com/Skyfay/SkySend/security/advisories/GHSA-2gh8-5c87-87jx))
+- **client**: The CLI and the TUI save a download under a cleaned file name inside the chosen folder and add a number instead of replacing an existing file, so a crafted name can no longer write elsewhere on disk.
 - **client**: File names, error messages and the server title are shown with their control characters made visible, so a sender or a server can no longer rewrite terminal output or the clipboard through escape sequences.
 - **client**: The TUI packs a multi-file upload into a temporary file only the current user can read and removes it even when the TUI is closed with Ctrl+C.
 - **cli**: `list --json` no longer prints the auth and owner tokens of uploads.
@@ -154,7 +154,7 @@ All notable changes to SkySend are documented here.
 - **docs**: The CLI guide explains why macOS binaries up to v2.12.2 do not start on Apple Silicon and how to install one that does.
 - **docs**: The README is shorter and opens with a banner of the new interface on a desktop and a phone instead of a screenshot of the old one.
 - **docs**: A security policy explains how to report a vulnerability privately, and the contributing guide and the developer guide explain that pull requests go into the `dev` branch.
-- **docs**: The README names file and note requests among the highlights and says how independent researchers have reviewed SkySend so far, with a link to the published security advisories.
+- **docs**: The README names file and note requests among the highlights and says how independent researchers have reviewed Hajd.Cloud so far, with a link to the published security advisories.
 - **website**: The zero-knowledge section and the blog post promise that the server holds nothing readable, not that an operator can never read along.
 
 ### 🧪 Tests
@@ -186,7 +186,7 @@ All notable changes to SkySend are documented here.
 - **infra**: Updated the dependencies across the monorepo, among them ink 8 in the CLI client, vitest 5, jsdom 30, eslint 10 and TypeScript 6 on the website, and minor and patch releases of the AWS SDK, hono, radix-ui, react 19.3, react-router, i18next, lucide-react, zod 4.6, vite 8.3, tailwindcss, typescript-eslint and prettier.
 - **infra**: A `.node-version` file pins Node 24 for local development, the version CI and the Docker image use.
 - **infra**: `scripts/setup-dev-macos.sh` sets up a Mac for development with fnm, the Node of `.node-version`, pnpm and the dependencies.
-- **infra**: The release groups the entries of each changelog section by scope, from the server to the tooling, so the lines about one part of SkySend stand together.
+- **infra**: The release groups the entries of each changelog section by scope, from the server to the tooling, so the lines about one part of Hajd.Cloud stand together.
 - **infra**: A pull request into `main` now also builds the CLI binaries for all five platforms and starts them once, after the same approval as the Docker image.
 - **infra**: The release fails when a macOS binary does not carry a valid signature.
 - **infra**: The dev environment comes from the tracked template `.env.dev.example`, and `.env.dev` is ignored by git, so local values and secrets stay out of the repository. The setup scripts create `.env.dev` for a new checkout or worktree.
@@ -194,13 +194,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v3.0.0`
+- **Image**: `hajd-cloud/skysend:v3.0.0`
 - **Also tagged as**: `latest`, `v3`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.12.2 - Download Integrity and Upload Memory Security Fixes and CI Improvements
 
-*Released: October 5, 2026*
+_Released: October 5, 2026_
 
 ### 🐛 Bug Fixes
 
@@ -208,10 +208,10 @@ All notable changes to SkySend are documented here.
 
 ### 🔒 Security
 
-- **web**: A download that the server cut short at a record boundary now fails instead of being saved as a complete file. Thanks @rajnisht7 ([GHSA-w3p6-2vcf-mmv9](https://github.com/Skyfay/SkySend/security/advisories/GHSA-w3p6-2vcf-mmv9))
-- **client**: A download that the server cut short at a record boundary now fails in the CLI and the TUI, and the incomplete file is removed. Thanks @rajnisht7 ([GHSA-w3p6-2vcf-mmv9](https://github.com/Skyfay/SkySend/security/advisories/GHSA-w3p6-2vcf-mmv9))
+- **web**: A download that the server cut short at a record boundary now fails instead of being saved as a complete file.
+- **client**: A download that the server cut short at a record boundary now fails in the CLI and the TUI, and the incomplete file is removed.
 - **crypto**: Archive metadata now records the size of the zip, so archive downloads can be checked for completeness. Archives uploaded with older versions cannot be checked this way.
-- **server**: Upload chunks are now streamed to disk instead of being held in memory, so oversized or parallel chunk requests can no longer exhaust the server's memory. A chunk is limited to 16 MiB and the chunks of an upload to its declared size. Thanks @rajnisht7 ([GHSA-9rmm-v3p2-c26g](https://github.com/Skyfay/SkySend/security/advisories/GHSA-9rmm-v3p2-c26g))
+- **server**: Upload chunks are now streamed to disk instead of being held in memory, so oversized or parallel chunk requests can no longer exhaust the server's memory. A chunk is limited to 16 MiB and the chunks of an upload to its declared size.
 - **server**: WebSocket upload messages are limited to 1 MiB instead of the 100 MiB default of the WebSocket library.
 - **infra**: The abuse report Worker now checks a reply address in linear time and limits it to 254 characters, so a long crafted address no longer ties up a request. Reported by CodeQL as `js/polynomial-redos`.
 
@@ -236,28 +236,28 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.12.2`
+- **Image**: `hajd-cloud/skysend:v2.12.2`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.12.1 - Link Preview and Branding Improvements, Security Updates and Bug Fixes
 
-*Released: September 17, 2026*
+_Released: September 17, 2026_
 
 ### ✨ Features
 
-- **server**: Added `CUSTOM_OG_IMAGE` and `CUSTOM_OG_IMAGE_STYLE` to set the image and layout of link previews, and a PNG or JPEG `CUSTOM_LOGO` is now used there by default. ([#72](https://github.com/Skyfay/SkySend/issues/72))
+- **server**: Added `CUSTOM_OG_IMAGE` and `CUSTOM_OG_IMAGE_STYLE` to set the image and layout of link previews, and a PNG or JPEG `CUSTOM_LOGO` is now used there by default.
 
 ### 🐛 Bug Fixes
 
-- **web**: The light theme no longer flashes dark while the page loads, and the mobile browser bar now follows the selected theme. ([#70](https://github.com/Skyfay/SkySend/issues/70))
+- **web**: The light theme no longer flashes dark while the page loads, and the mobile browser bar now follows the selected theme.
 - **server**: Link preview images now use an absolute URL as the Open Graph standard requires, so more apps show them.
-- **server**: The site name in link previews now follows `CUSTOM_TITLE` instead of always showing SkySend.
+- **server**: The site name in link previews now follows `CUSTOM_TITLE` instead of always showing Hajd.Cloud.
 - **server**: A `CUSTOM_TITLE` containing quotes or angle brackets no longer breaks the page markup.
 
 ### 🔒 Security
 
-- **server**: Updated hono to 4.13.8 to patch a ReDoS in the CORS middleware, query parameters read after the URL fragment, and further advisories in `parseBody()` and helpers SkySend does not use (GHSA-8j4g-w8fx-2239, GHSA-g6gw-c38x-mqfc, GHSA-crvj-82cr-hjcx, GHSA-54fx-42gc-7vw4, GHSA-f23p-vx2j-j53r, GHSA-gqvv-2mrq-wpjv, GHSA-79qm-7rj5-m7r9).
+- **server**: Updated hono to 4.13.8 to patch a ReDoS in the CORS middleware, query parameters read after the URL fragment, and further advisories in `parseBody()` and helpers Hajd.Cloud does not use (GHSA-8j4g-w8fx-2239, GHSA-g6gw-c38x-mqfc, GHSA-crvj-82cr-hjcx, GHSA-54fx-42gc-7vw4, GHSA-f23p-vx2j-j53r, GHSA-gqvv-2mrq-wpjv, GHSA-79qm-7rj5-m7r9).
 - **web**: Updated dompurify to 3.4.15 to fix an XSS via detached subtrees when hooks are removed during in-place sanitizing (GHSA-55q2-fjhq-7xh7).
 - **website**: Updated next and eslint-config-next to 16.3.5 to patch two unauthenticated remote code execution vulnerabilities in the image optimization API and on Windows hosts (GHSA-p293-qw3h-jr36, GHSA-2xp9-vwfh-vxw4).
 
@@ -272,7 +272,7 @@ All notable changes to SkySend are documented here.
 
 ### 📝 Documentation
 
-- **docs**: Removed the roadmap page from the docs site. The Roadmap link in the navigation and the README now point to the roadmap on [skysend.app](https://skysend.app/roadmap/).
+- **docs**: Removed the roadmap page from the docs site. The Roadmap link in the navigation and the README now point to the roadmap on skysend.hajd.cloud/how.
 - **docs**: Documented how the link preview image is chosen and how to set a separate preview image or banner.
 
 ### 🧪 Tests
@@ -285,29 +285,29 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.12.1`
+- **Image**: `hajd-cloud/skysend:v2.12.1`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.12.0 - New Website, Branding &amp; UX Improvements, Security Hardening, and Security Patches
 
-*Released: July 30, 2026*
+_Released: July 30, 2026_
 
 ### ✨ Features
 
 - **website**: Added a new public website (homepage, roadmap, blog, and a Server Instances section listing live public instances), plus a Report Abuse page for flagging file and note links.
 - **infra**: Moved the abuse report Cloudflare Worker into the monorepo (`workers/report`), alongside the existing instances worker.
-- **web**: The download page now shows the file name, file list, and size as soon as the link is opened, instead of only after starting the download. ([#66](https://github.com/Skyfay/SkySend/issues/66))
-- **web**: Uploads in "My Uploads" can be given an optional name, and multi-file uploads now list their file names instead of only a count. ([#67](https://github.com/Skyfay/SkySend/issues/67))
-- **server**: Branding assets placed in the data directory are now served by the instance itself, so a custom logo no longer needs an external URL. ([#66](https://github.com/Skyfay/SkySend/issues/66))
+- **web**: The download page now shows the file name, file list, and size as soon as the link is opened, instead of only after starting the download.
+- **web**: Uploads in "My Uploads" can be given an optional name, and multi-file uploads now list their file names instead of only a count.
+- **server**: Branding assets placed in the data directory are now served by the instance itself, so a custom logo no longer needs an external URL.
 
 ### 🐛 Bug Fixes
 
 - **web**: A repeated wrong password on the download page shows the error message again instead of staying silent after the first attempt.
 - **web**: A custom logo that cannot be loaded now falls back to the built-in logo instead of leaving a broken image in the header.
 - **web**: The file list on the download page now scrolls through all files instead of cutting off after the first few, and long file names no longer hide the file size.
-- **client**: Notes with an unlimited view limit now show "3 / ∞" in the TUI note detail instead of "3 / 0 (-3 remaining)". Thanks @Osamaali313 ([#65](https://github.com/Skyfay/SkySend/pull/65))
-- **web**: Share links whose fragment was percent-encoded by a mail security filter now open correctly instead of showing "not found", and warn that the key was exposed. ([#68](https://github.com/Skyfay/SkySend/issues/68))
+- **client**: Notes with an unlimited view limit now show "3 / ∞" in the TUI note detail instead of "3 / 0 (-3 remaining)".
+- **web**: Share links whose fragment was percent-encoded by a mail security filter now open correctly instead of showing "not found", and warn that the key was exposed.
 
 ### 🔒 Security
 
@@ -317,7 +317,7 @@ All notable changes to SkySend are documented here.
 - **web**: Updated react-router to 8 to patch a CSRF bypass that allowed actions to run before a 400 response (GHSA-qwww-vcr4-c8h2).
 - **web**: Updated dompurify to 3.4.12 to fix a sanitizer bypass for allowed custom elements (GHSA-c2j3-45gr-mqc4).
 - **infra**: Added pnpm overrides for `sharp` and `brace-expansion`, raised the `postcss` override, and removed the unused `autoprefixer` dependency to clear transitive advisories (GHSA-f88m-g3jw-g9cj, GHSA-3jxr-9vmj-r5cp, GHSA-mh99-v99m-4gvg, GHSA-r28c-9q8g-f849).
-- **server**: The request log no longer records anything after the ID in a file, note, or download path, so a link rewritten by a mail security filter cannot leave its key in the log. ([#68](https://github.com/Skyfay/SkySend/issues/68))
+- **server**: The request log no longer records anything after the ID in a file, note, or download path, so a link rewritten by a mail security filter cannot leave its key in the log.
 
 ### 🎨 Improvements
 
@@ -326,13 +326,13 @@ All notable changes to SkySend are documented here.
 
 ### 🔄 Changed
 
-- **web**: On password-protected download links, entering the password now unlocks the file details, and the download starts with a separate click. ([#66](https://github.com/Skyfay/SkySend/issues/66))
-- **web**: The placeholder for uploads without metadata now reads "Protected file" instead of "Encrypted file". ([#66](https://github.com/Skyfay/SkySend/issues/66))
+- **web**: On password-protected download links, entering the password now unlocks the file details, and the download starts with a separate click.
+- **web**: The placeholder for uploads without metadata now reads "Protected file" instead of "Encrypted file".
 
 ### 📝 Documentation
 
 - **docs**: Documented the branding directory and switched the custom logo examples from an external URL to a local path.
-- **docs**: Documented how mail security filters rewrite share links, what that means for the encryption key, and what a reverse proxy logs. ([#68](https://github.com/Skyfay/SkySend/issues/68))
+- **docs**: Documented how mail security filters rewrite share links, what that means for the encryption key, and what a reverse proxy logs.
 
 ### 🔧 CI/CD
 
@@ -341,13 +341,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.12.0`
+- **Image**: `hajd-cloud/skysend:v2.12.0`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.11.3 - Dependency Updates and Bug Fixes
 
-*Released: June 21, 2026*
+_Released: June 21, 2026_
 
 ### 🐛 Bug Fixes
 
@@ -369,17 +369,17 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.11.3`
+- **Image**: `hajd-cloud/skysend:v2.11.3`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.11.2 - Cache-Control Fiexes &amp; View Count Bug Fix
 
-*Released: June 5, 2026*
+_Released: June 5, 2026_
 
 ### 🐛 Bug Fixes
 
-- **server**: The view count returned after opening a note now reflects the authoritative stored value, and notes that have reached their view limit are handled correctly. ([#59](https://github.com/Skyfay/SkySend/issues/59))
+- **server**: The view count returned after opening a note now reflects the authoritative stored value, and notes that have reached their view limit are handled correctly.
 
 ### 🎨 Improvements
 
@@ -392,13 +392,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.11.2`
+- **Image**: `hajd-cloud/skysend:v2.11.2`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.11.1 - Adaptive ZIP Compression &amp; Packing Events in Debug Info Panel
 
-*Released: May 31, 2026*
+_Released: May 31, 2026_
 
 ### 🎨 Improvements
 
@@ -414,13 +414,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.11.1`
+- **Image**: `hajd-cloud/skysend:v2.11.1`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.11.0 - Password Protection Algorithm Removal, New Copy Button for Password Values, and Improvements
 
-*Released: May 30, 2026*
+_Released: May 30, 2026_
 
 > ⚠️ **Breaking:** Password-protected uploads created with **PBKDF2** (prior to v2.4.0) or the **legacy Argon2id** parameters (v2.4.0 - v2.5.0, 4-day window) can no longer be decrypted - both algorithms have been fully removed from the decryption pipeline. All such uploads have exceeded their maximum retention period and have expired, but any password-protected file from those eras cannot be opened after upgrading to this version.
 
@@ -445,13 +445,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.11.0`
+- **Image**: `hajd-cloud/skysend:v2.11.0`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.10.1 - S3 Download CORS Error Handling and Debug Info Panel Storage Backend Events
 
-*Released: May 28, 2026*
+_Released: May 28, 2026_
 
 ### ✨ Features
 
@@ -464,13 +464,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.10.1`
+- **Image**: `hajd-cloud/skysend:v2.10.1`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.10.0 - New Copy &amp; Share Features, Download UX Improvements, and Bug Fixes
 
-*Released: May 24, 2026*
+_Released: May 24, 2026_
 
 ### ✨ Features
 
@@ -507,28 +507,28 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.10.0`
+- **Image**: `hajd-cloud/skysend:v2.10.0`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.9.5 - Cache-Control Fixes for Stale Content and Traefik Caching
 
-*Released: May 20, 2026*
+_Released: May 20, 2026_
 
 ### 🎨 Improvements
 
-- **server**: Changed `Cache-Control` for `index.html` and `download-sw.js` from `no-cache, must-revalidate` to `no-store`. `no-cache` permits storing the response and requires proxy revalidation via ETag or Last-Modified headers, which SkySend does not set - causing Traefik's caching middleware to fall back to its own TTL and serve stale HTML after a deployment. `no-store` is unconditional and prevents any proxy from storing the response, eliminating the need for a Traefik restart after updates.
+- **server**: Changed `Cache-Control` for `index.html` and `download-sw.js` from `no-cache, must-revalidate` to `no-store`. `no-cache` permits storing the response and requires proxy revalidation via ETag or Last-Modified headers, which Hajd.Cloud does not set - causing Traefik's caching middleware to fall back to its own TTL and serve stale HTML after a deployment. `no-store` is unconditional and prevents any proxy from storing the response, eliminating the need for a Traefik restart after updates.
 - **server**: Added a global `Cache-Control: no-store` middleware to all `/api/*` routes. Previously only the successful download stream response carried this header. Error responses from any API endpoint (e.g. a transient 500 from the download route) had no cache directive, allowing Traefik to cache them. A single cached error response caused all subsequent requests to the same URL to receive the cached error until the proxy was restarted.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.9.5`
+- **Image**: `hajd-cloud/skysend:v2.9.5`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.9.4 - Service Worker Download Fixes for Firefox &amp; Improved Caching
 
-*Released: May 20, 2026*
+_Released: May 20, 2026_
 
 ### 🐛 Bug Fixes
 
@@ -544,13 +544,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.9.4`
+- **Image**: `hajd-cloud/skysend:v2.9.4`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.9.3 - Debugging Service Worker Download Stalling in Firefox
 
-*Released: May 17, 2026*
+_Released: May 17, 2026_
 
 ### 🐛 Bug Fixes
 
@@ -562,17 +562,17 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.9.3`
+- **Image**: `hajd-cloud/skysend:v2.9.3`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.9.2 - Firefox Hotfix release &amp; Browser Cache fix
 
-*Released: May 17, 2026*
+_Released: May 17, 2026_
 
 ### 🐛 Bug Fixes
 
-- **web**: Fixed Firefox hanging on Service Worker-streamed downloads for files &gt;= 2 GiB. Firefox has a long-standing signed 32-bit integer overflow in its internal download pipeline that triggers when `Content-Length` is &gt;= 2^31 bytes, causing the download manager to stall or cancel at the end. The `Content-Length` header is now omitted for files &gt;= 2 GiB so Firefox falls back to reading until EOF. Files below 2 GiB and all other browsers are unaffected. Thanks @Dominion0815
+- **web**: Fixed Firefox hanging on Service Worker-streamed downloads for files &gt;= 2 GiB. Firefox has a long-standing signed 32-bit integer overflow in its internal download pipeline that triggers when `Content-Length` is &gt;= 2^31 bytes, causing the download manager to stall or cancel at the end. The `Content-Length` header is now omitted for files &gt;= 2 GiB so Firefox falls back to reading until EOF. Files below 2 GiB and all other browsers are unaffected.
 - **web**: Fixed the Service Worker download progress not reaching 100% and the UI not transitioning to "done" after the download completes. The `dl-done` broadcast was fire-and-forget - Firefox terminates the SW as soon as `waitUntil` resolves, abandoning the still-pending `clients.matchAll()` call before the message is delivered. All completion broadcasts are now awaited before `streamDone()` is called.
 
 ### 🎨 Improvements
@@ -581,13 +581,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.9.2`
+- **Image**: `hajd-cloud/skysend:v2.9.2`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.9.1 - Fixes for Large File Downloads in Firefox and SEO Meta Tag Improvements
 
-*Released: May 16, 2026*
+_Released: May 16, 2026_
 
 ### 🐛 Bug Fixes
 
@@ -596,43 +596,43 @@ All notable changes to SkySend are documented here.
 ### 🎨 Improvements
 
 - **web**: Updated SEO meta tags (title, description, Open Graph, Twitter Card) to mention both file and note sharing. Added `og:image` and `twitter:image` for rich link previews on Discord and other platforms. The image defaults to `/logo.png` and can be overridden with the `VITE_OG_IMAGE` environment variable at build time.
-- **web**: The page `<title>` and OG/Twitter title tags now reflect `CUSTOM_TITLE` at runtime. When `CUSTOM_TITLE=MyShare` is set, the preview title becomes "MyShare | Encrypted File &amp; Note Transfer" instead of "SkySend | ...".
+- **web**: The page `<title>` and OG/Twitter title tags now reflect `CUSTOM_TITLE` at runtime. When `CUSTOM_TITLE=MyShare` is set, the preview title becomes "MyShare | Encrypted File &amp; Note Transfer" instead of "Hajd.Cloud | ...".
 - **server**: The SPA fallback route now injects `CUSTOM_TITLE` into the served `index.html` at request time (cached after first read) so link-preview scrapers see the correct title without a separate build-time variable.
 
 ### 🔄 Changed
 
-- **docs**: The Domain has moved from `skysend.ch` to `skysend.app`. All documentation, API references, and examples have been updated to reflect the new domain. The old `skysend.ch` URLs will continue to work and redirect to `skysend.app` for the foreseeable future.
+- **docs**: The Domain has moved from `Hajd.Cloud` to `skysend.hajd.cloud/how`. All documentation, API references, and examples have been updated to reflect the new domain. The old `Hajd.Cloud` URLs will continue to work and redirect to `skysend.hajd.cloud/how` for the foreseeable future.
 - **server**: Added `CUSTOM_REPORT_URL` environment variable. When set, a "Report" link appears in the footer pointing to the configured URL - intended for abuse/report pages. Instance operators who do not set this variable will not show the link.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.9.1`
+- **Image**: `hajd-cloud/skysend:v2.9.1`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.9.0 - Multi-block Code Notes and UI Improvements
 
-*Released: May 15, 2026*
+_Released: May 15, 2026_
 
 ### ✨ Features
 
-- **web**: Added multi-block code notes. The Code tab now supports multiple code blocks per note, each with an optional filename/title and a language selector (Auto-detect or one of 44 supported languages). On the view page, blocks show a detected language badge and can be collapsed individually or all at once - single-block notes expand by default, multi-block notes start collapsed. ([#45](https://github.com/Skyfay/SkySend/issues/45))
+- **web**: Added multi-block code notes. The Code tab now supports multiple code blocks per note, each with an optional filename/title and a language selector (Auto-detect or one of 44 supported languages). On the view page, blocks show a detected language badge and can be collapsed individually or all at once - single-block notes expand by default, multi-block notes start collapsed.
 
 ### 🐛 Bug Fixes
 
 - **web**: Fixed the password generator length input being slightly clipped for three-digit values (100+). The field width was increased from `w-16` to `w-20` so numbers like 106 or 128 are fully visible.
-- **web**: Fixed invisible burn-after-reading warning text in light mode. The warning box now uses `text-destructive` (colored) instead of `text-destructive-foreground` (white), making the text readable on the light semi-transparent red background. ([#46](https://github.com/Skyfay/SkySend/issues/46))
-- **web**: Fixed syntax highlighting in code snippets for light mode. The code block now uses the GitHub light theme in light mode (`#f6f8fa` background) and the Arta dark theme in dark mode (`#222` background), ensuring all tokens are readable in both themes. ([#45](https://github.com/Skyfay/SkySend/issues/45))
+- **web**: Fixed invisible burn-after-reading warning text in light mode. The warning box now uses `text-destructive` (colored) instead of `text-destructive-foreground` (white), making the text readable on the light semi-transparent red background.
+- **web**: Fixed syntax highlighting in code snippets for light mode. The code block now uses the GitHub light theme in light mode (`#f6f8fa` background) and the Arta dark theme in dark mode (`#222` background), ensuring all tokens are readable in both themes.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.9.0`
+- **Image**: `hajd-cloud/skysend:v2.9.0`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.8.0 - OIDC/SSO Authentication, General Improvements, Security &amp; Dependency Patches
 
-*Released: May 14, 2026*
+_Released: May 14, 2026_
 
 ### ✨ Features
 
@@ -671,22 +671,22 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.8.0`
+- **Image**: `hajd-cloud/skysend:v2.8.0`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.7.1 - Two New Languages &amp; Markdown Rendering Fixes
 
-*Released: May 13, 2026*
+_Released: May 13, 2026_
 
 ### ✨ Features
 
-- **web**: Added Japanese (ja) translation. Thanks @canaria-computer ([#41](https://github.com/skyfay/SkySend/pull/41))
-- **web**: Added Brazilian Portuguese (pt-BR) translation. Thanks @magisph ([#40](https://github.com/skyfay/SkySend/pull/40))
+- **web**: Added Japanese (ja) translation.
+- **web**: Added Brazilian Portuguese (pt-BR) translation.
 
 ### 🐛 Bug Fixes
 
-- **web**: Fixed Markdown preview and note view not rendering headings, blockquotes, lists, and other block-level elements. The `@tailwindcss/typography` plugin was installed but not loaded via `@plugin` in `index.css`, so `prose` styles had no effect. ([#42](https://github.com/Skyfay/SkySend/issues/42))
+- **web**: Fixed Markdown preview and note view not rendering headings, blockquotes, lists, and other block-level elements. The `@tailwindcss/typography` plugin was installed but not loaded via `@plugin` in `index.css`, so `prose` styles had no effect.
 
 ### 🔄 Changed
 
@@ -694,13 +694,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.7.1`
+- **Image**: `hajd-cloud/skysend:v2.7.1`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.7.0 - Native OS Share Button, Security Patches, and Dependency Updates
 
-*Released: May 8, 2026*
+_Released: May 8, 2026_
 
 ### ✨ Features
 
@@ -716,26 +716,26 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.7.0`
+- **Image**: `hajd-cloud/skysend:v2.7.0`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.6.0 - New Customization Options, Added Chinese Language and Bug Fixes
 
-*Released: May 6, 2026*
+_Released: May 6, 2026_
 
 ### ✨ Features
 
-- **web**: Added Simplified Chinese (zh-CN) translation. Thanks @Liyouran-center ([#36](https://github.com/skyfay/SkySend/pull/36))
-- **server**: Added `DEFAULT_THEME` env var to set the default UI theme (`dark`, `light`, or `system`) for users who have not stored a preference. The user's own choice always takes precedence. ([#35](https://github.com/skyfay/SkySend/pull/35))
-- **server**: Added `DEFAULT_TAB` env var to set the default upload tab (`file`, `text`, `password`, `code`, or `sshkey`). Falls back to the first enabled tab if the configured tab is unavailable. ([#35](https://github.com/skyfay/SkySend/pull/35))
-- **server**: Added `FORCE_FILE_PASSWORD` env var - when set to `true`, all file uploads must be password-protected. Enforced on both the server (HTTP 400) and in the UI. ([#35](https://github.com/skyfay/SkySend/pull/35))
-- **server**: Added `FORCE_NOTE_PASSWORD` env var - when set to `true`, all note uploads (text, password, code, SSH key) must be password-protected. Enforced on both the server (HTTP 400) and in the UI. ([#35](https://github.com/skyfay/SkySend/pull/35))
-- **client**: `FORCE_FILE_PASSWORD` and `FORCE_NOTE_PASSWORD` are now respected by the CLI client. When enforced, the CLI automatically prompts for a password if `-p` was not provided. The interactive TUI skips the "Password protect?" question and goes directly to the password input prompt. ([#35](https://github.com/skyfay/SkySend/pull/35))
+- **web**: Added Simplified Chinese (zh-CN) translation.
+- **server**: Added `DEFAULT_THEME` env var to set the default UI theme (`dark`, `light`, or `system`) for users who have not stored a preference. The user's own choice always takes precedence.
+- **server**: Added `DEFAULT_TAB` env var to set the default upload tab (`file`, `text`, `password`, `code`, or `sshkey`). Falls back to the first enabled tab if the configured tab is unavailable.
+- **server**: Added `FORCE_FILE_PASSWORD` env var - when set to `true`, all file uploads must be password-protected. Enforced on both the server (HTTP 400) and in the UI.
+- **server**: Added `FORCE_NOTE_PASSWORD` env var - when set to `true`, all note uploads (text, password, code, SSH key) must be password-protected. Enforced on both the server (HTTP 400) and in the UI.
+- **client**: `FORCE_FILE_PASSWORD` and `FORCE_NOTE_PASSWORD` are now respected by the CLI client. When enforced, the CLI automatically prompts for a password if `-p` was not provided. The interactive TUI skips the "Password protect?" question and goes directly to the password input prompt.
 
 ### 🐛 Bug Fixes
 
-- **docker**: Fixed health check failing when a custom `PORT` is set - the `HEALTHCHECK` command hardcoded port 3000 instead of reading the `PORT` environment variable. ([#34](https://github.com/Skyfay/SkySend/issues/34))
+- **docker**: Fixed health check failing when a custom `PORT` is set - the `HEALTHCHECK` command hardcoded port 3000 instead of reading the `PORT` environment variable.
 
 ### 🔄 Changed
 
@@ -743,13 +743,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.6.0`
+- **Image**: `hajd-cloud/skysend:v2.6.0`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.5.7 - Docker Entrypoint Custom Data/Uploads Directory Fix
 
-*Released: May 3, 2026*
+_Released: May 3, 2026_
 
 ### 🐛 Bug Fixes
 
@@ -757,13 +757,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.5.7`
+- **Image**: `hajd-cloud/skysend:v2.5.7`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.5.6 - Docker Entrypoint PGID Fix
 
-*Released: May 3, 2026*
+_Released: May 3, 2026_
 
 ### 🐛 Bug Fixes
 
@@ -771,13 +771,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.5.6`
+- **Image**: `hajd-cloud/skysend:v2.5.6`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.5.5 - CSP Fix for Password-Protected Uploads, Downloads and Notes
 
-*Released: May 2, 2026*
+_Released: May 2, 2026_
 
 ### 🐛 Bug Fixes
 
@@ -785,13 +785,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.5.5`
+- **Image**: `hajd-cloud/skysend:v2.5.5`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.5.4 - Content Security Policy Update for Custom Logo Support
 
-*Released: May 1, 2026*
+_Released: May 1, 2026_
 
 ### 🔄 Changed
 
@@ -799,13 +799,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.5.4`
+- **Image**: `hajd-cloud/skysend:v2.5.4`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.5.3 - WebSocket Upload Keepalive
 
-*Released: April 25, 2026*
+_Released: April 25, 2026_
 
 ### 🐛 Bug Fixes
 
@@ -817,13 +817,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.5.3`
+- **Image**: `hajd-cloud/skysend:v2.5.3`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.5.2 - Client Improvements &amp; Bug fixes
 
-*Released: April 25, 2026*
+_Released: April 25, 2026_
 
 ### 🐛 Bug Fixes
 
@@ -840,13 +840,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.5.2`
+- **Image**: `hajd-cloud/skysend:v2.5.2`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.5.1 - Bug fixes, dependency updates, and Dockerfile improvements
 
-*Released: April 25, 2026*
+_Released: April 25, 2026_
 
 ### 🐛 Bug Fixes
 
@@ -878,13 +878,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.5.1`
+- **Image**: `hajd-cloud/skysend:v2.5.1`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.5.0 - Security Audit Fixes, Test Coverage Improvements, and Docker Metadata Labels
 
-*Released: April 23, 2026*
+_Released: April 23, 2026_
 
 ### ✨ Features
 
@@ -928,13 +928,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.5.0`
+- **Image**: `hajd-cloud/skysend:v2.5.0`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.4.3 - Codecov, Unit Test Improvements &amp; Web Improvements
 
-*Released: April 21, 2026*
+_Released: April 21, 2026_
 
 ### ✨ Features
 
@@ -958,13 +958,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.4.3`
+- **Image**: `hajd-cloud/skysend:v2.4.3`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.4.2 - WebSocket Upload Toggle and CLI History Command
 
-*Released: April 20, 2026*
+_Released: April 20, 2026_
 
 ### ✨ Features
 
@@ -982,13 +982,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.4.2`
+- **Image**: `hajd-cloud/skysend:v2.4.2`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.4.1 - Bug Fixes for CLI Binary and Client install URL Shortening
 
-*Released: April 20, 2026*
+_Released: April 20, 2026_
 
 ### 🐛 Bug Fixes
 
@@ -996,21 +996,21 @@ All notable changes to SkySend are documented here.
 
 ### 📝 Documentation
 
-- **docs**: Shortened CLI install URLs from raw GitHub links to `skysend.app/install.sh` and `skysend.app/install.ps1` redirects across README, docs, and install scripts
+- **docs**: Shortened CLI install URLs from raw GitHub links to `skysend.hajd.cloud/how` and `skysend.hajd.cloud/how` redirects across README, docs, and install scripts
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.4.1`
+- **Image**: `hajd-cloud/skysend:v2.4.1`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.4.0 - CLI Client, PWA Support and ZIP creating improvements
 
-*Released: April 19, 2026*
+_Released: April 19, 2026_
 
 ### ✨ Features
 
-- **web**: Added PWA (Progressive Web App) support - SkySend can now be installed as an app on desktop (Chrome, Edge), Android, and iOS via "Add to Home Screen"
+- **web**: Added PWA (Progressive Web App) support - Hajd.Cloud can now be installed as an app on desktop (Chrome, Edge), Android, and iOS via "Add to Home Screen"
 - **client**: Added `@skysend/client` CLI binary for uploading and downloading files with end-to-end encryption from the terminal - supports single/multi-file uploads, encrypted notes, password protection, WebSocket and HTTP chunked transports, and cross-platform Bun-compiled binaries (Linux, macOS, Windows)
 - **web**: Added Argon2id password KDF support to the web frontend and upload worker using hash-wasm, enabling cross-compatibility with CLI password-protected uploads
 
@@ -1041,13 +1041,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.4.0`
+- **Image**: `hajd-cloud/skysend:v2.4.0`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.3.0 - WebSocket Upload Transport for Improved Performance in Proxied Environments
 
-*Released: April 17, 2026*
+_Released: April 17, 2026_
 
 ### ✨ Features
 
@@ -1069,13 +1069,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.3.0`
+- **Image**: `hajd-cloud/skysend:v2.3.0`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.2.4 - Max Concurrent Chunk Uploads and Speed Limit Configuration
 
-*Released: April 15, 2026*
+_Released: April 15, 2026_
 
 ### ✨ Features
 
@@ -1090,26 +1090,26 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.2.4`
+- **Image**: `hajd-cloud/skysend:v2.2.4`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.2.3 - Critical Bug Fixes for Chunked Uploads in HTTP/2 Proxied Environments
 
-*Released: April 15, 2026*
+_Released: April 15, 2026_
 
 - **server**: Fixed rate limiter path matching - the regex anchor (`^`) prevented chunk requests from being recognized through the `/api` sub-router, causing 429 errors despite the exemption
 - **server**: Fixed HTTP/2 flow-control deadlock that caused uploads to stall at 0-1% in Chrome, Firefox, Brave, and Edge through reverse proxies - the server now reads each chunk body immediately instead of deferring reads in a promise chain, preventing proxy flow-control backpressure from blocking the connection
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.2.3`
+- **Image**: `hajd-cloud/skysend:v2.2.3`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.2.2 - Bug Fixes for Chunked Uploads in Brave and Edge
 
-*Released: April 15, 2026*
+_Released: April 15, 2026_
 
 ### 🐛 Bug Fixes
 
@@ -1118,13 +1118,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.2.2`
+- **Image**: `hajd-cloud/skysend:v2.2.2`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.2.1 - Parallel Chunk Uploads and Performance Improvements
 
-*Released: April 15, 2026*
+_Released: April 15, 2026_
 
 ### 🎨 Improvements
 
@@ -1142,13 +1142,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.2.1`
+- **Image**: `hajd-cloud/skysend:v2.2.1`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.2.0 - S3 Storage Backend
 
-*Released: April 15, 2026*
+_Released: April 15, 2026_
 
 ### ✨ Features
 
@@ -1191,13 +1191,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.2.0`
+- **Image**: `hajd-cloud/skysend:v2.2.0`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.1.0 - General UI and Documentation Improvements
 
-*Released: April 14, 2026*
+_Released: April 14, 2026_
 
 ### ✨ Features
 
@@ -1209,7 +1209,7 @@ All notable changes to SkySend are documented here.
 - **docs**: Added skeleton loading animation while instance data is being fetched
 - **docs**: Instance list is now maintained via `docs/public/instances.json` - users can add instances via pull request
 - **docs**: Instance cards show separate Files and Notes stats sections, each only visible when the service is enabled
-- **docs**: Instance cards show "Official" or "Community" badge, with official instances (skysend.app) always sorted first
+- **docs**: Instance cards show "Official" or "Community" badge, with official instances (skysend.hajd.cloud/how) always sorted first
 - **web**: Added language switcher dropdown in the navbar with country flag icons via `flag-icons` library
 - **web**: Manual language selection is persisted in a cookie so it survives page reloads and sessions
 - **web**: Added optional custom labels for password notes so users can describe what each password is for
@@ -1221,13 +1221,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.1.0`
+- **Image**: `hajd-cloud/skysend:v2.1.0`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v2.0.0 - Encrypted Notes, Text, Passwords, Code Snippets, and SSH Keys
 
-*Released: April 13, 2026*
+_Released: April 13, 2026_
 
 > ⚠️ **Breaking:** All file-related environment variables have been renamed with a `FILE_` prefix (e.g. `MAX_FILE_SIZE` -&gt; `FILE_MAX_SIZE`). Old names are no longer supported. See the environment reference for the full mapping.
 
@@ -1269,7 +1269,7 @@ All notable changes to SkySend are documented here.
 - **web**: Replaced default browser scrollbar with custom styled scrollbar on textareas and code blocks
 - **web**: Updated footer tagline and browser tab subtitle to reflect file and note sharing
 - **web**: Removed primary-color border from ShareLink card and NoteView card to avoid confusion with custom color themes
-- **web**: Added `success` Tailwind color variable (fixed SkySend green) for the "Upload complete" text so it stays green regardless of custom primary color
+- **web**: Added `success` Tailwind color variable (fixed Hajd.Cloud green) for the "Upload complete" text so it stays green regardless of custom primary color
 
 ### 📝 Documentation
 
@@ -1293,13 +1293,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v2.0.0`
+- **Image**: `hajd-cloud/skysend:v2.0.0`
 - **Also tagged as**: `latest`, `v2`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v1.0.2 - Patch Release for CORS correction on Health Endpoint
 
-*Released: April 13, 2026*
+_Released: April 13, 2026_
 
 ### 🐛 Bug Fixes
 
@@ -1311,13 +1311,13 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v1.0.2`
+- **Image**: `hajd-cloud/skysend:v1.0.2`
 - **Also tagged as**: `latest`, `v1`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v1.0.1 - Patch Release for Docker Permissions Issue
 
-*Released: April 12, 2026*
+_Released: April 12, 2026_
 
 ### 🐛 Bug Fixes
 
@@ -1329,15 +1329,15 @@ All notable changes to SkySend are documented here.
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v1.0.1`
+- **Image**: `hajd-cloud/skysend:v1.0.1`
 - **Also tagged as**: `latest`, `v1`
 - **Platforms**: linux/amd64, linux/arm64
 
 ## v1.0.0 - First Stable Release
 
-*Released: April 12, 2026*
+_Released: April 12, 2026_
 
-This is the first stable release of SkySend, marking the completion of the initial development phase and the beginning of production use. The v1.0.0 release includes all core features, security measures, and documentation necessary for self-hosting and public deployment.
+This is the first stable release of Hajd.Cloud, marking the completion of the initial development phase and the beginning of production use. The v1.0.0 release includes all core features, security measures, and documentation necessary for self-hosting and public deployment.
 
 ### ✨ Features
 
@@ -1396,7 +1396,6 @@ This is the first stable release of SkySend, marking the completion of the initi
 
 ### 🐳 Docker
 
-- **Image**: `skyfay/skysend:v1.0.0`
+- **Image**: `hajd-cloud/skysend:v1.0.0`
 - **Also tagged as**: `latest`, `v1`
 - **Platforms**: linux/amd64, linux/arm64
-

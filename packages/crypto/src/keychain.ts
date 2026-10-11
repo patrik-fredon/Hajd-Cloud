@@ -1,5 +1,5 @@
 /**
- * Key generation and derivation for SkySend.
+ * Key generation and derivation for Hajd.Cloud.
  *
  * Secret (32 bytes) -> HKDF-SHA256 -> fileKey, metaKey, authKey
  *
@@ -54,7 +54,10 @@ export async function importHkdfKey(secret: Uint8Array): Promise<CryptoKey> {
   if (secret.length !== SECRET_LENGTH) {
     throw new Error(`Secret must be exactly ${SECRET_LENGTH} bytes`);
   }
-  return crypto.subtle.importKey("raw", asBytes(secret), "HKDF", false, ["deriveKey", "deriveBits"]);
+  return crypto.subtle.importKey("raw", asBytes(secret), "HKDF", false, [
+    "deriveKey",
+    "deriveBits",
+  ]);
 }
 
 /**

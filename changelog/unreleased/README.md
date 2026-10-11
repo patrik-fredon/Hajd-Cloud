@@ -4,7 +4,7 @@ Every pull request writes its changelog entries into a file of its own in this f
 
 ## The file
 
-- One file per branch, named after the branch with `/` replaced by `-`, like `Skyfay-link-preview.md`. A change made without a branch of its own is named after the change.
+- One file per branch, named after the branch with `/` replaced by `-`, like `Hajd.Cloud-link-preview.md`. A change made without a branch of its own is named after the change.
 - The same Markdown as a version block of the changelog, without the version header and without the Docker section, which the release writes.
 - Notes like `> ⚠️ **Breaking:**` or `> ⚠️ **Before updating:**` go above the first section. The sections use the headings of the changelog in any order, the release sorts them and groups the entries of each section by scope.
 - Every entry is one line with exactly one scope: `server`, `web`, `client`, `cli`, `crypto`, `docs`, `website`, `docker` or `infra`. A branch that changes its mind edits its own file rather than adding a second one.
@@ -19,7 +19,7 @@ Every pull request writes its changelog entries into a file of its own in this f
 
 ### 🐛 Bug Fixes
 
-- **web**: What was wrong and what happens now. ([#70](https://github.com/Skyfay/SkySend/issues/70))
+- **web**: What was wrong and what happens now.
 ```
 
 The rules for an entry, like at most two sentences, no `;` and no hyphen used as a dash, and which changes need one at all, are in the changelog part of [docs/CLAUDE.md](../../docs/CLAUDE.md). A test checks every file in this folder.

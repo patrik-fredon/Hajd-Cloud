@@ -1,10 +1,10 @@
 # Encryption Design
 
-This document describes SkySend's encryption architecture in detail. It is intended as public audit material.
+This document describes Hajd.Cloud's encryption architecture in detail. It is intended as public audit material.
 
 ## Overview
 
-SkySend uses client-side end-to-end encryption. All cryptographic operations happen in the browser using the [Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API). The server never has access to plaintext data, file names, or encryption keys.
+Hajd.Cloud uses client-side end-to-end encryption. All cryptographic operations happen in the browser using the [Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API). The server never has access to plaintext data, file names, or encryption keys.
 
 ```
 Browser (Client)                              Server
@@ -26,15 +26,15 @@ Browser (Client)                              Server
 
 ## Cryptographic Primitives
 
-| Component | Algorithm |
-| --- | --- |
-| Secret Key | 256-bit random (`crypto.getRandomValues`) |
-| Key Derivation | HKDF-SHA256 |
-| File Encryption | AES-256-GCM (64KB record size) |
-| Metadata Encryption | AES-256-GCM + random 12-byte IV |
-| Nonce Handling | Counter-based XOR (32-bit big-endian) |
-| Auth Token | HMAC-SHA256 |
-| Password KDF | Argon2id (64 MiB memory, 3 iterations, 1 parallelism) |
+| Component             | Algorithm                                                                      |
+| --------------------- | ------------------------------------------------------------------------------ |
+| Secret Key            | 256-bit random (`crypto.getRandomValues`)                                      |
+| Key Derivation        | HKDF-SHA256                                                                    |
+| File Encryption       | AES-256-GCM (64KB record size)                                                 |
+| Metadata Encryption   | AES-256-GCM + random 12-byte IV                                                |
+| Nonce Handling        | Counter-based XOR (32-bit big-endian)                                          |
+| Auth Token            | HMAC-SHA256                                                                    |
+| Password KDF          | Argon2id (64 MiB memory, 3 iterations, 1 parallelism)                          |
 | File Request Key Wrap | HPKE base mode (RFC 9180): DHKEM(P-256, HKDF-SHA256), HKDF-SHA256, AES-256-GCM |
 
 ## Key Derivation
@@ -79,13 +79,13 @@ Each record:
 
 ### Constants
 
-| Constant | Value |
-| --- | --- |
-| `RECORD_SIZE` | 65,536 bytes (64 KB plaintext) |
-| `TAG_LENGTH` | 16 bytes (GCM authentication tag) |
-| `NONCE_LENGTH` | 12 bytes |
-| `ENCRYPTED_RECORD_SIZE` | 65,552 bytes (plaintext + tag) |
-| `MAX_RECORDS` | 2^32 - 1 |
+| Constant                | Value                             |
+| ----------------------- | --------------------------------- |
+| `RECORD_SIZE`           | 65,536 bytes (64 KB plaintext)    |
+| `TAG_LENGTH`            | 16 bytes (GCM authentication tag) |
+| `NONCE_LENGTH`          | 12 bytes                          |
+| `ENCRYPTED_RECORD_SIZE` | 65,552 bytes (plaintext + tag)    |
+| `MAX_RECORDS`           | 2^32 - 1                          |
 
 ### Nonce Construction
 
@@ -159,14 +159,14 @@ The `contentType` field is stored unencrypted on the server so the client knows 
 
 Notes created before v3 have the content type of their single kind, and still open:
 
-| contentType | Description |
-| --- | --- |
-| `blocks` | A note made of blocks (since v3) |
-| `text` | Plain text (before v3) |
-| `markdown` | Markdown (before v3) |
-| `password` | One or more passwords (before v3) |
-| `code` | Code snippets (before v3) |
-| `sshkey` | SSH key pairs (before v3) |
+| contentType | Description                       |
+| ----------- | --------------------------------- |
+| `blocks`    | A note made of blocks (since v3)  |
+| `text`      | Plain text (before v3)            |
+| `markdown`  | Markdown (before v3)              |
+| `password`  | One or more passwords (before v3) |
+| `code`      | Code snippets (before v3)         |
+| `sshkey`    | SSH key pairs (before v3)         |
 
 ## Password Protection
 
@@ -181,12 +181,12 @@ When a user sets a password, additional protection is applied:
 
 ### Argon2id Parameters
 
-| Parameter | Value |
-| --- | --- |
-| Memory | 65,536 KiB (64 MiB) - OWASP strong recommendation |
-| Iterations | 3 |
-| Parallelism | 1 |
-| Hash Length | 32 bytes |
+| Parameter   | Value                                             |
+| ----------- | ------------------------------------------------- |
+| Memory      | 65,536 KiB (64 MiB) - OWASP strong recommendation |
+| Iterations  | 3                                                 |
+| Parallelism | 1                                                 |
+| Hash Length | 32 bytes                                          |
 
 > Argon2id is the only supported password KDF. The legacy PBKDF2-SHA256 fallback was removed in v2.11.0.
 

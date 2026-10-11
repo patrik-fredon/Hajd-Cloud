@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
-# SkySend CLI installer for Linux and macOS.
+# Hajd.Cloud CLI installer for Linux and macOS.
 # Usage:
-#   curl -fsSL https://skysend.app/install.sh | sh
+#   curl -fsSL https://skysend.hajd.cloud/install.sh | sh
 #
 # Options (environment variables):
 #   INSTALL_DIR   - installation directory (default: /usr/local/bin)
@@ -9,7 +9,7 @@
 
 set -eu
 
-REPO="skyfay/SkySend"
+REPO="${HAJD_CLOUD_REPOSITORY:?Set HAJD_CLOUD_REPOSITORY to the release source}"
 BINARY_NAME="skysend"
 INSTALL_DIR="${INSTALL_DIR:-/usr/local/bin}"
 
@@ -72,7 +72,7 @@ download_and_install() {
   DOWNLOAD_URL="https://github.com/${REPO}/releases/download/${VERSION}/${ASSET_NAME}"
   CHECKSUM_URL="https://github.com/${REPO}/releases/download/${VERSION}/checksums.txt"
 
-  echo "Installing SkySend CLI ${VERSION} (${PLATFORM})..."
+  echo "Installing Hajd.Cloud CLI ${VERSION} (${PLATFORM})..."
   echo "  From: ${DOWNLOAD_URL}"
 
   TMPDIR="$(mktemp -d)"
@@ -124,7 +124,7 @@ download_and_install() {
   fi
 
   echo ""
-  echo "SkySend CLI ${VERSION} installed to ${INSTALL_DIR}/${BINARY_NAME}"
+  echo "Hajd.Cloud CLI ${VERSION} installed to ${INSTALL_DIR}/${BINARY_NAME}"
   echo ""
   echo "Get started:"
   echo "  skysend --help"

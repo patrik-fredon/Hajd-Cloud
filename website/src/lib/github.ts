@@ -1,10 +1,7 @@
 const FETCH_TIMEOUT_MS = 8000;
 
-export async function fetchWithCache<T>(
-  key: string,
-  url: string,
-  ttlMs: number
-): Promise<T> {
+export async function fetchWithCache<T>(key: string, url: string, ttlMs: number): Promise<T> {
+  if (!url) throw new Error("No service endpoint configured");
   try {
     const cached = sessionStorage.getItem(key);
     if (cached) {

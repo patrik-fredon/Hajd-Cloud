@@ -8,11 +8,11 @@ Every binary field is canonical base64url without padding, checked for its exact
 
 ## Tokens
 
-| Header | Derived from | Grants |
-| --- | --- | --- |
-| `X-Upload-Token` | The upload link | Reading what a sender sees, opening an upload |
-| `X-Inbox-Token` | The inbox link | Listing the inbox, downloading a file |
-| `X-Inbox-Owner-Token` | The inbox link | Deleting a file, closing and deleting the request |
+| Header                | Derived from    | Grants                                            |
+| --------------------- | --------------- | ------------------------------------------------- |
+| `X-Upload-Token`      | The upload link | Reading what a sender sees, opening an upload     |
+| `X-Inbox-Token`       | The inbox link  | Listing the inbox, downloading a file             |
+| `X-Inbox-Owner-Token` | The inbox link  | Deleting a file, closing and deleting the request |
 
 A missing or wrong token answers `404`, the same as a request that does not exist. On the inbox routes of a request with a password, a well-formed wrong token also counts as a failed attempt for the lockout `request:<id>` of the caller's IP, shared with the password and note routes. After `PASSWORD_MAX_ATTEMPTS` failures every inbox route answers `429` with `Retry-After` for `PASSWORD_LOCKOUT_MS`. A request without a password never locks, since its tokens come from 256 random bits, and neither does an ID that does not exist.
 
@@ -36,24 +36,24 @@ Create a request. Needs the OIDC session when `OIDC_PROTECT_REQUESTS` is on.
 }
 ```
 
-| Field | Rule |
-| --- | --- |
-| `brief` | Required. The ciphertext is 16 bytes longer than a multiple of 1024, see [the brief](/developer-guide/crypto/file-requests#the-brief) |
-| `expireSec` | One of `FILE_REQUEST_EXPIRE_OPTIONS_SEC` |
-| `maxUploads` | One of `FILE_REQUEST_UPLOAD_OPTIONS`, or twice one. A request for files and a note counts submissions with the options, and each takes two uploads. What a request asks for is encrypted and the server does not check it, so any request may take up to twice the largest option. |
-| `maxSize` | Most bytes one upload may have, at most `FILE_REQUEST_MAX_SIZE` |
-| `downloads` | How often the requester can download each upload, one of `FILE_REQUEST_DOWNLOAD_OPTIONS` |
-| `hasPassword` | Must be `true` when `FORCE_REQUEST_PASSWORD` is on. The server takes the client's word for it, since the password never reaches it. |
+| Field         | Rule                                                                                                                                                                                                                                                                               |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `brief`       | Required. The ciphertext is 16 bytes longer than a multiple of 1024, see [the brief](/developer-guide/crypto/file-requests#the-brief)                                                                                                                                              |
+| `expireSec`   | One of `FILE_REQUEST_EXPIRE_OPTIONS_SEC`                                                                                                                                                                                                                                           |
+| `maxUploads`  | One of `FILE_REQUEST_UPLOAD_OPTIONS`, or twice one. A request for files and a note counts submissions with the options, and each takes two uploads. What a request asks for is encrypted and the server does not check it, so any request may take up to twice the largest option. |
+| `maxSize`     | Most bytes one upload may have, at most `FILE_REQUEST_MAX_SIZE`                                                                                                                                                                                                                    |
+| `downloads`   | How often the requester can download each upload, one of `FILE_REQUEST_DOWNLOAD_OPTIONS`                                                                                                                                                                                           |
+| `hasPassword` | Must be `true` when `FORCE_REQUEST_PASSWORD` is on. The server takes the client's word for it, since the password never reaches it.                                                                                                                                                |
 
 Unknown fields are refused, and the body may be at most 16 KB.
 
-| Status | Body |
-| --- | --- |
-| `201` | `{ "id": "<uuid>", "closesAt": "<ISO date>" }` |
-| `400` | Invalid body or a limit the server does not allow |
-| `401` | Login required |
-| `413` | Body too large |
-| `429` | `FILE_REQUEST_DAILY_LIMIT` used up for this user or IP |
+| Status | Body                                                   |
+| ------ | ------------------------------------------------------ |
+| `201`  | `{ "id": "<uuid>", "closesAt": "<ISO date>" }`         |
+| `400`  | Invalid body or a limit the server does not allow      |
+| `401`  | Login required                                         |
+| `413`  | Body too large                                         |
+| `429`  | `FILE_REQUEST_DAILY_LIMIT` used up for this user or IP |
 
 ## GET /api/request/limit
 
@@ -93,11 +93,25 @@ Uploads take the same two transports as [normal uploads](/developer-guide/api/up
 The WebSocket transport of normal uploads, with the same frames, buffering, backpressure and keepalive. Only the init and the finalize frame differ:
 
 ```json
-{ "type": "init", "request": { "uploadToken": "<32 bytes>", "salt": "<32 bytes>", "contentLength": 1048624, "fileCount": 1 } }
+{
+  "type": "init",
+  "request": {
+    "uploadToken": "<32 bytes>",
+    "salt": "<32 bytes>",
+    "contentLength": 1048624,
+    "fileCount": 1
+  }
+}
 ```
 
 ```json
-{ "type": "finalize", "wrapEnc": "<65 bytes>", "wrapCiphertext": "<48 bytes>", "encryptedMeta": "<17 to 75000 bytes>", "metaNonce": "<12 bytes>" }
+{
+  "type": "finalize",
+  "wrapEnc": "<65 bytes>",
+  "wrapCiphertext": "<48 bytes>",
+  "encryptedMeta": "<17 to 75000 bytes>",
+  "metaNonce": "<12 bytes>"
+}
 ```
 
 The server answers `{ "type": "ready", "id": "<upload uuid>" }`, then `{ "type": "done", "id" }` once the upload is stored. A refusal is `{ "type": "error", "message", "status" }`, where `status` is the one the same refusal has over HTTP, for example `404` for a wrong upload token or `409` for a full request. A socket that closes before `done` gives its slot back at once.
@@ -110,24 +124,24 @@ The same chunk rules as [normal chunked uploads](/developer-guide/api/upload): a
 
 Needs `X-Upload-Token`, plus:
 
-| Header | Value |
-| --- | --- |
-| `X-Salt` | 32-byte HKDF salt of the file |
-| `X-Content-Length` | Encrypted size, at most `FILE_MAX_SIZE` |
-| `X-File-Count` | Files in the upload, at most `FILE_MAX_FILES_PER_UPLOAD`, default `1` |
+| Header             | Value                                                                 |
+| ------------------ | --------------------------------------------------------------------- |
+| `X-Salt`           | 32-byte HKDF salt of the file                                         |
+| `X-Content-Length` | Encrypted size, at most `FILE_MAX_SIZE`                               |
+| `X-File-Count`     | Files in the upload, at most `FILE_MAX_FILES_PER_UPLOAD`, default `1` |
 
 Init reserves a slot in one statement, which also checks the declared size against the `maxSize` of the request, so parallel senders can never overfill a request. A session that fails or times out gives its slot back, and so does a restart of the server.
 
-| Status | Meaning |
-| --- | --- |
-| `201` | `{ "id": "<upload uuid>" }`, the ID the wrap of the file secret binds |
-| `400` | Invalid headers, or more files than `FILE_MAX_FILES_PER_UPLOAD` |
-| `403` | File requests are disabled |
-| `404` | Unknown request or wrong upload token |
-| `409` | Every slot is taken |
-| `410` | The request is closed or expired |
-| `413` | Larger than `FILE_MAX_SIZE`, than the `maxSize` of the request, or than the sender's remaining upload quota |
-| `429` | The sender's upload quota or the rate limit is used up |
+| Status | Meaning                                                                                                     |
+| ------ | ----------------------------------------------------------------------------------------------------------- |
+| `201`  | `{ "id": "<upload uuid>" }`, the ID the wrap of the file secret binds                                       |
+| `400`  | Invalid headers, or more files than `FILE_MAX_FILES_PER_UPLOAD`                                             |
+| `403`  | File requests are disabled                                                                                  |
+| `404`  | Unknown request or wrong upload token                                                                       |
+| `409`  | Every slot is taken                                                                                         |
+| `410`  | The request is closed or expired                                                                            |
+| `413`  | Larger than `FILE_MAX_SIZE`, than the `maxSize` of the request, or than the sender's remaining upload quota |
+| `429`  | The sender's upload quota or the rate limit is used up                                                      |
 
 ### POST /api/request/:id/upload/:uid/chunk?index=N
 
@@ -150,12 +164,12 @@ Ends an upload the sender cancelled, so its slot is free again at once instead o
 
 The body is checked before the session ends, so a broken body can be sent again. Then the upload is stored with the `downloads` of its request and deleted `FILE_REQUEST_RETENTION_SEC` after it arrived.
 
-| Status | Meaning |
-| --- | --- |
-| `200` | `{ "id": "<upload uuid>" }` |
-| `400` | Invalid body, which keeps the session so it can be sent again. Or fewer bytes arrived than declared, which ends the session and gives the reservation back. |
-| `404` | Unknown session, or the request was deleted while the upload ran |
-| `413` | Body over 128 KB |
+| Status | Meaning                                                                                                                                                     |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `200`  | `{ "id": "<upload uuid>" }`                                                                                                                                 |
+| `400`  | Invalid body, which keeps the session so it can be sent again. Or fewer bytes arrived than declared, which ends the session and gives the reservation back. |
+| `404`  | Unknown session, or the request was deleted while the upload ran                                                                                            |
+| `413`  | Body over 128 KB                                                                                                                                            |
 
 ## GET /api/inbox/:id
 
@@ -203,8 +217,8 @@ Needs `X-Inbox-Token`. Counts one download atomically and streams the ciphertext
 
 All three need `X-Inbox-Owner-Token` and answer `{ "ok": true }`.
 
-| Route | Effect |
-| --- | --- |
-| `DELETE /api/inbox/:id/file/:uid` | Deletes one upload. Its slot stays used. |
-| `POST /api/inbox/:id/close` | Stops new uploads. Sessions already running still finish. |
-| `DELETE /api/inbox/:id` | Deletes the request and every upload in it |
+| Route                             | Effect                                                    |
+| --------------------------------- | --------------------------------------------------------- |
+| `DELETE /api/inbox/:id/file/:uid` | Deletes one upload. Its slot stays used.                  |
+| `POST /api/inbox/:id/close`       | Stops new uploads. Sessions already running still finish. |
+| `DELETE /api/inbox/:id`           | Deletes the request and every upload in it                |

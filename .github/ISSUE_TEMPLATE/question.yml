@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Have a question about SkySend? Check the [documentation](https://docs.skysend.app) first - your answer might already be there.
+        Have a question about Hajd.Cloud? Check the [documentation](https://skysend.hajd.cloud/how) first - your answer might already be there.
 
   - type: textarea
     id: question
@@ -19,7 +19,7 @@ body:
   - type: input
     id: version
     attributes:
-      label: SkySend Version
+      label: Hajd.Cloud Version
       description: Which version are you running? (optional)
       placeholder: e.g. v2.5.4
 
@@ -27,10 +27,10 @@ body:
     id: instance_type
     attributes:
       label: Instance Type
-      description: Are you using a self-hosted instance or a public instance (e.g. ch.skysend.app)?
+      description: Are you using a self-hosted instance or a public instance (e.g. skysend.hajd.cloud)?
       options:
         - Self-hosted instance
-        - Public instance (ch.skysend.app or other community instance)
+        - Public instance (skysend.hajd.cloud or other community instance)
         - Not applicable
 
   - type: textarea

@@ -1,6 +1,6 @@
 # Installation
 
-This guide covers how to install and run SkySend using Docker, and how to install the CLI client for terminal usage.
+This guide covers how to install and run Hajd.Cloud using Docker, and how to install the CLI client for terminal usage.
 
 ## Server (Docker)
 
@@ -10,7 +10,7 @@ This guide covers how to install and run SkySend using Docker, and how to instal
 - Docker Compose v2+ (recommended)
 
 ::: tip Multi-Architecture Support
-SkySend images are available for **AMD64** (x86_64) and **ARM64** (aarch64) architectures.
+Hajd.Cloud images are available for **AMD64** (x86_64) and **ARM64** (aarch64) architectures.
 
 Supports: Intel/AMD servers, Raspberry Pi 4+, Apple Silicon (M1/M2/M3), AWS Graviton
 :::
@@ -22,7 +22,7 @@ Supports: Intel/AMD servers, Raspberry Pi 4+, Apple Silicon (M1/M2/M3), AWS Grav
 ```yaml [Docker Compose]
 services:
   skysend:
-    image: skyfay/skysend:latest
+    image: hajd-cloud/skysend:latest
     container_name: skysend
     restart: always
     ports:
@@ -32,7 +32,7 @@ services:
       - ./uploads:/uploads
     environment:
       - BASE_URL=http://localhost:3000
-      # All environment variables: https://docs.skysend.app/user-guide/configuration/environment-variables
+      # All environment variables: https://skysend.hajd.cloud/how
       # There are a lot of customization options available, so make sure to check the documentation for more details.
 ```
 
@@ -46,7 +46,7 @@ docker run -d \
   -e UPLOADS_DIR=/uploads \
   -v "$(pwd)/data:/data" \
   -v "$(pwd)/uploads:/uploads" \
-  skyfay/skysend:latest
+  hajd-cloud/skysend:latest
 ```
 
 :::
@@ -57,20 +57,20 @@ docker run -d \
 docker compose up -d
 ```
 
-SkySend is now running at [http://localhost:3000](http://localhost:3000).
+Hajd.Cloud is now running at [http://localhost:3000](http://localhost:3000).
 
 ## Environment Variables
 
-All environment variables are optional. SkySend works out of the box with sensible defaults.
+All environment variables are optional. Hajd.Cloud works out of the box with sensible defaults.
 
 → See the full **[Environment Variables](/user-guide/configuration/environment-variables)** reference for all options, default values and descriptions.
 
 ## Volume Mounts
 
-| Mount Point | Required | Purpose |
-| :--- | :---: | :--- |
-| `/data` | ✅ | Database and persistent data. Also holds `/data/branding` for your own logo. |
-| `/uploads` | ✅ | Encrypted file storage. |
+| Mount Point | Required | Purpose                                                                      |
+| :---------- | :------: | :--------------------------------------------------------------------------- |
+| `/data`     |    ✅    | Database and persistent data. Also holds `/data/branding` for your own logo. |
+| `/uploads`  |    ✅    | Encrypted file storage.                                                      |
 
 ::: warning Data Persistence
 Always mount both `/data` and `/uploads` to host directories. Without volumes, all uploads and database state are lost when the container is recreated.
@@ -78,13 +78,14 @@ Always mount both `/data` and `/uploads` to host directories. Without volumes, a
 
 ## Health Check
 
-SkySend includes a built-in Docker health check:
+Hajd.Cloud includes a built-in Docker health check:
 
 ```bash
 curl http://localhost:3000/api/health
 ```
 
 Response:
+
 ```json
 {
   "status": "ok",
@@ -97,18 +98,18 @@ The health check runs every 30 seconds. Docker marks the container as `unhealthy
 
 ## CLI Client
 
-The SkySend CLI client lets you upload and download files from the terminal with the same end-to-end encryption as the web interface. It is a standalone binary with no runtime dependencies.
+The Hajd.Cloud CLI client lets you upload and download files from the terminal with the same end-to-end encryption as the web interface. It is a standalone binary with no runtime dependencies.
 
 ### Linux / macOS
 
 ```bash
-curl -fsSL https://skysend.app/install.sh | sh
+pnpm client:build
 ```
 
 ### Windows (PowerShell)
 
 ```powershell
-irm https://skysend.app/install.ps1 | iex
+pnpm client:build
 ```
 
 ### Verify Installation

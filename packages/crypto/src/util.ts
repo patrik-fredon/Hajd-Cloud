@@ -1,5 +1,5 @@
 /**
- * Encoding helpers for the SkySend crypto library.
+ * Encoding helpers for the Hajd.Cloud crypto library.
  * Uses only standard Web APIs - no external dependencies.
  */
 

@@ -12,10 +12,7 @@ import { useUnseenUploads } from "@/hooks/useUnseenUploads";
 import { cn } from "@/lib/utils";
 
 /** Built-in logo shipped with the frontend build. */
-const DEFAULT_LOGO = "/logo.svg";
-
-const GITHUB_PATH =
-  "M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z";
+const DEFAULT_LOGO = "/hajd-cloud-logo-crimson.webp";
 
 export function Layout() {
   const { t } = useTranslation();
@@ -29,8 +26,7 @@ export function Layout() {
   // leave a broken image in the header, so fall back to the built-in logo.
   const [failedLogoSrc, setFailedLogoSrc] = useState<string | null>(null);
   const customLogo = config?.customLogo ?? null;
-  const logoSrc =
-    customLogo && customLogo !== failedLogoSrc ? customLogo : DEFAULT_LOGO;
+  const logoSrc = customLogo && customLogo !== failedLogoSrc ? customLogo : DEFAULT_LOGO;
   const title = config?.customTitle ?? t("common.appName");
   const oidcEnabled = config?.oidcEnabled ?? false;
 
@@ -77,7 +73,9 @@ export function Layout() {
   // What you do first, then the list of what it made, then how it works, which is read once.
   const navItems = [
     ...(sharing ? [{ to: "/", label: t("header.share"), icon: Upload }] : []),
-    ...(config?.fileRequestsEnabled ? [{ to: "/requests", label: t("nav.requests"), icon: Inbox }] : []),
+    ...(config?.fileRequestsEnabled
+      ? [{ to: "/requests", label: t("nav.requests"), icon: Inbox }]
+      : []),
     ...(sharing || config?.fileRequestsEnabled
       ? [{ to: "/uploads", label: t("nav.myUploads"), icon: FolderOpen }]
       : []),
@@ -108,8 +106,10 @@ export function Layout() {
     </Tooltip>
   );
 
-  const logoutButton = oidcEnabled && isLoggedIn && (
-    authLoading ? (
+  const logoutButton =
+    oidcEnabled &&
+    isLoggedIn &&
+    (authLoading ? (
       <Skeleton className="h-9 w-9 rounded-full" />
     ) : (
       <Tooltip>
@@ -127,11 +127,12 @@ export function Layout() {
           {user?.name} · {t("auth.logout")}
         </TooltipContent>
       </Tooltip>
-    )
-  );
+    ));
 
+  // overflow-clip keeps the glow of a page from widening or lengthening it. Unlike hidden it
+  // makes no scroll container, so the sticky header keeps working.
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col overflow-clip">
       <header className="sticky top-0 z-40 px-3 pt-3 sm:px-4 sm:pt-4">
         <div
           data-slot="glass"
@@ -242,7 +243,10 @@ export function Layout() {
                   ) : (
                     <button
                       type="button"
-                      onClick={() => { logout(); setMobileMenuOpen(false); }}
+                      onClick={() => {
+                        logout();
+                        setMobileMenuOpen(false);
+                      }}
                       className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
                     >
                       <LogOut className="h-4 w-4" />
@@ -256,7 +260,14 @@ export function Layout() {
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 pb-12 pt-8 sm:pt-12">
+      <main
+        className={cn(
+          "mx-auto w-full flex-1",
+          location.pathname === "/"
+            ? "max-w-7xl px-2 pb-8 pt-5 sm:px-4 sm:pt-8"
+            : "max-w-6xl px-4 pb-12 pt-8 sm:pt-12",
+        )}
+      >
         <Outlet />
       </main>
 
@@ -266,34 +277,43 @@ export function Layout() {
             {title} · {t("common.tagline")} · v{__APP_VERSION__}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
-            <a
-              href="https://github.com/skyfay/skysend"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 transition-colors hover:text-foreground"
-            >
-              <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d={GITHUB_PATH} />
-              </svg>
-              {t("footer.source")}
-            </a>
             {config?.customReportUrl && (
-              <a href={config.customReportUrl} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-foreground">
+              <a
+                href={config.customReportUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-foreground"
+              >
                 {t("footer.report")}
               </a>
             )}
             {config?.customLegal && (
-              <a href={config.customLegal} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-foreground">
+              <a
+                href={config.customLegal}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-foreground"
+              >
                 {t("footer.legal")}
               </a>
             )}
             {config?.customPrivacy && (
-              <a href={config.customPrivacy} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-foreground">
+              <a
+                href={config.customPrivacy}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-foreground"
+              >
                 {t("footer.privacy")}
               </a>
             )}
             {config?.customLinkUrl && config?.customLinkName && (
-              <a href={config.customLinkUrl} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-foreground">
+              <a
+                href={config.customLinkUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-foreground"
+              >
                 {config.customLinkName}
               </a>
             )}

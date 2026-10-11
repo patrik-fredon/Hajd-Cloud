@@ -6,7 +6,6 @@ import { ArrowRight, Rss } from "lucide-react";
 import { POST_CONIC, SpinBorder } from "@/components/site/fx";
 import { SpotlightCard } from "@/components/site/spotlight-card";
 import { PostCoverArt, TONE_RGB } from "@/components/site/blog/post-cover";
-import { AuthorAvatar } from "@/components/site/blog/author-avatar";
 import type { PostSummary } from "@/lib/blog";
 import { useI18n } from "@/i18n/provider";
 import { cn } from "@/lib/utils";
@@ -14,7 +13,11 @@ import { cn } from "@/lib/utils";
 const MAX_TAGS = 5;
 
 function Tag({ children }: { children: string }) {
-  return <span className="rounded-full border border-border-strong px-2 py-0.5 text-xs text-subtle">{children}</span>;
+  return (
+    <span className="rounded-full border border-border-strong px-2 py-0.5 text-xs text-subtle">
+      {children}
+    </span>
+  );
 }
 
 /** A post not translated yet is marked with the language it is written in. */
@@ -22,13 +25,22 @@ function InEnglish({ post }: { post: PostSummary }) {
   const { t, locale } = useI18n();
   if (post.lang === locale) return null;
   return (
-    <span lang={locale} className="rounded-full border border-border-strong px-2 py-0.5 text-xs text-muted-foreground">
+    <span
+      lang={locale}
+      className="rounded-full border border-border-strong px-2 py-0.5 text-xs text-muted-foreground"
+    >
       {t("blog.inEnglish")}
     </span>
   );
 }
 
-export function BlogIndex({ posts, dates }: { posts: PostSummary[]; dates: Record<string, string> }) {
+export function BlogIndex({
+  posts,
+  dates,
+}: {
+  posts: PostSummary[];
+  dates: Record<string, string>;
+}) {
   const { t, path } = useI18n();
   const [tag, setTag] = useState("all");
 
@@ -60,7 +72,8 @@ export function BlogIndex({ posts, dates }: { posts: PostSummary[]; dates: Recor
 
   const filtered = posts.filter((p) => tag === "all" || p.tags.includes(tag));
   const featured = tag === "all" ? posts[0] : undefined;
-  const meta = (p: PostSummary) => t("blog.readingTime", { date: dates[p.slug], minutes: p.readingMinutes });
+  const meta = (p: PostSummary) =>
+    t("blog.readingTime", { date: dates[p.slug], minutes: p.readingMinutes });
 
   return (
     <>
@@ -76,16 +89,23 @@ export function BlogIndex({ posts, dates }: { posts: PostSummary[]; dates: Recor
                 onClick={() => pickTag(name)}
                 className={cn(
                   "inline-flex h-[30px] items-center gap-1.5 rounded-full border px-3 text-[13px] font-medium transition-all duration-200",
-                  on ? "border-input bg-card text-foreground shadow-[var(--chip-shadow)] dark:bg-accent" : "border-transparent text-muted-foreground hover:text-foreground"
+                  on
+                    ? "border-input bg-card text-foreground shadow-[var(--chip-shadow)] dark:bg-accent"
+                    : "border-transparent text-muted-foreground hover:text-foreground",
                 )}
               >
                 {name === "all" ? t("blog.allPosts") : name}
-                <span className="font-normal text-faint">{name === "all" ? posts.length : counts.get(name)}</span>
+                <span className="font-normal text-faint">
+                  {name === "all" ? posts.length : counts.get(name)}
+                </span>
               </button>
             );
           })}
         </div>
-        <a href={path("/blog/rss.xml")} className="btn-chip flex h-8 items-center gap-1.5 rounded-lg px-3 text-[13px] font-medium">
+        <a
+          href={path("/blog/rss.xml")}
+          className="btn-chip flex h-8 items-center gap-1.5 rounded-lg px-3 text-[13px] font-medium"
+        >
           <Rss className="size-3.5" />
           {t("blog.rss")}
         </a>
@@ -97,23 +117,35 @@ export function BlogIndex({ posts, dates }: { posts: PostSummary[]; dates: Recor
           data-post-tone={featured.cover?.tone ?? "green"}
           className="group fx-lift mt-10 block rounded-3xl"
         >
-          <SpinBorder conic={POST_CONIC} size={1400} speed="normal" radius={24} innerClassName="bg-card">
+          <SpinBorder
+            conic={POST_CONIC}
+            size={1400}
+            speed="normal"
+            radius={24}
+            innerClassName="bg-card"
+          >
             <span className="grid items-center gap-10 p-6 sm:p-10 lg:grid-cols-[1fr_440px]">
               <span className="flex flex-col gap-4">
                 <span className="flex items-center gap-2 text-[13px] text-muted-foreground">
-                  <span className="rounded-full bg-post/16 px-2 py-0.5 text-xs font-medium text-post">{t("blog.latest")}</span>
+                  <span className="rounded-full bg-post/16 px-2 py-0.5 text-xs font-medium text-post">
+                    {t("blog.latest")}
+                  </span>
                   {meta(featured)}
                   <InEnglish post={featured} />
                 </span>
-                <span lang={featured.lang} className="text-[28px] leading-[1.12] font-semibold tracking-[-0.03em] sm:text-4xl">
+                <span
+                  lang={featured.lang}
+                  className="text-[28px] leading-[1.12] font-semibold tracking-[-0.03em] sm:text-4xl"
+                >
                   {featured.title}
                 </span>
-                <span lang={featured.lang} className="text-base leading-relaxed text-muted-foreground">
+                <span
+                  lang={featured.lang}
+                  className="text-base leading-relaxed text-muted-foreground"
+                >
                   {featured.excerpt}
                 </span>
                 <span className="mt-1 flex flex-wrap items-center gap-3">
-                  <AuthorAvatar name={featured.author} size={32} />
-                  <span className="font-medium">{featured.author}</span>
                   <span className="flex flex-wrap gap-1.5">
                     {featured.tags.map((name) => (
                       <Tag key={name}>{name}</Tag>
@@ -129,7 +161,10 @@ export function BlogIndex({ posts, dates }: { posts: PostSummary[]; dates: Recor
                 <PostCoverArt
                   cover={featured.cover}
                   image={featured.image}
-                  className={cn("rounded-2xl border", featured.image ? "aspect-[40/21] h-auto" : "h-[260px]")}
+                  className={cn(
+                    "rounded-2xl border",
+                    featured.image ? "aspect-[40/21] h-auto" : "h-[260px]",
+                  )}
                 />
               </span>
             </span>
@@ -157,7 +192,10 @@ export function BlogIndex({ posts, dates }: { posts: PostSummary[]; dates: Recor
               <PostCoverArt cover={p.cover} image={p.image} />
               <span className="relative flex grow flex-col gap-2.5 p-5">
                 <span className="text-xs text-muted-foreground">{meta(p)}</span>
-                <span lang={p.lang} className="text-[19px] leading-tight font-semibold tracking-[-0.02em]">
+                <span
+                  lang={p.lang}
+                  className="text-[19px] leading-tight font-semibold tracking-[-0.02em]"
+                >
                   {p.title}
                 </span>
                 <span lang={p.lang} className="leading-relaxed text-muted-foreground">

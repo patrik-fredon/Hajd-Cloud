@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Send } from "lucide-react";
+import { Send, SlidersHorizontal } from "lucide-react";
 import { padNote, serializeNote, type NoteBlockType } from "@skysend/note-format";
 import { BLOCK_TYPES, BlockListEditor, addDraft } from "@/components/BlockListEditor";
 import { ShareFooter } from "@/components/ShareFooter";
 import { ShareLink } from "@/components/ShareLink";
 import { ShareOptions } from "@/components/ShareOptions";
+import { Button } from "@/components/ui/button";
 import { useNoteUpload } from "@/hooks/useNoteUpload";
 import type { ServerConfig } from "@/lib/api";
 import { noteStart } from "@/lib/defaults";
@@ -28,7 +29,9 @@ export function BlockCards({
   return (
     <div className="px-2 pb-2 pt-4 sm:px-3">
       <h2 className="text-base font-semibold tracking-tight">{title ?? t("share.what")}</h2>
-      <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">{hint ?? t("note.startHint")}</p>
+      <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">
+        {hint ?? t("note.startHint")}
+      </p>
       <div className="mt-4 grid grid-cols-2 gap-2 sm:gap-2.5">
         {BLOCK_TYPES.map(({ type, icon: Icon, label, description }) => (
           <button
@@ -42,7 +45,9 @@ export function BlockCards({
             </span>
             <span className="flex flex-col gap-0.5">
               <span className="text-sm font-semibold">{t(label)}</span>
-              <span className="text-xs leading-snug text-muted-foreground sm:text-[13px]">{t(description)}</span>
+              <span className="text-xs leading-snug text-muted-foreground sm:text-[13px]">
+                {t(description)}
+              </span>
             </span>
           </button>
         ))}
@@ -61,8 +66,11 @@ interface NoteComposerProps {
 export function NoteComposer({ config, startWith }: NoteComposerProps) {
   const { t } = useTranslation();
   const noteHook = useNoteUpload();
-  const initialBlocks = (): DraftBlock[] => (startWith ? [{ ...emptyBlock(startWith), id: 1 }] : []);
+  const initialBlocks = (): DraftBlock[] =>
+    startWith ? [{ ...emptyBlock(startWith), id: 1 }] : [];
   const [drafts, setDrafts] = useState<DraftBlock[]>(initialBlocks);
+  const [advanced, setAdvanced] = useState(startWith !== "text");
+  const editorId = useId();
   // This browser's defaults within what the server offers.
   const [start] = useState(() => noteStart(config));
   const [expireSec, setExpireSec] = useState(start.expireSec);
@@ -91,11 +99,17 @@ export function NoteComposer({ config, startWith }: NoteComposerProps) {
   const add = (type: NoteBlockType) => setDrafts((current) => addDraft(current, type));
 
   const submit = () =>
-    noteHook.upload({ blocks: toSend, maxViews, expireSec, password: passwordEnabled ? password : "" });
+    noteHook.upload({
+      blocks: toSend,
+      maxViews,
+      expireSec,
+      password: passwordEnabled ? password : "",
+    });
 
   const startOver = () => {
     noteHook.reset();
     setDrafts(initialBlocks());
+    setAdvanced(startWith !== "text");
     setPassword("");
     setPasswordEnabled(noteStart(config).password);
   };
@@ -107,18 +121,26 @@ export function NoteComposer({ config, startWith }: NoteComposerProps) {
   if (drafts.length === 0) return <BlockCards onPick={add} />;
 
   return (
-    <div className="space-y-5">
-      <BlockListEditor
-        drafts={drafts}
-        onChange={setDrafts}
-        mode="compose"
-        disabled={busy}
-        addon={
-          <span className={cn("ml-auto text-xs tabular-nums", tooLarge ? "text-destructive-text" : "text-muted-foreground")}>
-            {formatBytes(bytes)} / {formatBytes(config.noteMaxSize)}
-          </span>
-        }
-      />
+    <div className="space-y-4">
+      <div id={editorId}>
+        <BlockListEditor
+          drafts={drafts}
+          onChange={setDrafts}
+          mode="compose"
+          disabled={busy}
+          advanced={advanced}
+          addon={
+            <span
+              className={cn(
+                "ml-auto text-xs tabular-nums",
+                tooLarge ? "text-destructive-text" : "text-muted-foreground",
+              )}
+            >
+              {formatBytes(bytes)} / {formatBytes(config.noteMaxSize)}
+            </span>
+          }
+        />
+      </div>
 
       {tooLarge && (
         <p className="px-2 text-sm text-destructive-text" role="alert">
@@ -126,7 +148,7 @@ export function NoteComposer({ config, startWith }: NoteComposerProps) {
         </p>
       )}
 
-      <div className="px-2 sm:px-3">
+      <div className="px-1 sm:px-2">
         <ShareOptions
           kind="note"
           expireOptions={config.noteExpireOptions}
@@ -141,6 +163,21 @@ export function NoteComposer({ config, startWith }: NoteComposerProps) {
           onPasswordChange={setPassword}
           forcePassword={config.forceNotePassword}
           disabled={busy}
+          extraOptions={
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-11 rounded-full px-3 text-[13px] aria-expanded:border-primary-line aria-expanded:bg-primary-soft aria-expanded:text-primary-text sm:h-9"
+              aria-expanded={advanced}
+              aria-controls={editorId}
+              disabled={busy}
+              onClick={() => setAdvanced((current) => !current)}
+            >
+              <SlidersHorizontal />
+              {t("note.advanced")}
+            </Button>
+          }
         />
       </div>
 

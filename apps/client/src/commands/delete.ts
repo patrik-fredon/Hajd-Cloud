@@ -13,7 +13,7 @@ export function registerDeleteCommand(program: Command): void {
   program
     .command("delete")
     .description("Delete an upload or note by URL and owner token")
-    .argument("<url>", "SkySend share URL")
+    .argument("<url>", "Hajd.Cloud share URL")
     .argument("<ownerToken>", "Owner token (from upload --json output)")
     .option("--json", "Output as JSON")
     .action(async (url: string, ownerToken: string, options: DeleteOptions) => {

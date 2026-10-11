@@ -27,7 +27,7 @@ run_check() {
 }
 
 echo ""
-printf "${BOLD}Running SkySend validation checks...${NC}\n\n"
+printf "${BOLD}Running Hajd.Cloud validation checks...${NC}\n\n"
 
 run_check "Lint"       pnpm lint
 run_check "TypeCheck"  pnpm typecheck

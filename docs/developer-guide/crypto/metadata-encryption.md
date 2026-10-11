@@ -12,10 +12,10 @@ Metadata is encrypted with a different key (`metaKey`) than the file content (`f
 
 ```typescript
 interface SingleFileMetadata {
-  type: "single"
-  name: string         // e.g. "document.pdf"
-  size: number         // original file size in bytes
-  mimeType: string     // e.g. "application/pdf"
+  type: "single";
+  name: string; // e.g. "document.pdf"
+  size: number; // original file size in bytes
+  mimeType: string; // e.g. "application/pdf"
 }
 ```
 
@@ -23,13 +23,13 @@ interface SingleFileMetadata {
 
 ```typescript
 interface ArchiveMetadata {
-  type: "archive"
+  type: "archive";
   files: Array<{
-    name: string       // e.g. "photos/image1.jpg"
-    size: number       // individual file size in bytes
-  }>
-  totalSize: number    // sum of all file sizes
-  archiveSize?: number // size of the zip archive, the plaintext of the file stream
+    name: string; // e.g. "photos/image1.jpg"
+    size: number; // individual file size in bytes
+  }>;
+  totalSize: number; // sum of all file sizes
+  archiveSize?: number; // size of the zip archive, the plaintext of the file stream
 }
 ```
 
@@ -40,7 +40,7 @@ interface ArchiveMetadata {
 ## Encryption
 
 ```typescript
-const { ciphertext, iv } = await encryptMetadata(metadata, metaKey)
+const { ciphertext, iv } = await encryptMetadata(metadata, metaKey);
 ```
 
 1. The metadata object is JSON-serialized
@@ -52,7 +52,7 @@ const { ciphertext, iv } = await encryptMetadata(metadata, metaKey)
 ## Decryption
 
 ```typescript
-const metadata = await decryptMetadata(ciphertext, iv, metaKey)
+const metadata = await decryptMetadata(ciphertext, iv, metaKey);
 ```
 
 1. The ciphertext is decrypted with AES-256-GCM
@@ -64,9 +64,9 @@ If decryption fails (wrong key, tampered data), an error is thrown.
 
 ## Constants
 
-| Constant | Value |
-| --- | --- |
-| `META_IV_LENGTH` | 12 bytes |
+| Constant             | Value      |
+| -------------------- | ---------- |
+| `META_IV_LENGTH`     | 12 bytes   |
 | `METADATA_PAD_BLOCK` | 1024 bytes |
 
 ## Security Properties

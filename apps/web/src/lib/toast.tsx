@@ -6,18 +6,6 @@ import { ToastActionButtons, type ToastType } from "@/components/ui/custom-toast
 // Known-error detection
 // ---------------------------------------------------------------------------
 
-const INSECURE_CONTEXT_DOCS_URL =
-  "https://docs.skysend.app/user-guide/troubleshooting#crypto-subtle-is-undefined-cannot-read-properties-of-undefined-reading-importkey";
-
-const ORIGIN_NOT_ALLOWED_DOCS_URL =
-  "https://docs.skysend.app/user-guide/troubleshooting#upload-fails-with-origin-not-allowed";
-
-const S3_CORS_DOCS_URL =
-  "https://docs.skysend.app/user-guide/troubleshooting#s3-downloads-fail-with-cors-error";
-
-const LINK_REWRITTEN_DOCS_URL =
-  "https://docs.skysend.app/user-guide/troubleshooting#share-link-opens-but-the-page-says-not-found";
-
 /**
  * Returns true when the error message indicates that the Web Crypto API is
  * unavailable because the page is served over plain HTTP (insecure context).
@@ -67,7 +55,6 @@ export function showKnownErrorToast(message: string): void {
       type: "error",
       description: message,
       copyText: message,
-      docsUrl: INSECURE_CONTEXT_DOCS_URL,
     });
     return;
   }
@@ -76,7 +63,6 @@ export function showKnownErrorToast(message: string): void {
       type: "error",
       description: message,
       copyText: message,
-      docsUrl: ORIGIN_NOT_ALLOWED_DOCS_URL,
     });
     return;
   }
@@ -85,7 +71,6 @@ export function showKnownErrorToast(message: string): void {
       type: "error",
       description: message,
       copyText: message,
-      docsUrl: S3_CORS_DOCS_URL,
     });
     return;
   }
@@ -127,12 +112,11 @@ export interface ShowToastOptions {
  *     type: "error",
  *     description: "The server rejected this origin.",
  *     copyText: "Origin not allowed",
- *     docsUrl: "https://docs.skysend.ch/configuration#origin",
+ *     docsUrl: "/how",
  *   })
  */
 export function showToast(message: string, options: ShowToastOptions = {}) {
-  const { type = "default", description, copyText, docsUrl, duration, id } =
-    options;
+  const { type = "default", description, copyText, docsUrl, duration, id } = options;
 
   const hasActions = copyText !== undefined || !!docsUrl;
 
@@ -141,7 +125,9 @@ export function showToast(message: string, options: ShowToastOptions = {}) {
       {description && <span>{description}</span>}
       <ToastActionButtons copyText={copyText} docsUrl={docsUrl} />
     </>
-  ) : description;
+  ) : (
+    description
+  );
 
   const opts = { description: descriptionNode, duration, id };
 
@@ -182,7 +168,6 @@ export function showRewrittenLinkWarning(
   return showToast(i18n.t("errors.linkRewritten"), {
     type: "warning",
     description: i18n.t(description),
-    docsUrl: LINK_REWRITTEN_DOCS_URL,
     id: "link-rewritten",
     duration: 15000,
   });
